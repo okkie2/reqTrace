@@ -6,6 +6,12 @@ import type {
 } from "@/lib/statement-store";
 
 export type Lang = "en" | "nl";
+export type UiErrorCode =
+  | "title_required"
+  | "text_required"
+  | "unsupported_statement_type"
+  | "unknown_statement"
+  | "unknown";
 
 type UiStrings = {
   eyebrow: string;
@@ -67,6 +73,10 @@ type UiStrings = {
   warnings: string;
   relationManagement: string;
   warningMessage: (warning: StatementWarning, statusLabel: string) => string;
+  formErrorTitle: string;
+  formErrorMessage: (error: UiErrorCode) => string;
+  titleRequired: string;
+  textRequired: string;
 };
 
 const uiByLang: Record<Lang, UiStrings> = {
@@ -134,6 +144,23 @@ const uiByLang: Record<Lang, UiStrings> = {
     relationManagement: "Relationship management",
     warningMessage: (warning, statusLabel) =>
       `${warning.statementNo} is ${statusLabel} but still linked.`,
+    formErrorTitle: "Unable to save statement",
+    formErrorMessage: (error) => {
+      switch (error) {
+        case "title_required":
+          return "Enter a title before saving.";
+        case "text_required":
+          return "Provide either the original text or the Dutch text before saving.";
+        case "unsupported_statement_type":
+          return "The selected statement type is not supported.";
+        case "unknown_statement":
+          return "The selected statement could not be found.";
+        default:
+          return "An unexpected error occurred while saving the statement.";
+      }
+    },
+    titleRequired: "Title is required.",
+    textRequired: "Provide either the original text or the Dutch text.",
   },
   nl: {
     eyebrow: "reqTrace MVP",
@@ -199,6 +226,23 @@ const uiByLang: Record<Lang, UiStrings> = {
     relationManagement: "Relatiebeheer",
     warningMessage: (warning, statusLabel) =>
       `${warning.statementNo} is ${statusLabel} maar nog steeds gekoppeld.`,
+    formErrorTitle: "Statement kon niet worden opgeslagen",
+    formErrorMessage: (error) => {
+      switch (error) {
+        case "title_required":
+          return "Vul een titel in voordat je opslaat.";
+        case "text_required":
+          return "Vul de originele tekst of de Nederlandse tekst in voordat je opslaat.";
+        case "unsupported_statement_type":
+          return "Het gekozen statementtype wordt niet ondersteund.";
+        case "unknown_statement":
+          return "Het geselecteerde statement kon niet worden gevonden.";
+        default:
+          return "Er is een onverwachte fout opgetreden bij het opslaan van het statement.";
+      }
+    },
+    titleRequired: "Titel is verplicht.",
+    textRequired: "Vul de originele tekst of de Nederlandse tekst in.",
   },
 };
 

@@ -68,12 +68,28 @@ select[disabled] {
 .page-summary,
 .muted-text,
 .field-note,
+.field-error,
 .statement-link small,
 .link-item small,
 .link-item p,
 .panel-heading p {
   margin: 0;
+}
+
+.page-summary,
+.muted-text,
+.field-note,
+.statement-link small,
+.link-item small,
+.link-item p,
+.panel-heading p {
   color: var(--rt-color-text-muted);
+}
+
+.field-error {
+  display: block;
+  margin-top: var(--rt-space-2);
+  color: var(--rt-color-error);
 }
 
 .page-header__meta {
@@ -349,6 +365,11 @@ select[disabled] {
 .feedback-panel--warning {
   border-color: #d8c07a;
   background: var(--rt-color-warning-bg);
+}
+
+.feedback-panel--error {
+  border-color: #d7a0a1;
+  background: var(--rt-color-error-bg);
 }
 
 @media (min-width: 960px) {

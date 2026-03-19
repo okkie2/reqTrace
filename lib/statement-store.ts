@@ -1,6 +1,7 @@
 import { promises as fs } from "node:fs";
 import { randomUUID } from "node:crypto";
 import path from "node:path";
+import { logger } from "@/lib/logger";
 
 export const STATEMENT_TYPES = [
   "requirement",
@@ -130,8 +131,32 @@ function emptyDb(): StatementDb {
 }
 
 async function readDb(): Promise<StatementDb> {
-  const raw = await fs.readFile(DATA_PATH, "utf8");
-  const parsed = JSON.parse(raw) as StatementDb | Statement[];
+  let raw: string;
+
+  try {
+    raw = await fs.readFile(DATA_PATH, "utf8");
+  } catch (error) {
+    logger.errorWithException("statement_store.read_failed", "Failed to read statement store.", error, {
+      dataPath: DATA_PATH,
+    });
+    throw error;
+  }
+
+  let parsed: StatementDb | Statement[];
+
+  try {
+    parsed = JSON.parse(raw) as StatementDb | Statement[];
+  } catch (error) {
+    logger.errorWithException(
+      "statement_store.parse_failed",
+      "Failed to parse statement store JSON.",
+      error,
+      {
+        dataPath: DATA_PATH,
+      },
+    );
+    throw error;
+  }
 
   if (Array.isArray(parsed)) {
     return {
@@ -159,7 +184,22 @@ async function writeDb(db: StatementDb) {
     relations: db.relations,
   };
 
-  await fs.writeFile(DATA_PATH, `${JSON.stringify(normalized, null, 2)}\n`, "utf8");
+  try {
+    await fs.writeFile(DATA_PATH, `${JSON.stringify(normalized, null, 2)}\n`, "utf8");
+  } catch (error) {
+    logger.errorWithException(
+      "statement_store.write_failed",
+      "Failed to write statement store.",
+      error,
+      {
+        dataPath: DATA_PATH,
+        statementCount: normalized.statements.length,
+        parentCount: normalized.parents.length,
+        relationCount: normalized.relations.length,
+      },
+    );
+    throw error;
+  }
 }
 
 function assertValidInput(input: StatementInput) {

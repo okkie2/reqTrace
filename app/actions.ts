@@ -15,6 +15,7 @@ import {
   updateStatement,
   updateStatementStatus,
 } from "@/lib/statement-store";
+import { logger } from "@/lib/logger";
 
 function getString(formData: FormData, key: string): string {
   return String(formData.get(key) ?? "").trim();
@@ -31,6 +32,69 @@ function getLang(formData: FormData): "en" | "nl" {
 
 function buildRedirect(statementId: string, lang: "en" | "nl") {
   return `/?statement=${statementId}&lang=${lang}`;
+}
+
+type FormErrorCode =
+  | "title_required"
+  | "text_required"
+  | "unsupported_statement_type"
+  | "unknown_statement"
+  | "unknown";
+
+function buildFormRedirect({
+  lang,
+  statementId,
+  mode,
+  error,
+}: {
+  lang: "en" | "nl";
+  statementId?: string;
+  mode?: "new";
+  error?: FormErrorCode;
+}) {
+  const query = new URLSearchParams();
+
+  if (statementId) {
+    query.set("statement", statementId);
+  }
+
+  if (mode) {
+    query.set("mode", mode);
+  }
+
+  if (error) {
+    query.set("error", error);
+  }
+
+  query.set("lang", lang);
+  return `/?${query.toString()}`;
+}
+
+function getFormErrorCode(error: unknown): FormErrorCode {
+  if (!(error instanceof Error)) {
+    return "unknown";
+  }
+
+  switch (error.message) {
+    case "Title is required.":
+      return "title_required";
+    case "At least one text field is required.":
+      return "text_required";
+    default:
+      if (error.message.startsWith("Unsupported statement type:")) {
+        return "unsupported_statement_type";
+      }
+
+      if (error.message.startsWith("Unknown statement:")) {
+        return "unknown_statement";
+      }
+
+      return "unknown";
+  }
+}
+
+function isExpectedSaveValidationError(code: FormErrorCode) {
+  return code === "title_required" || code === "text_required";
 }
 
 function getStatementType(formData: FormData): StatementInput["statementType"] {
@@ -70,17 +134,50 @@ export async function saveStatementAction(formData: FormData) {
     increment: getNullableString(formData, "increment"),
   };
 
-  const saved = id
-    ? await updateStatement(id, payload)
-    : await createStatement(payload);
+  try {
+    const saved = id
+      ? await updateStatement(id, payload)
+      : await createStatement(payload);
 
-  redirect(buildRedirect(saved.id, lang));
+    redirect(buildRedirect(saved.id, lang));
+  } catch (error) {
+    const errorCode = getFormErrorCode(error);
+
+    if (!isExpectedSaveValidationError(errorCode)) {
+      logger.errorWithException("statement.save_failed", "Failed to save statement.", error, {
+        action: id ? "update" : "create",
+        statementId: id || null,
+        lang,
+        sourceCode: payload.sourceCode,
+      });
+    }
+
+    redirect(
+      buildFormRedirect({
+        lang,
+        statementId: id || undefined,
+        mode: id ? undefined : "new",
+        error: errorCode,
+      }),
+    );
+  }
 }
 
 export async function cloneStatementAction(formData: FormData) {
   const sourceId = getString(formData, "sourceId");
   const lang = getLang(formData);
-  const cloned = await cloneStatement(sourceId);
+  let cloned;
+
+  try {
+    cloned = await cloneStatement(sourceId);
+  } catch (error) {
+    logger.errorWithException("statement.clone_failed", "Failed to clone statement.", error, {
+      sourceId,
+      lang,
+    });
+    throw error;
+  }
+
   redirect(buildRedirect(cloned.id, lang));
 }
 
@@ -93,7 +190,24 @@ export async function updateStatusAction(formData: FormData) {
     throw new Error(`Unsupported status: ${status}`);
   }
 
-  const updated = await updateStatementStatus(statementId, status);
+  let updated;
+
+  try {
+    updated = await updateStatementStatus(statementId, status);
+  } catch (error) {
+    logger.errorWithException(
+      "statement.status_update_failed",
+      "Failed to update statement status.",
+      error,
+      {
+        statementId,
+        status,
+        lang,
+      },
+    );
+    throw error;
+  }
+
   redirect(buildRedirect(updated.id, lang));
 }
 
@@ -102,7 +216,17 @@ export async function addParentAction(formData: FormData) {
   const parentStatementId = getString(formData, "parentStatementId");
   const lang = getLang(formData);
 
-  await addParent(statementId, parentStatementId);
+  try {
+    await addParent(statementId, parentStatementId);
+  } catch (error) {
+    logger.errorWithException("statement.parent_add_failed", "Failed to add parent link.", error, {
+      statementId,
+      parentStatementId,
+      lang,
+    });
+    throw error;
+  }
+
   redirect(buildRedirect(statementId, lang));
 }
 
@@ -111,7 +235,22 @@ export async function removeParentAction(formData: FormData) {
   const parentStatementId = getString(formData, "parentStatementId");
   const lang = getLang(formData);
 
-  await removeParent(statementId, parentStatementId);
+  try {
+    await removeParent(statementId, parentStatementId);
+  } catch (error) {
+    logger.errorWithException(
+      "statement.parent_remove_failed",
+      "Failed to remove parent link.",
+      error,
+      {
+        statementId,
+        parentStatementId,
+        lang,
+      },
+    );
+    throw error;
+  }
+
   redirect(buildRedirect(statementId, lang));
 }
 
@@ -121,7 +260,23 @@ export async function addRelationAction(formData: FormData) {
   const relationType = getRelationType(formData);
   const lang = getLang(formData);
 
-  await addRelation(sourceStatementId, targetStatementId, relationType);
+  try {
+    await addRelation(sourceStatementId, targetStatementId, relationType);
+  } catch (error) {
+    logger.errorWithException(
+      "statement.relation_add_failed",
+      "Failed to add relation.",
+      error,
+      {
+        sourceStatementId,
+        targetStatementId,
+        relationType,
+        lang,
+      },
+    );
+    throw error;
+  }
+
   redirect(buildRedirect(sourceStatementId, lang));
 }
 
@@ -130,6 +285,21 @@ export async function removeRelationAction(formData: FormData) {
   const relationId = getString(formData, "relationId");
   const lang = getLang(formData);
 
-  await removeRelation(relationId);
+  try {
+    await removeRelation(relationId);
+  } catch (error) {
+    logger.errorWithException(
+      "statement.relation_remove_failed",
+      "Failed to remove relation.",
+      error,
+      {
+        sourceStatementId,
+        relationId,
+        lang,
+      },
+    );
+    throw error;
+  }
+
   redirect(buildRedirect(sourceStatementId, lang));
 }

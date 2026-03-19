@@ -14,6 +14,7 @@ import {
   getStatementTypeLabel,
   getStatusLabel,
   getUi,
+  type UiErrorCode,
 } from "@/app/i18n";
 import {
   EMPTY_STATEMENT_INPUT,
@@ -27,7 +28,21 @@ type SearchParams = Promise<{
   statement?: string;
   mode?: string;
   lang?: string;
+  error?: string;
 }>;
+
+function getErrorCode(input: string | undefined): UiErrorCode | null {
+  switch (input) {
+    case "title_required":
+    case "text_required":
+    case "unsupported_statement_type":
+    case "unknown_statement":
+    case "unknown":
+      return input;
+    default:
+      return null;
+  }
+}
 
 function isSelected(currentId: string | undefined, statementId: string) {
   return currentId === statementId;
@@ -64,6 +79,7 @@ export default async function Home({
   const params = await searchParams;
   const lang = getLang(params.lang);
   const ui = getUi(lang);
+  const errorCode = getErrorCode(params.error);
   const statements = await listStatementSummaries();
   const selectedId = params.statement;
   const isNew = params.mode === "new";
@@ -221,6 +237,9 @@ export default async function Home({
                 <label className="span-full">
                   {ui.titleLabel}
                   <input name="title" defaultValue={editor.title} required />
+                  {errorCode === "title_required" ? (
+                    <small className="field-error">{ui.titleRequired}</small>
+                  ) : null}
                 </label>
 
                 <label className="span-full">
@@ -246,6 +265,9 @@ export default async function Home({
                 <p id="text-guidance" className="field-note span-full">
                   {ui.textGuidance}
                 </p>
+                {errorCode === "text_required" ? (
+                  <p className="field-error span-full">{ui.textRequired}</p>
+                ) : null}
 
                 <label>
                   {ui.sourceCode}
@@ -282,6 +304,13 @@ export default async function Home({
                   <textarea name="note" defaultValue={editor.note ?? ""} rows={4} />
                 </label>
               </div>
+
+              {errorCode ? (
+                <aside className="feedback-panel feedback-panel--error" aria-live="polite">
+                  <h3>{ui.formErrorTitle}</h3>
+                  <p>{ui.formErrorMessage(errorCode)}</p>
+                </aside>
+              ) : null}
 
               <footer className="panel-footer">
                 <button type="submit">{ui.saveStatement}</button>

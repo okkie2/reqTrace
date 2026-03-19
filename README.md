@@ -42,6 +42,7 @@ Main repository contents:
 - `AGENTS.md`: repository-level instructions for future AI-assisted changes
 - `app/`: Next.js App Router UI for the Statement Manager
 - `lib/statement-store.ts`: file-backed persistence, validation, and adjacency logic for roadmap items A and B
+- `lib/logger.ts`: lightweight structured server-side logging for store and action failures
 - `data/statements.json`: local JSON storage used by the Statement Manager for statements, parent links, and semantic relations
 - `package.json`: application dependencies and development scripts
 - `docs/ui-design-system.md`: UI design conventions for Pico, tokens, and shared styling rules
@@ -80,6 +81,7 @@ npm install
 ### Setup / Config
 No environment variables are required for the current implementation. The Statement Manager reads and writes local data in `data/statements.json`.
 UI guidance for future development is documented in `AGENTS.md` and `docs/ui-design-system.md`.
+Operational errors are logged as structured JSON to the server console.
 
 ### Usage
 Run the Statement Manager locally:
@@ -123,6 +125,7 @@ The repository currently produces both documentation assets and local applicatio
 - sample requirement data for analysis
 - a local JSON-backed Statement Manager UI for roadmap items A and B
 - persisted statement records, parent links, and semantic relations in `data/statements.json`
+- structured server-side logs for write, read, parse, and action failures
 - MVP design documentation for roadmap items A and B
 - a scoped roadmap for an MVP tool
 
