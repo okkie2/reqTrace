@@ -3,10 +3,10 @@ import {
   addParentAction,
   addRelationAction,
   cloneStatementAction,
+  deleteStatementAction,
   removeParentAction,
   removeRelationAction,
   saveStatementAction,
-  updateStatusAction,
 } from "@/app/actions";
 import {
   getLang,
@@ -19,6 +19,7 @@ import {
 import {
   EMPTY_STATEMENT_INPUT,
   RELATION_TYPES,
+  STATEMENT_STATUSES,
   STATEMENT_TYPES,
   getStatementDetail,
   listStatementSummaries,
@@ -34,7 +35,6 @@ type SearchParams = Promise<{
 function getErrorCode(input: string | undefined): UiErrorCode | null {
   switch (input) {
     case "title_required":
-    case "text_required":
     case "unsupported_statement_type":
     case "unknown_statement":
     case "unknown":
@@ -89,7 +89,7 @@ export default async function Home({
   const selectableStatements = statements.filter(
     (statement) => statement.id !== selectedStatement?.id,
   );
-  const activeCount = statements.filter((statement) => statement.status === "active").length;
+  const applicableCount = statements.filter((statement) => statement.status === "applicable").length;
   const dateLocale = lang === "nl" ? "nl-NL" : "en-GB";
 
   return (
@@ -134,8 +134,8 @@ export default async function Home({
               <dd>{statements.length}</dd>
             </div>
             <div>
-              <dt>{ui.active}</dt>
-              <dd>{activeCount}</dd>
+              <dt>{ui.applicable}</dt>
+              <dd>{applicableCount}</dd>
             </div>
           </dl>
         </div>
@@ -193,20 +193,11 @@ export default async function Home({
                       {ui.clone}
                     </button>
                   </form>
-                  <form action={updateStatusAction}>
+                  <form action={deleteStatementAction}>
                     <input type="hidden" name="statementId" value={selectedStatement.id} />
-                    <input type="hidden" name="status" value="deprecated" />
                     <input type="hidden" name="lang" value={lang} />
-                    <button type="submit" className="secondary">
-                      {ui.deprecate}
-                    </button>
-                  </form>
-                  <form action={updateStatusAction}>
-                    <input type="hidden" name="statementId" value={selectedStatement.id} />
-                    <input type="hidden" name="status" value="archived" />
-                    <input type="hidden" name="lang" value={lang} />
-                    <button type="submit" className="secondary">
-                      {ui.archive}
+                    <button type="submit" className="outline secondary">
+                      {ui.delete}
                     </button>
                   </form>
                 </nav>
@@ -230,6 +221,17 @@ export default async function Home({
                 </label>
 
                 <label>
+                  {ui.statusLabel}
+                  <select name="status" defaultValue={editor.status} required>
+                    {STATEMENT_STATUSES.map((status) => (
+                      <option key={status} value={status}>
+                        {getStatusLabel(lang, status)}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <label>
                   {ui.statementNumber}
                   <input value={selectedStatement?.statementNo ?? ui.assignedOnSave} disabled />
                 </label>
@@ -243,16 +245,6 @@ export default async function Home({
                 </label>
 
                 <label className="span-full">
-                  {ui.originalText}
-                  <textarea
-                    name="textOriginal"
-                    defaultValue={editor.textOriginal ?? ""}
-                    rows={4}
-                    aria-describedby="text-guidance"
-                  />
-                </label>
-
-                <label className="span-full">
                   {ui.dutchText}
                   <textarea
                     name="textNl"
@@ -262,12 +254,19 @@ export default async function Home({
                   />
                 </label>
 
+                <label className="span-full">
+                  {ui.originalText}
+                  <textarea
+                    name="textOriginal"
+                    defaultValue={editor.textOriginal ?? ""}
+                    rows={4}
+                    aria-describedby="text-guidance"
+                  />
+                </label>
+
                 <p id="text-guidance" className="field-note span-full">
                   {ui.textGuidance}
                 </p>
-                {errorCode === "text_required" ? (
-                  <p className="field-error span-full">{ui.textRequired}</p>
-                ) : null}
 
                 <label>
                   {ui.sourceCode}

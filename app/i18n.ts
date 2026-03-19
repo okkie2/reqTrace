@@ -8,7 +8,6 @@ import type {
 export type Lang = "en" | "nl";
 export type UiErrorCode =
   | "title_required"
-  | "text_required"
   | "unsupported_statement_type"
   | "unknown_statement"
   | "unknown";
@@ -21,7 +20,7 @@ type UiStrings = {
   english: string;
   dutch: string;
   statements: string;
-  active: string;
+  applicable: string;
   workspaceLabel: string;
   listHeading: string;
   listSummary: string;
@@ -32,8 +31,8 @@ type UiStrings = {
   editorSummary: string;
   actionNav: string;
   clone: string;
-  deprecate: string;
-  archive: string;
+  delete: string;
+  statusLabel: string;
   statementType: string;
   statementNumber: string;
   assignedOnSave: string;
@@ -76,7 +75,6 @@ type UiStrings = {
   formErrorTitle: string;
   formErrorMessage: (error: UiErrorCode) => string;
   titleRequired: string;
-  textRequired: string;
 };
 
 const uiByLang: Record<Lang, UiStrings> = {
@@ -89,7 +87,7 @@ const uiByLang: Record<Lang, UiStrings> = {
     english: "English",
     dutch: "Dutch",
     statements: "Statements",
-    active: "Active",
+    applicable: "Applicable",
     workspaceLabel: "Statement manager workspace",
     listHeading: "Statements",
     listSummary: "Select a statement to edit content, status, parents, and relations.",
@@ -98,19 +96,19 @@ const uiByLang: Record<Lang, UiStrings> = {
     editStatement: "Edit statement",
     createStatement: "New statement",
     editorSummary:
-      "Title, statement type, and at least one text field are required in the current MVP.",
+      "Title is required. Status, statement type, and text fields can be updated at any time.",
     actionNav: "Statement actions",
     clone: "Clone",
-    deprecate: "Deprecate",
-    archive: "Archive",
+    delete: "Delete",
+    statusLabel: "Status",
     statementType: "Statement type",
     statementNumber: "Statement number",
     assignedOnSave: "Assigned on save",
     titleLabel: "Title",
     originalText: "Original text",
-    dutchText: "Dutch text",
+    dutchText: "Text",
     textGuidance:
-      "Provide either the original text or the Dutch text. Both may be filled when available.",
+      "Text and original text are optional. Fill either or both when available.",
     sourceCode: "Source code",
     source: "Source",
     level: "Level",
@@ -149,8 +147,6 @@ const uiByLang: Record<Lang, UiStrings> = {
       switch (error) {
         case "title_required":
           return "Enter a title before saving.";
-        case "text_required":
-          return "Provide either the original text or the Dutch text before saving.";
         case "unsupported_statement_type":
           return "The selected statement type is not supported.";
         case "unknown_statement":
@@ -160,7 +156,6 @@ const uiByLang: Record<Lang, UiStrings> = {
       }
     },
     titleRequired: "Title is required.",
-    textRequired: "Provide either the original text or the Dutch text.",
   },
   nl: {
     eyebrow: "reqTrace MVP",
@@ -171,7 +166,7 @@ const uiByLang: Record<Lang, UiStrings> = {
     english: "Engels",
     dutch: "Nederlands",
     statements: "Statements",
-    active: "Actief",
+    applicable: "Geldig",
     workspaceLabel: "Werkruimte statementbeheer",
     listHeading: "Statements",
     listSummary: "Selecteer een statement om inhoud, status, parents en relaties te bewerken.",
@@ -180,19 +175,19 @@ const uiByLang: Record<Lang, UiStrings> = {
     editStatement: "Statement bewerken",
     createStatement: "Nieuw statement",
     editorSummary:
-      "Titel, statementtype en minimaal een tekstveld zijn verplicht in de huidige MVP.",
+      "Titel is verplicht. Status, statementtype en tekstvelden kunnen op elk moment worden aangepast.",
     actionNav: "Statementacties",
     clone: "Klonen",
-    deprecate: "Verouderen",
-    archive: "Archiveren",
+    delete: "Verwijderen",
+    statusLabel: "Status",
     statementType: "Statementtype",
     statementNumber: "Statementnummer",
     assignedOnSave: "Wordt toegekend bij opslaan",
     titleLabel: "Titel",
     originalText: "Originele tekst",
-    dutchText: "Nederlandse tekst",
+    dutchText: "Tekst",
     textGuidance:
-      "Vul de originele tekst of de Nederlandse tekst in. Beide mogen worden ingevuld als ze beschikbaar zijn.",
+      "Tekst en originele tekst zijn optioneel. Vul een of beide velden in als ze beschikbaar zijn.",
     sourceCode: "Broncode",
     source: "Bron",
     level: "Niveau",
@@ -231,8 +226,6 @@ const uiByLang: Record<Lang, UiStrings> = {
       switch (error) {
         case "title_required":
           return "Vul een titel in voordat je opslaat.";
-        case "text_required":
-          return "Vul de originele tekst of de Nederlandse tekst in voordat je opslaat.";
         case "unsupported_statement_type":
           return "Het gekozen statementtype wordt niet ondersteund.";
         case "unknown_statement":
@@ -242,20 +235,19 @@ const uiByLang: Record<Lang, UiStrings> = {
       }
     },
     titleRequired: "Titel is verplicht.",
-    textRequired: "Vul de originele tekst of de Nederlandse tekst in.",
   },
 };
 
 const statusLabels: Record<Lang, Record<StatementStatus, string>> = {
   en: {
-    active: "active",
-    deprecated: "deprecated",
-    archived: "archived",
+    draft: "Draft",
+    applicable: "Applicable",
+    deprecated: "Deprecated",
   },
   nl: {
-    active: "actief",
-    deprecated: "verouderd",
-    archived: "gearchiveerd",
+    draft: "Concept",
+    applicable: "Geldig",
+    deprecated: "Vervallen",
   },
 };
 

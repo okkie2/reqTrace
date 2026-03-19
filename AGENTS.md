@@ -10,6 +10,15 @@ These instructions apply to the whole repository unless a deeper `AGENTS.md` ove
 - Preserve existing functionality when refactoring the application.
 - Prefer straightforward, maintainable solutions over clever ones.
 
+## Ubiquitous Language
+
+- Treat `ubiquitous-language/` as the canonical glossary for core domain concepts.
+- Before adding or renaming important UI concepts, labels, statuses, statement types, relation types, or workflow terms, first consult the relevant files in `ubiquitous-language/`.
+- When introducing, changing, or deleting important concepts in the application, update the relevant glossary entries in `ubiquitous-language/` in the same change when feasible.
+- If a concept is used in the product but not yet defined in the glossary, add it before or alongside the implementation.
+- Keep UI terminology aligned with the glossary unless there is a deliberate documented reason to differ.
+- Apply this rule across the project, not only in the UI: domain model, docs, glossary, and user-facing terminology should stay aligned.
+
 ## UI System
 
 - Use Pico.css as the default UI foundation.

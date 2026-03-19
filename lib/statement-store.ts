@@ -12,7 +12,7 @@ export const STATEMENT_TYPES = [
   "risk",
 ] as const;
 
-export const STATEMENT_STATUSES = ["active", "deprecated", "archived"] as const;
+export const STATEMENT_STATUSES = ["draft", "applicable", "deprecated"] as const;
 export const RELATION_TYPES = [
   "verplicht_wegens",
   "vertaling_van",
@@ -66,7 +66,7 @@ type StatementDb = {
 
 export type StatementInput = Omit<
   Statement,
-  "id" | "statementNo" | "status" | "clonedFromStatementId" | "createdAt" | "updatedAt"
+  "id" | "statementNo" | "clonedFromStatementId" | "createdAt" | "updatedAt"
 >;
 
 export type StatementSummary = Pick<
@@ -109,6 +109,7 @@ export type StatementWarning = {
 const DATA_PATH = path.join(process.cwd(), "data", "statements.json");
 
 export const EMPTY_STATEMENT_INPUT: StatementInput = {
+  status: "draft",
   statementType: "requirement",
   title: "",
   textOriginal: null,
@@ -121,6 +122,21 @@ export const EMPTY_STATEMENT_INPUT: StatementInput = {
   moscow: null,
   increment: null,
 };
+
+function normalizeStatus(status: string | null | undefined): StatementStatus {
+  switch (status) {
+    case "draft":
+    case "applicable":
+    case "deprecated":
+      return status;
+    case "active":
+      return "applicable";
+    case "archived":
+      return "deprecated";
+    default:
+      return "draft";
+  }
+}
 
 function emptyDb(): StatementDb {
   return {
@@ -160,16 +176,24 @@ async function readDb(): Promise<StatementDb> {
 
   if (Array.isArray(parsed)) {
     return {
-      statements: parsed,
+      statements: parsed.map((statement) => ({
+        ...statement,
+        status: normalizeStatus(statement.status),
+      })),
       parents: [],
       relations: [],
     };
   }
 
   return {
-    statements: [...parsed.statements].sort((left, right) =>
+    statements: parsed.statements
+      .map((statement) => ({
+        ...statement,
+        status: normalizeStatus(statement.status),
+      }))
+      .sort((left, right) =>
       left.statementNo.localeCompare(right.statementNo),
-    ),
+      ),
     parents: parsed.parents ?? [],
     relations: parsed.relations ?? [],
   };
@@ -207,13 +231,12 @@ function assertValidInput(input: StatementInput) {
     throw new Error(`Unsupported statement type: ${input.statementType}`);
   }
 
-  if (input.title.trim() === "") {
-    throw new Error("Title is required.");
+  if (!STATEMENT_STATUSES.includes(input.status)) {
+    throw new Error(`Unsupported statement status: ${input.status}`);
   }
 
-  const hasText = Boolean(input.textOriginal?.trim() || input.textNl?.trim());
-  if (!hasText) {
-    throw new Error("At least one text field is required.");
+  if (input.title.trim() === "") {
+    throw new Error("Title is required.");
   }
 }
 
@@ -256,7 +279,7 @@ function buildWarnings(
     ...incomingParents,
     ...outgoingRelations,
     ...incomingRelations,
-  ].filter((link) => link.status !== "active");
+  ].filter((link) => link.status !== "applicable");
 
   return inactiveLinks.map((link) => ({
     statementNo: link.statementNo,
@@ -381,7 +404,6 @@ export async function createStatement(input: StatementInput) {
   const statement: Statement = {
     id: randomUUID(),
     statementNo: nextStatementNo(db.statements),
-    status: "active",
     clonedFromStatementId: null,
     createdAt: now,
     updatedAt: now,
@@ -423,7 +445,7 @@ export async function cloneStatement(id: string) {
     id: randomUUID(),
     statementNo: nextStatementNo(db.statements),
     title: `${source.title} (copy)`,
-    status: "active",
+    status: "draft",
     clonedFromStatementId: source.id,
     createdAt: now,
     updatedAt: now,
@@ -542,6 +564,22 @@ export async function addRelation(
 export async function removeRelation(relationId: string) {
   const db = await readDb();
   db.relations = db.relations.filter((relation) => relation.id !== relationId);
+  await writeDb(db);
+}
+
+export async function deleteStatement(id: string) {
+  const db = await readDb();
+
+  getStatementOrThrow(db.statements, id);
+
+  db.statements = db.statements.filter((statement) => statement.id !== id);
+  db.parents = db.parents.filter(
+    (edge) => edge.statementId !== id && edge.parentStatementId !== id,
+  );
+  db.relations = db.relations.filter(
+    (relation) => relation.sourceStatementId !== id && relation.targetStatementId !== id,
+  );
+
   await writeDb(db);
 }
 

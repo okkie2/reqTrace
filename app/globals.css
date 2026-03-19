@@ -284,14 +284,19 @@ select[disabled] {
   background: var(--rt-color-success-bg);
 }
 
+.status-applicable {
+  color: var(--rt-color-success);
+  background: var(--rt-color-success-bg);
+}
+
+.status-draft {
+  color: var(--rt-color-accent);
+  background: var(--rt-color-info-bg);
+}
+
 .status-deprecated {
   color: var(--rt-color-warning);
   background: var(--rt-color-warning-bg);
-}
-
-.status-archived {
-  color: var(--rt-color-text-muted);
-  background: var(--rt-color-surface-muted);
 }
 
 .form-grid,

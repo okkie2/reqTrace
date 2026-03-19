@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import {
   RELATION_TYPES,
+  STATEMENT_STATUSES,
   STATEMENT_TYPES,
   type RelationType,
   type StatementInput,
@@ -10,10 +11,10 @@ import {
   addRelation,
   cloneStatement,
   createStatement,
+  deleteStatement,
   removeParent,
   removeRelation,
   updateStatement,
-  updateStatementStatus,
 } from "@/lib/statement-store";
 import { logger } from "@/lib/logger";
 
@@ -36,7 +37,6 @@ function buildRedirect(statementId: string, lang: "en" | "nl") {
 
 type FormErrorCode =
   | "title_required"
-  | "text_required"
   | "unsupported_statement_type"
   | "unknown_statement"
   | "unknown";
@@ -78,8 +78,6 @@ function getFormErrorCode(error: unknown): FormErrorCode {
   switch (error.message) {
     case "Title is required.":
       return "title_required";
-    case "At least one text field is required.":
-      return "text_required";
     default:
       if (error.message.startsWith("Unsupported statement type:")) {
         return "unsupported_statement_type";
@@ -94,7 +92,7 @@ function getFormErrorCode(error: unknown): FormErrorCode {
 }
 
 function isExpectedSaveValidationError(code: FormErrorCode) {
-  return code === "title_required" || code === "text_required";
+  return code === "title_required";
 }
 
 function getStatementType(formData: FormData): StatementInput["statementType"] {
@@ -105,6 +103,16 @@ function getStatementType(formData: FormData): StatementInput["statementType"] {
   }
 
   return value as StatementInput["statementType"];
+}
+
+function getStatementStatus(formData: FormData): StatementInput["status"] {
+  const value = getString(formData, "status");
+
+  if (!STATEMENT_STATUSES.includes(value as StatementInput["status"])) {
+    throw new Error(`Unsupported statement status: ${value}`);
+  }
+
+  return value as StatementInput["status"];
 }
 
 function getRelationType(formData: FormData): RelationType {
@@ -121,6 +129,7 @@ export async function saveStatementAction(formData: FormData) {
   const id = getString(formData, "id");
   const lang = getLang(formData);
   const payload: StatementInput = {
+    status: getStatementStatus(formData),
     statementType: getStatementType(formData),
     title: getString(formData, "title"),
     textOriginal: getNullableString(formData, "textOriginal"),
@@ -181,34 +190,26 @@ export async function cloneStatementAction(formData: FormData) {
   redirect(buildRedirect(cloned.id, lang));
 }
 
-export async function updateStatusAction(formData: FormData) {
+export async function deleteStatementAction(formData: FormData) {
   const statementId = getString(formData, "statementId");
-  const status = getString(formData, "status");
   const lang = getLang(formData);
 
-  if (status !== "active" && status !== "deprecated" && status !== "archived") {
-    throw new Error(`Unsupported status: ${status}`);
-  }
-
-  let updated;
-
   try {
-    updated = await updateStatementStatus(statementId, status);
+    await deleteStatement(statementId);
   } catch (error) {
     logger.errorWithException(
-      "statement.status_update_failed",
-      "Failed to update statement status.",
+      "statement.delete_failed",
+      "Failed to delete statement.",
       error,
       {
         statementId,
-        status,
         lang,
       },
     );
     throw error;
   }
 
-  redirect(buildRedirect(updated.id, lang));
+  redirect(`/?lang=${lang}`);
 }
 
 export async function addParentAction(formData: FormData) {

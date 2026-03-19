@@ -33,7 +33,7 @@ The repository currently provides:
 - a YAML sketch of source attributes
 - a categorized ubiquitous language as the source of truth for terminology
 - MVP design notes for statement and relationship management
-- a file-backed Next.js Statement Manager covering create, edit, clone, archive/deprecate, parents, and semantic relations
+- a file-backed Next.js Statement Manager covering create, edit, clone, delete, status management, parents, and semantic relations
 - roadmap and MVP scope notes for the broader traceability product
 
 ## Composition
@@ -96,11 +96,12 @@ Use the repository as both a modelling workspace and an MVP app:
 1. Open `http://localhost:3000`.
 2. Review the seeded statements in the left-hand list.
 3. Create a new statement or open an existing statement to edit it.
-4. Use `Clone`, `Deprecate`, or `Archive` to exercise the roadmap A lifecycle.
-5. Add one or more parents and semantic relations to the selected statement.
-6. Inspect incoming and outgoing links in the relationship panels.
-7. Inspect `data/statements.json` to review the stored output.
-8. Continue using `Sample.csv`, `sample_attributes.yaml`, and the glossary YAML files as the domain source material.
+4. Use `Clone`, `Delete`, and the status field to exercise the roadmap A lifecycle.
+5. Set the statement status to `Draft`, `Applicable`, or `Deprecated`.
+6. Add one or more parents and semantic relations to the selected statement.
+7. Inspect incoming and outgoing links in the relationship panels.
+8. Inspect `data/statements.json` to review the stored output.
+9. Continue using `Sample.csv`, `sample_attributes.yaml`, and the glossary YAML files as the domain source material.
 
 ### Uninstall
 Delete the local repository folder. If you installed dependencies, remove `node_modules` first if you want to reclaim disk space.
@@ -113,9 +114,10 @@ Concrete happy path:
 3. Click `New statement`.
 4. Enter a title, choose a statement type, and fill `Original text` or `Dutch text`.
 5. Save the statement and confirm it appears in the list with a generated statement number.
-6. Add a parent and an `uitwerking_van` or `detail_van` relation to another statement.
-7. Verify that the link appears in both the outgoing and incoming sections.
-8. Inspect `data/statements.json` to confirm the persisted result.
+6. Set the status to `Draft`, `Applicable`, or `Deprecated`.
+7. Add a parent and an `uitwerking_van` or `detail_van` relation to another statement.
+8. Verify that the link appears in both the outgoing and incoming sections.
+9. Inspect `data/statements.json` to confirm the persisted result.
 
 ## Output
 The repository currently produces both documentation assets and local application output:
