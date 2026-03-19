@@ -149,7 +149,7 @@ Parent and relation selectors depend on fast lookup by:
 
 - statement number
 - title
-- source code
+- source title
 
 That means the relationship UI depends on basic indexed search, even if full search is roadmap item D.
 

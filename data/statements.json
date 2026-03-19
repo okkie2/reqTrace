@@ -5,18 +5,24 @@
       "statementNo": "000005",
       "statementType": "requirement",
       "title": "Garandeer identificatie ZV",
-      "piezoId": "BR-eu01.2",
+      "piezoId": "BR-eu01.1",
       "textOriginal": "The National infrastructure in the Country of treatment must send the following relevant information to the Country of affiliation:\r\n- Information about the HP;\r\n- Information about the Health Authorities Institutions and/or Healthcare Provider Organisation (HCPO) that ensured HP identification and authentication;\r\n- Information about the organisation or healthcare facility where the HP is providing the treatment - Point of Care (PoC). The Point of Care must be identified and Authorized following the legislation applicable in the Country of Treatment, so as to be able to process the patient's health data.",
       "textNl": "De Nationale infrastructuur in het land van behandeling (CoT) moet de volgende relevante informatie naar het land van herkomst (CoA) sturen:\r\n- Informatie over de Zorgprofessional;\r\n- Informatie over de Instellingen van de Gezondheidsautoriteiten en/of de organisatie van de zorgaanbieder (HCPO) die gezorgt hebben voor de identificatie en authenticatie van de Zorgprofessional;\r\n- Informatie over de organisatie of zorginstelling waar de Zorgprofessional de behandeling uitvoert - Point of Care (PoC). Het zorgpunt (PoC) moet geidentificeerd en geautoriseerd zijn volgens de wetgeving die van toepassing is in het land van behandeling (CoT), om de gezondheidsgegevens van de patiënt te kunnen verwerken.",
       "note": "Interpretatie voor NCPeH-NL: UC-B: NCPeH-NL moet bij inlog van zorgVERLENER meesturen (1) gegevens over de zorgverlener, (2) gegevens over de inlogvoorziening (zie FR-eu01.01.3), (3) gegevens over de zorgORGANISATIE van de zorgVERLENER. Opmerking: NCPeH-NL moet deze informatie kunnen ontvangen en verwerken.",
-      "sourceCode": null,
-      "source": "eHDSI Requirements Catalogue v9.0.0 OR",
       "level": "2",
       "orderNo": "1",
-      "status": "draft",
+      "status": "applicable",
       "clonedFromStatementId": null,
       "createdAt": "2026-03-19T22:30:00.000Z",
-      "updatedAt": "2026-03-19T22:12:23.693Z"
+      "updatedAt": "2026-03-19T22:51:55.305Z",
+      "sources": [
+        {
+          "title": "eHDSI Requirements Catalogue v9.0.0 OR",
+          "relation": "copied_from_eu_requirement",
+          "locator": null,
+          "url": null
+        }
+      ]
     },
     {
       "id": "230b5d85-43b3-4b1f-9b9f-8e2ff398e8e1",
@@ -27,14 +33,20 @@
       "textOriginal": "The National infrastructure in the Country of treatment must send the following relevant information to the Country of affiliation:\r\n- Information about the HP;\r\n- Information about the Health Authorities Institutions and/or Healthcare Provider Organisation (HCPO) that ensured HP identification and authentication;\r\n- Information about the organisation or healthcare facility where the HP is providing the treatment - Point of Care (PoC). The Point of Care must be identified and Authorized following the legislation applicable in the Country of Treatment, so as to be able to process the patient's health data.",
       "textNl": "De Nationale infrastructuur in het land van behandeling (CoT) moet de volgende relevante informatie naar het land van herkomst (CoA) sturen:\r\n- Informatie over de Zorgprofessional;\r\n- Informatie over de Instellingen van de Gezondheidsautoriteiten en/of de organisatie van de zorgaanbieder (HCPO) die gezorgt hebben voor de identificatie en authenticatie van de Zorgprofessional;\r\n- Informatie over de organisatie of zorginstelling waar de Zorgprofessional de behandeling uitvoert - Point of Care (PoC). Het zorgpunt (PoC) moet geidentificeerd en geautoriseerd zijn volgens de wetgeving die van toepassing is in het land van behandeling (CoT), om de gezondheidsgegevens van de patiënt te kunnen verwerken.",
       "note": "Interpretatie voor NCPeH-NL: UC-B: NCPeH-NL moet bij inlog van zorgVERLENER meesturen (1) gegevens over de zorgverlener, (2) gegevens over de inlogvoorziening (zie FR-eu01.01.3), (3) gegevens over de zorgORGANISATIE van de zorgVERLENER. Opmerking: NCPeH-NL moet deze informatie kunnen ontvangen en verwerken.",
-      "sourceCode": "BR-eu01.2",
-      "source": "eHDSI Requirements Catalogue v9.0.0 OR",
-      "level": "2",
+      "level": "1",
       "orderNo": "1",
-      "status": "draft",
+      "status": "applicable",
       "clonedFromStatementId": null,
       "createdAt": "2026-03-19T22:31:00.000Z",
-      "updatedAt": "2026-03-19T22:12:40.503Z"
+      "updatedAt": "2026-03-19T22:51:49.318Z",
+      "sources": [
+        {
+          "title": "eHDSI Requirements Catalogue v9.0.0 OR",
+          "relation": "copied_from_eu_requirement",
+          "locator": null,
+          "url": null
+        }
+      ]
     },
     {
       "id": "b4e0b72d-73ef-43c1-b715-18f00c066266",
@@ -45,14 +57,20 @@
       "textOriginal": "The National infrastructure in the Country of treatment must send the following relevant information to the Country of affiliation:\r\n- Information about the HP;\r\n- Information about the Health Authorities Institutions and/or Healthcare Provider Organisation (HCPO) that ensured HP identification and authentication;\r\n- Information about the organisation or healthcare facility where the HP is providing the treatment - Point of Care (PoC). The Point of Care must be identified and Authorized following the legislation applicable in the Country of Treatment, so as to be able to process the patient's health data.",
       "textNl": "De Nationale infrastructuur in het land van behandeling (CoT) moet de volgende relevante informatie naar het land van herkomst (CoA) sturen:\r\n- Informatie over de Zorgprofessional;\r\n- Informatie over de Instellingen van de Gezondheidsautoriteiten en/of de organisatie van de zorgaanbieder (HCPO) die gezorgt hebben voor de identificatie en authenticatie van de Zorgprofessional;\r\n- Informatie over de organisatie of zorginstelling waar de Zorgprofessional de behandeling uitvoert - Point of Care (PoC). Het zorgpunt (PoC) moet geidentificeerd en geautoriseerd zijn volgens de wetgeving die van toepassing is in het land van behandeling (CoT), om de gezondheidsgegevens van de patiënt te kunnen verwerken.",
       "note": "Interpretatie voor NCPeH-NL: UC-B: NCPeH-NL moet bij inlog van zorgVERLENER meesturen (1) gegevens over de zorgverlener, (2) gegevens over de inlogvoorziening (zie FR-eu01.01.3), (3) gegevens over de zorgORGANISATIE van de zorgVERLENER. Opmerking: NCPeH-NL moet deze informatie kunnen ontvangen en verwerken.",
-      "sourceCode": "BR-eu01.2",
-      "source": "eHDSI Requirements Catalogue v9.0.0 OR",
-      "level": "2",
+      "level": "1",
       "orderNo": "1",
-      "status": "draft",
+      "status": "applicable",
       "clonedFromStatementId": null,
       "createdAt": "2026-03-19T22:32:00.000Z",
-      "updatedAt": "2026-03-19T22:12:50.616Z"
+      "updatedAt": "2026-03-19T22:51:59.931Z",
+      "sources": [
+        {
+          "title": "eHDSI Requirements Catalogue v9.0.0 OR",
+          "relation": "copied_from_eu_requirement",
+          "locator": null,
+          "url": null
+        }
+      ]
     },
     {
       "id": "68814442-2687-41ac-b820-e65ab2bf984a",
@@ -63,14 +81,20 @@
       "textOriginal": "The National infrastructure in the Country of treatment must send the following relevant information to the Country of affiliation:\r\n- Information about the HP;\r\n- Information about the Health Authorities Institutions and/or Healthcare Provider Organisation (HCPO) that ensured HP identification and authentication;\r\n- Information about the organisation or healthcare facility where the HP is providing the treatment - Point of Care (PoC). The Point of Care must be identified and Authorized following the legislation applicable in the Country of Treatment, so as to be able to process the patient's health data.",
       "textNl": "De Nationale infrastructuur in het land van behandeling (CoT) moet de volgende relevante informatie naar het land van herkomst (CoA) sturen:\r\n- Informatie over de Zorgprofessional;\r\n- Informatie over de Instellingen van de Gezondheidsautoriteiten en/of de organisatie van de zorgaanbieder (HCPO) die gezorgt hebben voor de identificatie en authenticatie van de Zorgprofessional;\r\n- Informatie over de organisatie of zorginstelling waar de Zorgprofessional de behandeling uitvoert - Point of Care (PoC). Het zorgpunt (PoC) moet geidentificeerd en geautoriseerd zijn volgens de wetgeving die van toepassing is in het land van behandeling (CoT), om de gezondheidsgegevens van de patiënt te kunnen verwerken.",
       "note": "Interpretatie voor NCPeH-NL: UC-B: NCPeH-NL moet bij inlog van zorgVERLENER meesturen (1) gegevens over de zorgverlener, (2) gegevens over de inlogvoorziening (zie FR-eu01.01.3), (3) gegevens over de zorgORGANISATIE van de zorgVERLENER. Opmerking: NCPeH-NL moet deze informatie kunnen ontvangen en verwerken.",
-      "sourceCode": "BR-eu01.2",
-      "source": "eHDSI Requirements Catalogue v9.0.0 OR",
-      "level": "2",
+      "level": "1",
       "orderNo": "1",
-      "status": "draft",
+      "status": "applicable",
       "clonedFromStatementId": null,
       "createdAt": "2026-03-19T22:33:00.000Z",
-      "updatedAt": "2026-03-19T22:16:17.548Z"
+      "updatedAt": "2026-03-19T22:52:05.855Z",
+      "sources": [
+        {
+          "title": "eHDSI Requirements Catalogue v9.0.0 OR",
+          "relation": "copied_from_eu_requirement",
+          "locator": null,
+          "url": null
+        }
+      ]
     },
     {
       "id": "9e2895c3-5f01-4b32-ba58-c53c8bedf997",
@@ -78,17 +102,23 @@
       "status": "applicable",
       "clonedFromStatementId": null,
       "createdAt": "2026-03-19T21:40:33.818Z",
-      "updatedAt": "2026-03-19T21:40:33.818Z",
+      "updatedAt": "2026-03-19T22:51:40.216Z",
       "statementType": "requirement",
-      "title": "Identificatie Zorgverlener",
-      "piezoId": "PIEZO-EUBR-03",
-      "textOriginal": ".",
-      "textNl": ".",
+      "title": "Garandeer identificatie ZV",
+      "piezoId": "BR-eu01",
+      "textOriginal": "The National infrastructure in the Country of treatment must send the following relevant information to the Country of affiliation:\r\n- Information about the HP;\r\n- Information about the Health Authorities Institutions and/or Healthcare Provider Organisation (HCPO) that ensured HP identification and authentication;\r\n- Information about the organisation or healthcare facility where the HP is providing the treatment - Point of Care (PoC). The Point of Care must be identified and Authorized following the legislation applicable in the Country of Treatment, so as to be able to process the patient's health data.",
+      "textNl": "De Nationale infrastructuur in het land van behandeling (CoT) moet de volgende relevante informatie naar het land van herkomst (CoA) sturen:\r\n- Informatie over de Zorgprofessional;\r\n- Informatie over de Instellingen van de Gezondheidsautoriteiten en/of de organisatie van de zorgaanbieder (HCPO) die gezorgt hebben voor de identificatie en authenticatie van de Zorgprofessional;\r\n- Informatie over de organisatie of zorginstelling waar de Zorgprofessional de behandeling uitvoert - Point of Care (PoC). Het zorgpunt (PoC) moet geidentificeerd en geautoriseerd zijn volgens de wetgeving die van toepassing is in het land van behandeling (CoT), om de gezondheidsgegevens van de patiënt te kunnen verwerken.",
       "note": null,
-      "sourceCode": "BR-eu01",
-      "source": null,
-      "level": null,
-      "orderNo": null
+      "level": "1",
+      "orderNo": "1",
+      "sources": [
+        {
+          "title": "eHDSI Requirements Catalogue v9.0.0 OR",
+          "relation": "copied_from_eu_requirement",
+          "locator": null,
+          "url": null
+        }
+      ]
     }
   ],
   "parents": [

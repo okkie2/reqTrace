@@ -57,6 +57,8 @@
       - evidence
       - question
       - risk
+      Do not use source as a statement type.
+      Source is provenance, not statement semantics.
     nl: |
       Attribuut.
       Toegestane waarden:
@@ -67,6 +69,8 @@
       - bewijs
       - vraag
       - risico
+      Gebruik bron niet als stellingtype.
+      Bron is provenance, niet de semantiek van een stelling.
   allowed_synonym:
     en:
       - type
@@ -111,11 +115,9 @@
   forbidden_or_avoid_synonyms:
     en:
       - code
-      - source_code
       - meaningful key
     nl:
       - code
-      - broncode
       - sleutel met betekenis
   source:
     en: Internal model

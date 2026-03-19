@@ -2,11 +2,6 @@
 
 import { redirect } from "next/navigation";
 import {
-  RELATION_TYPES,
-  STATEMENT_STATUSES,
-  STATEMENT_TYPES,
-  type RelationType,
-  type StatementInput,
   addParent,
   addRelation,
   cloneStatement,
@@ -16,6 +11,13 @@ import {
   removeRelation,
   updateStatement,
 } from "@/lib/statement-store";
+import {
+  RELATION_TYPES,
+  STATEMENT_STATUSES,
+  STATEMENT_TYPES,
+  type RelationType,
+  type StatementInput,
+} from "@/lib/statement-schema";
 import { logger } from "@/lib/logger";
 
 function getString(formData: FormData, key: string): string {
@@ -140,8 +142,7 @@ export async function saveStatementAction(formData: FormData) {
     textOriginal: getNullableString(formData, "textOriginal"),
     textNl: getNullableString(formData, "textNl"),
     note: getNullableString(formData, "note"),
-    sourceCode: getNullableString(formData, "sourceCode"),
-    source: getNullableString(formData, "source"),
+    sources: [],
     level: getNullableString(formData, "level"),
     orderNo: getNullableString(formData, "orderNo"),
   };
@@ -161,7 +162,6 @@ export async function saveStatementAction(formData: FormData) {
       lang,
       errorCode,
       piezoId: payload.piezoId,
-      sourceCode: payload.sourceCode,
     });
 
     redirect(

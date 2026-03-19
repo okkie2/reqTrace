@@ -51,8 +51,7 @@ The user marks a statement as no longer active. The statement remains searchable
 
 ### Optional fields for MVP
 - `piezo_id`
-- `broncode`
-- `bron`
+- `sources[]`
 - `niveau`
 - `volgorde`
 - `opmerking`
@@ -74,15 +73,15 @@ Use a two-pane layout:
 This is better than modal-heavy CRUD because the core work is repetitive comparison and editing across many statements.
 
 ### Statement form sections
-- Identity: `id`, `piezo_id`, `broncode`, `bron`
+- Identity: `id`, `piezo_id`
+- Provenance: `sources[]`
 - Type and structure: `statement_type`, `niveau`, `order`
 - Content: `title`, `text_origineel`, `text_nl`, `opmerking`
 - Context: relevant parties
 - Lifecycle: `status`, clone origin, timestamps
 
 ### Form behavior
-- autosave is not required in MVP
-- save explicitly
+- autosave is part of the current MVP
 - validate required fields before save
 - show warnings for suspicious but allowed input
 - keep archive / deprecate as a deliberate secondary action
@@ -90,8 +89,12 @@ This is better than modal-heavy CRUD because the core work is repetitive compari
 ## Domain rules
 - `id` is internal, stable, and meaningless
 - `piezo_id` is an external programme lineage identifier, not a provenance field
-- `broncode` is external and may be duplicated across statements if multiple statements derive from one source fragment
-- `bron` captures provenance of content and must remain separate from `piezo_id`
+- `bron` or `sources[]` captures provenance of content and must remain separate from `piezo_id`
+- `bron` is provenance and must not become a `statement_type`
+- allowed source relations are intentionally limited in MVP:
+  - `copied_from_eu_requirement`
+  - `copied_from_national_requirement`
+  - `derived_from_law`
 - `statement_type` defines semantics, not presentation only
 - deprecation does not delete data
 - cloning creates a new statement identity, never a version overwrite
@@ -131,8 +134,7 @@ Core columns:
 - `text_origineel`
 - `text_nl`
 - `opmerking`
-- `broncode`
-- `bron`
+- `sources`
 - `niveau`
 - `order_no`
 - `status`
@@ -152,7 +154,7 @@ Keep relevance normalized instead of hardcoding one column per stakeholder if st
 Deletion removes a statement and its direct links in the current MVP. This is acceptable for iteration, but stronger traceability safeguards may be needed later.
 
 ### Keep provenance and programme lineage separate
-`bron` answers where the content came from. `piezo_id` answers which external programme requirement or governance line the statement belongs to. They must not be merged.
+`sources[]` answers where the content came from. `piezo_id` answers which external programme requirement or governance line the statement belongs to. They must not be merged.
 
 ### Separate clone from versioning
 Cloning is a user productivity action, not a history model. Proper version history can be added later through audit tables or Git integration.

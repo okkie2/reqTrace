@@ -2,46 +2,22 @@ import { promises as fs } from "node:fs";
 import { randomUUID } from "node:crypto";
 import path from "node:path";
 import { logger } from "@/lib/logger";
+import {
+  RELATION_TYPES,
+  SOURCE_RELATIONS,
+  STATEMENT_STATUSES,
+  STATEMENT_TYPES,
+  type RelationType,
+  type Statement,
+  type StatementInput,
+  type SourceRelation,
+  type StatementSource,
+  type StatementStatus,
+  type StatementType,
+  type StatementWarning,
+} from "@/lib/statement-schema";
 
-export const STATEMENT_TYPES = [
-  "requirement",
-  "interpretation",
-  "decision",
-  "evidence",
-  "question",
-  "risk",
-] as const;
-
-export const STATEMENT_STATUSES = ["draft", "applicable", "deprecated"] as const;
-export const RELATION_TYPES = [
-  "verplicht_wegens",
-  "vertaling_van",
-  "detail_van",
-  "uitwerking_van",
-] as const;
-
-export type StatementType = (typeof STATEMENT_TYPES)[number];
-export type StatementStatus = (typeof STATEMENT_STATUSES)[number];
-export type RelationType = (typeof RELATION_TYPES)[number];
-
-export type Statement = {
-  id: string;
-  statementNo: string;
-  statementType: StatementType;
-  title: string;
-  piezoId: string | null;
-  textOriginal: string | null;
-  textNl: string | null;
-  note: string | null;
-  sourceCode: string | null;
-  source: string | null;
-  level: string | null;
-  orderNo: string | null;
-  status: StatementStatus;
-  clonedFromStatementId: string | null;
-  createdAt: string;
-  updatedAt: string;
-};
+export { RELATION_TYPES, SOURCE_RELATIONS, STATEMENT_STATUSES, STATEMENT_TYPES } from "@/lib/statement-schema";
 
 export type StatementParent = {
   statementId: string;
@@ -63,15 +39,12 @@ type StatementDb = {
   relations: StatementRelation[];
 };
 
-export type StatementInput = Omit<
-  Statement,
-  "id" | "statementNo" | "clonedFromStatementId" | "createdAt" | "updatedAt"
->;
-
 export type StatementSummary = Pick<
   Statement,
-  "id" | "statementNo" | "statementType" | "title" | "status" | "sourceCode" | "source" | "piezoId"
->;
+  "id" | "statementNo" | "statementType" | "title" | "status" | "piezoId"
+> & {
+  sourceTitles: string[];
+};
 
 export type StatementLinkView = {
   statementId: string;
@@ -100,11 +73,6 @@ export type StatementDetail = {
   warnings: StatementWarning[];
 };
 
-export type StatementWarning = {
-  statementNo: string;
-  status: StatementStatus;
-};
-
 const DATA_PATH = path.join(process.cwd(), "data", "statements.json");
 
 export const EMPTY_STATEMENT_INPUT: StatementInput = {
@@ -115,11 +83,84 @@ export const EMPTY_STATEMENT_INPUT: StatementInput = {
   textOriginal: null,
   textNl: null,
   note: null,
-  sourceCode: null,
-  source: null,
+  sources: [],
   level: null,
   orderNo: null,
 };
+
+function normalizeSourceString(value: unknown, fieldName: string): string | null {
+  if (value == null) {
+    return null;
+  }
+
+  if (typeof value !== "string") {
+    throw new Error(`Invalid source ${fieldName} value.`);
+  }
+
+  const trimmed = value.trim();
+  return trimmed === "" ? null : trimmed;
+}
+
+function normalizeSources(value: unknown): StatementSource[] {
+  if (value == null) {
+    return [];
+  }
+
+  if (!Array.isArray(value)) {
+    throw new Error("Invalid sources value.");
+  }
+
+  return value.flatMap((entry) => {
+    if (!entry || typeof entry !== "object" || Array.isArray(entry)) {
+      throw new Error("Invalid source entry.");
+    }
+
+    const source = entry as Record<string, unknown>;
+    const title = normalizeSourceString(source.title, "title");
+    const relation = normalizeSourceRelation(source.relation);
+    const locator = normalizeSourceString(source.locator, "locator");
+    const url = normalizeSourceString(source.url, "url");
+
+    if (!title && !relation && !locator && !url) {
+      return [];
+    }
+
+    if (!title) {
+      throw new Error("Source title is required when a source is present.");
+    }
+
+    return [
+      {
+        title,
+        relation: relation ?? "copied_from_eu_requirement",
+        locator,
+        url,
+      },
+    ];
+  });
+}
+
+function normalizeSourceRelation(value: unknown): SourceRelation | null {
+  if (value == null) {
+    return null;
+  }
+
+  if (typeof value !== "string") {
+    throw new Error("Invalid source relation value.");
+  }
+
+  const trimmed = value.trim();
+
+  if (trimmed === "") {
+    return null;
+  }
+
+  if (!SOURCE_RELATIONS.includes(trimmed as SourceRelation)) {
+    throw new Error(`Unsupported source relation: ${trimmed}`);
+  }
+
+  return trimmed as SourceRelation;
+}
 
 function normalizePiezoId(value: unknown): string | null {
   if (value == null) {
@@ -135,10 +176,28 @@ function normalizePiezoId(value: unknown): string | null {
 }
 
 function normalizeStatement(statement: Statement): Statement {
+  const legacySourceTitle = normalizeSourceString(
+    (statement as Statement & { source?: unknown }).source,
+    "title",
+  );
+
   return {
     ...statement,
     status: normalizeStatus(statement.status),
     piezoId: normalizePiezoId(statement.piezoId),
+    sources:
+      "sources" in statement && Array.isArray(statement.sources)
+        ? normalizeSources(statement.sources)
+        : legacySourceTitle
+          ? [
+              {
+                title: legacySourceTitle,
+                relation: "copied_from_eu_requirement",
+                locator: null,
+                url: null,
+              },
+            ]
+          : [],
   };
 }
 
@@ -253,12 +312,14 @@ function assertValidInput(input: StatementInput) {
   }
 
   normalizePiezoId(input.piezoId);
+  normalizeSources(input.sources);
 }
 
 function normalizeInput(input: StatementInput): StatementInput {
   return {
     ...input,
     piezoId: normalizePiezoId(input.piezoId),
+    sources: normalizeSources(input.sources),
   };
 }
 
@@ -347,9 +408,8 @@ export async function listStatementSummaries(): Promise<StatementSummary[]> {
     statementType: statement.statementType,
     title: statement.title,
     status: statement.status,
-    sourceCode: statement.sourceCode,
-    source: statement.source,
     piezoId: statement.piezoId,
+    sourceTitles: statement.sources.map((source) => source.title),
   }));
 }
 

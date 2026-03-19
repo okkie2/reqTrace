@@ -233,6 +233,26 @@ select[disabled] {
   margin-top: var(--rt-space-3);
 }
 
+.source-list {
+  display: grid;
+  gap: var(--rt-space-4);
+  margin-block: var(--rt-space-4);
+}
+
+.source-card {
+  display: grid;
+  gap: var(--rt-space-3);
+  padding: var(--rt-space-4);
+  border: var(--rt-border-default);
+  border-radius: var(--rt-radius-md);
+  background: var(--rt-color-surface-muted);
+}
+
+.source-grid {
+  display: grid;
+  gap: var(--rt-space-3);
+}
+
 .statement-link {
   display: grid;
   gap: var(--rt-space-2);
@@ -330,6 +350,12 @@ select[disabled] {
   margin-bottom: var(--rt-space-4);
 }
 
+.autosave-status {
+  display: grid;
+  gap: var(--rt-space-2);
+  justify-items: end;
+}
+
 .link-item {
   display: flex;
   gap: var(--rt-space-4);
@@ -384,6 +410,10 @@ select[disabled] {
 
   .relationship-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .source-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .page-header {

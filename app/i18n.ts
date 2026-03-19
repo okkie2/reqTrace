@@ -1,14 +1,18 @@
 import type {
+  StatementWarning,
   RelationType,
+  SourceRelation,
   StatementStatus,
   StatementType,
-  StatementWarning,
-} from "@/lib/statement-store";
+} from "@/lib/statement-schema";
 
 export type Lang = "en" | "nl";
 export type UiErrorCode =
   | "title_required"
   | "invalid_piezo_id"
+  | "invalid_sources"
+  | "invalid_payload"
+  | "unsupported_source_relation"
   | "unsupported_statement_type"
   | "unsupported_statement_status"
   | "unknown_statement"
@@ -52,12 +56,23 @@ type UiStrings = {
   originalText: string;
   dutchText: string;
   textGuidance: string;
-  sourceCode: string;
-  source: string;
+  sources: string;
+  sourceTitle: string;
+  sourceRelation: string;
+  sourceLocator: string;
+  sourceUrl: string;
+  sourceHelp: string;
+  addSource: string;
   level: string;
   order: string;
   notes: string;
   saveStatement: string;
+  autosaveSaving: string;
+  autosaveSaved: string;
+  autosavePendingTitle: string;
+  autosaveError: string;
+  autosaveUnsaved: string;
+  autosaveIdle: string;
   lastUpdated: string;
   localDataNote: string;
   relationshipLabel: string;
@@ -102,7 +117,7 @@ const uiByLang: Record<Lang, UiStrings> = {
     listHeading: "Statements",
     listSummary: "Select a statement to edit content, status, parents, and relations.",
     searchLabel: "Search and filters",
-    searchPlaceholder: "Search title, source code, source, or PIEZO ID",
+    searchPlaceholder: "Search title, source, or PIEZO ID",
     hasPiezo: "Only with PIEZO ID",
     piezoIdFilter: "Exact PIEZO ID",
     piezoIdExact: "Exact PIEZO ID",
@@ -129,12 +144,23 @@ const uiByLang: Record<Lang, UiStrings> = {
     dutchText: "Text",
     textGuidance:
       "Text and original text are optional. Fill either or both when available.",
-    sourceCode: "Source code",
-    source: "Source",
+    sources: "Sources",
+    sourceTitle: "Source title",
+    sourceRelation: "Source relation",
+    sourceLocator: "Source locator",
+    sourceUrl: "Source URL",
+    sourceHelp: "Sources capture provenance. They are not statements and not programme lineage.",
+    addSource: "Add source",
     level: "Level",
     order: "Sequence",
     notes: "Notes",
     saveStatement: "Save statement",
+    autosaveSaving: "Saving automatically...",
+    autosaveSaved: "Saved automatically",
+    autosavePendingTitle: "Autosave will start as soon as a title is entered.",
+    autosaveError: "Autosave failed. The current change is not saved yet.",
+    autosaveUnsaved: "Unsaved changes pending autosave.",
+    autosaveIdle: "Autosave is active.",
     lastUpdated: "Last updated",
     localDataNote: "Data is stored locally in data/statements.json.",
     relationshipLabel: "Relationship management",
@@ -167,6 +193,12 @@ const uiByLang: Record<Lang, UiStrings> = {
           return "Enter a title before saving.";
         case "invalid_piezo_id":
           return "PIEZO ID must be plain text.";
+        case "invalid_sources":
+          return "Each source must at least have a title and relation.";
+        case "unsupported_source_relation":
+          return "The selected source relation is not supported.";
+        case "invalid_payload":
+          return "The save payload is invalid.";
         case "unsupported_statement_type":
           return "The selected statement type is not supported.";
         case "unsupported_statement_status":
@@ -193,7 +225,7 @@ const uiByLang: Record<Lang, UiStrings> = {
     listHeading: "Stellingen",
     listSummary: "Selecteer een stelling om inhoud, status, parents en relaties te bewerken.",
     searchLabel: "Zoeken en filters",
-    searchPlaceholder: "Zoek op titel, broncode, bron of PIEZO-id",
+    searchPlaceholder: "Zoek op titel, bron of PIEZO-id",
     hasPiezo: "Alleen met PIEZO-id",
     piezoIdFilter: "Exacte PIEZO-id",
     piezoIdExact: "Exacte PIEZO-id",
@@ -220,12 +252,23 @@ const uiByLang: Record<Lang, UiStrings> = {
     dutchText: "Tekst",
     textGuidance:
       "Tekst en originele tekst zijn optioneel. Vul een of beide velden in als ze beschikbaar zijn.",
-    sourceCode: "Broncode",
-    source: "Bron",
+    sources: "Bronnen",
+    sourceTitle: "Brontitel",
+    sourceRelation: "Bronrelatie",
+    sourceLocator: "Bronlocatie",
+    sourceUrl: "Bron-URL",
+    sourceHelp: "Bronnen leggen provenance vast. Ze zijn geen stellingen en geen programmalijn.",
+    addSource: "Bron toevoegen",
     level: "Niveau",
     order: "Volgorde",
     notes: "Opmerkingen",
     saveStatement: "Stelling opslaan",
+    autosaveSaving: "Automatisch opslaan...",
+    autosaveSaved: "Automatisch opgeslagen",
+    autosavePendingTitle: "Automatisch opslaan start zodra een titel is ingevuld.",
+    autosaveError: "Automatisch opslaan is mislukt. De huidige wijziging is nog niet opgeslagen.",
+    autosaveUnsaved: "Niet-opgeslagen wijzigingen wachten op automatisch opslaan.",
+    autosaveIdle: "Automatisch opslaan is actief.",
     lastUpdated: "Laatst bijgewerkt",
     localDataNote: "Gegevens worden lokaal opgeslagen in data/statements.json.",
     relationshipLabel: "Relatiebeheer",
@@ -258,6 +301,12 @@ const uiByLang: Record<Lang, UiStrings> = {
           return "Vul een titel in voordat je opslaat.";
         case "invalid_piezo_id":
           return "PIEZO-id moet platte tekst zijn.";
+        case "invalid_sources":
+          return "Elke bron moet minimaal een titel en relatie hebben.";
+        case "unsupported_source_relation":
+          return "De gekozen bronrelatie wordt niet ondersteund.";
+        case "invalid_payload":
+          return "De opgeslagen gegevens zijn ongeldig.";
         case "unsupported_statement_type":
           return "Het gekozen stellingtype wordt niet ondersteund.";
         case "unsupported_statement_status":
@@ -319,6 +368,19 @@ const relationTypeLabels: Record<Lang, Record<RelationType, string>> = {
   },
 };
 
+const sourceRelationLabels: Record<Lang, Record<SourceRelation, string>> = {
+  en: {
+    copied_from_eu_requirement: "Copied from EU requirement",
+    copied_from_national_requirement: "Copied from national requirement",
+    derived_from_law: "Derived from law",
+  },
+  nl: {
+    copied_from_eu_requirement: "Gekopieerd uit EU-eis",
+    copied_from_national_requirement: "Gekopieerd uit nationale eis",
+    derived_from_law: "Afgeleid uit wet",
+  },
+};
+
 export function getLang(input: string | undefined): Lang {
   return input === "nl" ? "nl" : "en";
 }
@@ -337,4 +399,8 @@ export function getStatementTypeLabel(lang: Lang, statementType: StatementType) 
 
 export function getRelationTypeLabel(lang: Lang, relationType: RelationType) {
   return relationTypeLabels[lang][relationType];
+}
+
+export function getSourceRelationLabel(lang: Lang, relationType: SourceRelation) {
+  return sourceRelationLabels[lang][relationType];
 }

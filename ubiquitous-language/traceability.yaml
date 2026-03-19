@@ -1,39 +1,3 @@
-- term: source_code
-  term_localized:
-    en: source code
-    nl: broncode
-  definition:
-    en: The external code under which a statement is known in a source.
-    nl: De externe code waaronder een statement in een bron bekend staat.
-  example:
-    en: "FR-eu02.01.1.a"
-    nl: "FR-eu02.01.1.a"
-  explanation:
-    en: |
-      Attribute.
-      A statement may later have multiple source codes, but in the first version one source code is sufficient.
-    nl: |
-      Attribuut.
-      Een statement kan later meerdere broncodes hebben, maar in de eerste versie is één broncode voldoende.
-  allowed_synonym:
-    en:
-      - external code
-    nl:
-      - externe code
-  forbidden_or_avoid_synonyms:
-    en:
-      - id
-      - internal code
-    nl:
-      - id
-      - interne code
-  source:
-    en: Programme of Requirements eP/eD
-    nl: Programma van Eisen eP/eD
-  category:
-    en: Traceability
-    nl: Traceability
-
 - term: source
   term_localized:
     en: source
@@ -48,11 +12,17 @@
     en: |
       Attribute.
       Source refers to provenance: the document or system from which the content comes.
+      A source is not the same thing as a statement.
+      One source can give rise to multiple statements, including competing interpretations.
       It is not a programme lineage or governance identifier.
+      In the current MVP this belongs in `sources[]` provenance metadata.
     nl: |
       Attribuut.
       Bron verwijst naar provenance: het document of systeem waar de inhoud vandaan komt.
+      Een bron is niet hetzelfde als een stelling.
+      Eén bron kan leiden tot meerdere stellingen, inclusief concurrerende interpretaties.
       Dit is geen programmalijn of governance-identificatie.
+      In de huidige MVP hoort dit thuis in `sources[]` als provenance-metadata.
   allowed_synonym:
     en:
       - source_document
@@ -66,6 +36,50 @@
   source:
     en: Programme of Requirements PS-A and internal model
     nl: Programma van Eisen PS-A en intern model
+  category:
+    en: Traceability
+    nl: Traceability
+
+- term: source_relation
+  term_localized:
+    en: source relation
+    nl: bronrelatie
+  definition:
+    en: The provenance relationship between a statement and a source entry.
+    nl: De provenance-relatie tussen een stelling en een bronvermelding.
+  example:
+    en: copied_from_eu_requirement
+    nl: copied_from_eu_requirement
+  explanation:
+    en: |
+      Attribute.
+      In the current MVP, allowed values are intentionally limited to:
+      - `copied_from_eu_requirement`
+      - `copied_from_national_requirement`
+      - `derived_from_law`
+      This keeps provenance semantics small and explicit.
+    nl: |
+      Attribuut.
+      In de huidige MVP zijn de toegestane waarden bewust beperkt tot:
+      - `copied_from_eu_requirement`
+      - `copied_from_national_requirement`
+      - `derived_from_law`
+      Dit houdt provenance-semantiek klein en expliciet.
+  allowed_synonym:
+    en:
+      - provenance relation
+    nl:
+      - provenance-relatie
+  forbidden_or_avoid_synonyms:
+    en:
+      - source type
+      - statement type
+    nl:
+      - brontype
+      - stellingtype
+  source:
+    en: Internal model
+    nl: Intern model
   category:
     en: Traceability
     nl: Traceability
@@ -85,11 +99,13 @@
       Attribute.
       `piezo_id` captures programme identity, alignment, and reporting lineage.
       It is not a source citation.
+      It is also not a statement type.
       Multiple statements may legitimately share the same `piezo_id`.
     nl: |
       Attribuut.
       `piezo_id` legt programma-identiteit, alignment en rapportagelijn vast.
       Het is geen bronverwijzing.
+      Het is ook geen stellingtype.
       Meerdere stellingen mogen legitiem dezelfde `piezo_id` delen.
   allowed_synonym:
     en:
@@ -101,11 +117,9 @@
   forbidden_or_avoid_synonyms:
     en:
       - source
-      - source code
       - document reference
     nl:
       - bron
-      - broncode
       - documentverwijzing
   source:
     en: Internal model

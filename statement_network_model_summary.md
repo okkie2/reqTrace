@@ -30,7 +30,6 @@ Minimal structure:
 
 ```yaml
 id: "000123"
-source_code: "FR-eu02.01.1.a"
 piezo_id: "PIEZO-EUBR-03.01"
 
 statement_type: requirement
@@ -66,6 +65,21 @@ relations: []
 - interpretation = what it means
 - elaboration = what we do
 - decision = which choice we make
+
+### 3.2b Source is not a statement
+
+- a statement is a normative or analytical claim in the model
+- a source is where the content came from
+- one source can lead to multiple statements
+- one statement can have multiple sources over time
+- source must therefore not become a `statement_type`
+- `piezo_id` is also not source metadata, but separate programme lineage
+- see `docs/modelling-rule-source-vs-statement.md` for the explicit repository rule and examples
+
+Rule of thumb:
+
+- if it can be true or false, it is a statement
+- if it is provenance, it is a source
 
 ### 3.3 Hierarchy is not structure
 
@@ -110,7 +124,6 @@ Rule:
 
 ### Identity
 - id, internal and stable
-- source_code, external
 - piezo_id, external programme lineage
 
 ### Content
@@ -161,7 +174,7 @@ Rules:
 ## 9. Workflow, practical
 
 ### Step 1 - Add the source
-- register source plus source codes
+- register one or more provenance sources
 
 ### Step 1b - Register programme lineage when relevant
 - add `piezo_id` separately from `source`

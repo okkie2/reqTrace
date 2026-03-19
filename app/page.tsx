@@ -6,8 +6,8 @@ import {
   deleteStatementAction,
   removeParentAction,
   removeRelationAction,
-  saveStatementAction,
 } from "@/app/actions";
+import { StatementEditorShell } from "@/app/statement-editor-shell";
 import {
   getLang,
   getRelationTypeLabel,
@@ -39,6 +39,8 @@ function getErrorCode(input: string | undefined): UiErrorCode | null {
   switch (input) {
     case "title_required":
     case "invalid_piezo_id":
+    case "invalid_sources":
+    case "unsupported_source_relation":
     case "unsupported_statement_type":
     case "unsupported_statement_status":
     case "unknown_statement":
@@ -101,8 +103,7 @@ function matchesQuery(
   const haystack = [
     statement.statementNo,
     statement.title,
-    statement.sourceCode ?? "",
-    statement.source ?? "",
+    ...statement.sourceTitles,
     statement.piezoId ?? "",
   ]
     .join(" ")
@@ -271,6 +272,11 @@ export default async function Home({
                     <strong>{statement.title}</strong>
                     <small>{getStatementTypeLabel(lang, statement.statementType)}</small>
                     {statement.piezoId ? <small>{ui.piezoId}: {statement.piezoId}</small> : null}
+                    {statement.sourceTitles[0] ? (
+                      <small>
+                        {ui.sources}: {statement.sourceTitles[0]}
+                      </small>
+                    ) : null}
                   </Link>
                 </li>
               ))
@@ -308,128 +314,20 @@ export default async function Home({
               ) : null}
             </header>
 
-            <form action={saveStatementAction}>
-              <input type="hidden" name="id" value={selectedStatement?.id ?? ""} />
-              <input type="hidden" name="lang" value={lang} />
-
-              <div className="form-grid">
-                <label>
-                  {ui.statementType}
-                  <select name="statementType" defaultValue={editor.statementType} required>
-                    {STATEMENT_TYPES.map((type) => (
-                      <option key={type} value={type}>
-                        {getStatementTypeLabel(lang, type)}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-
-                <label>
-                  {ui.statusLabel}
-                  <select name="status" defaultValue={editor.status} required>
-                    {STATEMENT_STATUSES.map((status) => (
-                      <option key={status} value={status}>
-                        {getStatusLabel(lang, status)}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-
-                <label>
-                  {ui.statementNumber}
-                  <input value={selectedStatement?.statementNo ?? ui.assignedOnSave} disabled />
-                </label>
-
-                <label className="span-full">
-                  {ui.titleLabel}
-                  <input name="title" defaultValue={editor.title} required />
-                  {errorCode === "title_required" ? (
-                    <small className="field-error">{ui.titleRequired}</small>
-                  ) : null}
-                </label>
-
-                <label>
-                  {ui.piezoId}
-                  <input name="piezoId" defaultValue={editor.piezoId ?? ""} />
-                  <small className="field-note">{ui.piezoIdHelp}</small>
-                </label>
-
-                <label className="span-full">
-                  {ui.dutchText}
-                  <textarea
-                    name="textNl"
-                    defaultValue={editor.textNl ?? ""}
-                    rows={4}
-                    aria-describedby="text-guidance"
-                  />
-                </label>
-
-                <label className="span-full">
-                  {ui.originalText}
-                  <textarea
-                    name="textOriginal"
-                    defaultValue={editor.textOriginal ?? ""}
-                    rows={4}
-                    aria-describedby="text-guidance"
-                  />
-                </label>
-
-                <p id="text-guidance" className="field-note span-full">
-                  {ui.textGuidance}
-                </p>
-
-                <label>
-                  {ui.sourceCode}
-                  <input name="sourceCode" defaultValue={editor.sourceCode ?? ""} />
-                </label>
-
-                <label>
-                  {ui.source}
-                  <input name="source" defaultValue={editor.source ?? ""} />
-                </label>
-
-                <label>
-                  {ui.level}
-                  <input name="level" defaultValue={editor.level ?? ""} />
-                </label>
-
-                <label>
-                  {ui.order}
-                  <input name="orderNo" defaultValue={editor.orderNo ?? ""} />
-                </label>
-
-                <label className="span-full">
-                  {ui.notes}
-                  <textarea name="note" defaultValue={editor.note ?? ""} rows={4} />
-                </label>
-              </div>
-
-              {errorCode ? (
-                <aside className="feedback-panel feedback-panel--error" aria-live="polite">
-                  <h3>{ui.formErrorTitle}</h3>
-                  <p>{ui.formErrorMessage(errorCode)}</p>
-                </aside>
-              ) : null}
-
-              <footer className="panel-footer">
-                <button type="submit">{ui.saveStatement}</button>
-                {selectedStatement ? (
-                  <p className="field-note">
-                    {ui.lastUpdated}{" "}
-                    {new Date(selectedStatement.updatedAt).toLocaleString(dateLocale, {
-                      dateStyle: "medium",
-                      timeStyle: "short",
-                    })}
-                  </p>
-                ) : (
-                  <p className="field-note">
-                    {ui.localDataNote.split("data/statements.json")[0]}
-                    <code>data/statements.json</code>
-                    {ui.localDataNote.split("data/statements.json")[1] ?? ""}
-                  </p>
-                )}
-              </footer>
-            </form>
+            <StatementEditorShell
+              lang={lang}
+              initialState={{
+                id: selectedStatement?.id ?? "",
+                statementNo: selectedStatement?.statementNo ?? "",
+                updatedAt: selectedStatement?.updatedAt ?? null,
+                ...editor,
+              }}
+              isNew={isNew || !selectedStatement}
+              errorCode={errorCode}
+              q={query}
+              hasPiezo={hasPiezo}
+              piezo={exactPiezoId}
+            />
           </article>
 
           {detail ? (

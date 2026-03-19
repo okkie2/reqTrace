@@ -128,7 +128,7 @@ For a direct comparison with a graph-first alternative, see `docs/postgresql-vs-
 Use PostgreSQL indexes and full-text search for:
 
 - title
-- source code
+- source title
 - text
 - notes
 

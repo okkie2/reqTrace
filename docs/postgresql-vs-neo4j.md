@@ -119,7 +119,7 @@ That lowers delivery risk.
 You already need search by:
 
 - title
-- source code
+- source title
 - text
 - notes
 
