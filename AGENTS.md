@@ -20,6 +20,16 @@ These instructions apply to the whole repository unless a deeper `AGENTS.md` ove
 - Avoid one-off colours, spacing values, or radius values in components.
 - Avoid page-specific visual logic unless it is necessary for layout.
 
+## Bilingual UI
+
+- The application UI must remain bilingual in English and Dutch.
+- Any user-facing UI text added or changed in the app must be provided in both languages.
+- Preserve the language switch in the top UI and ensure users can switch language at any time.
+- Preserve the selected language across navigation, form submissions, mutations, and redirects.
+- Prefer one central translation structure per page or feature over scattered inline string handling.
+- Internal identifiers, stored data keys, and domain codes do not need to be translated unless they are directly presented as UI labels.
+- If new validation or feedback messages become visible in the UI, provide both English and Dutch versions.
+
 ## Design Intent
 
 - Keep the interface calm, clear, sober, accessible, and trustworthy.

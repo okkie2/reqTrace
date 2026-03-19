@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import "@picocss/pico/css/pico.min.css";
+import "./tokens.css";
 import "./globals.css";
 
 export const metadata: Metadata = {

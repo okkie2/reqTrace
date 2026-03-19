@@ -1,0 +1,90 @@
+:root {
+  color-scheme: light;
+
+  --rt-color-bg: #f7f8fa;
+  --rt-color-surface: #ffffff;
+  --rt-color-surface-muted: #f2f4f7;
+  --rt-color-border: #c8d0da;
+  --rt-color-border-strong: #9aa8b8;
+  --rt-color-text: #132033;
+  --rt-color-text-muted: #516173;
+  --rt-color-accent: #154273;
+  --rt-color-accent-hover: #123a66;
+  --rt-color-accent-contrast: #ffffff;
+  --rt-color-focus: rgba(21, 66, 115, 0.2);
+  --rt-color-success: #0f6b45;
+  --rt-color-warning: #8a5a00;
+  --rt-color-error: #a12d2f;
+  --rt-color-info-bg: #eef4fb;
+  --rt-color-warning-bg: #fff7e5;
+  --rt-color-success-bg: #edf7f1;
+  --rt-color-error-bg: #fbefef;
+
+  --rt-space-1: 0.25rem;
+  --rt-space-2: 0.5rem;
+  --rt-space-3: 0.75rem;
+  --rt-space-4: 1rem;
+  --rt-space-5: 1.5rem;
+  --rt-space-6: 2rem;
+  --rt-space-7: 3rem;
+
+  --rt-font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  --rt-font-size-body: 1rem;
+  --rt-font-size-small: 0.875rem;
+  --rt-font-size-heading: clamp(1.75rem, 2vw, 2.5rem);
+  --rt-line-height: 1.5;
+
+  --rt-radius-sm: 0.25rem;
+  --rt-radius-md: 0.375rem;
+  --rt-radius-lg: 0.5rem;
+  --rt-border-width: 1px;
+  --rt-border-default: var(--rt-border-width) solid var(--rt-color-border);
+  --rt-focus-ring: 0 0 0 0.2rem var(--rt-color-focus);
+
+  --pico-font-family: var(--rt-font-family);
+  --pico-font-size: var(--rt-font-size-body);
+  --pico-line-height: var(--rt-line-height);
+  --pico-background-color: var(--rt-color-bg);
+  --pico-color: var(--rt-color-text);
+  --pico-muted-color: var(--rt-color-text-muted);
+  --pico-primary: var(--rt-color-accent);
+  --pico-primary-hover: var(--rt-color-accent-hover);
+  --pico-primary-focus: var(--rt-color-focus);
+  --pico-primary-inverse: var(--rt-color-accent-contrast);
+  --pico-border-color: var(--rt-color-border);
+  --pico-secondary-border: var(--rt-color-border-strong);
+  --pico-card-background-color: var(--rt-color-surface);
+  --pico-card-border-color: var(--rt-color-border);
+  --pico-card-sectioning-background-color: var(--rt-color-surface-muted);
+  --pico-form-element-background-color: var(--rt-color-surface);
+  --pico-form-element-border-color: var(--rt-color-border);
+  --pico-form-element-color: var(--rt-color-text);
+  --pico-form-element-placeholder-color: #6a7889;
+  --pico-form-element-focus-color: var(--rt-color-focus);
+  --pico-form-element-active-background-color: var(--rt-color-surface);
+  --pico-form-element-active-border-color: var(--rt-color-accent);
+  --pico-primary-background: var(--rt-color-accent);
+  --pico-primary-border: var(--rt-color-accent);
+  --pico-primary-hover-background: var(--rt-color-accent-hover);
+  --pico-primary-hover-border: var(--rt-color-accent-hover);
+  --pico-primary-focus-color: var(--rt-color-focus);
+  --pico-secondary-background: var(--rt-color-surface);
+  --pico-secondary-border: var(--rt-color-border-strong);
+  --pico-secondary-color: var(--rt-color-text);
+  --pico-secondary-hover-background: var(--rt-color-surface-muted);
+  --pico-secondary-hover-border: var(--rt-color-border-strong);
+  --pico-secondary-focus-color: var(--rt-color-focus);
+  --pico-h1-color: var(--rt-color-text);
+  --pico-h2-color: var(--rt-color-text);
+  --pico-h3-color: var(--rt-color-text);
+  --pico-h4-color: var(--rt-color-text);
+  --pico-box-shadow: none;
+  --pico-outline-width: 0.2rem;
+  --pico-outline-color: var(--rt-color-focus);
+  --pico-border-radius: var(--rt-radius-md);
+  --pico-card-border-radius: var(--rt-radius-lg);
+  --pico-nav-element-spacing-horizontal: var(--rt-space-3);
+  --pico-nav-element-spacing-vertical: var(--rt-space-2);
+  --pico-spacing: var(--rt-space-5);
+}

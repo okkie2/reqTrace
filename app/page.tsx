@@ -9,6 +9,13 @@ import {
   updateStatusAction,
 } from "@/app/actions";
 import {
+  getLang,
+  getRelationTypeLabel,
+  getStatementTypeLabel,
+  getStatusLabel,
+  getUi,
+} from "@/app/i18n";
+import {
   EMPTY_STATEMENT_INPUT,
   RELATION_TYPES,
   STATEMENT_TYPES,
@@ -19,10 +26,34 @@ import {
 type SearchParams = Promise<{
   statement?: string;
   mode?: string;
+  lang?: string;
 }>;
 
 function isSelected(currentId: string | undefined, statementId: string) {
   return currentId === statementId;
+}
+
+function buildHref({
+  statement,
+  mode,
+  lang,
+}: {
+  statement?: string;
+  mode?: string;
+  lang: "en" | "nl";
+}) {
+  const query = new URLSearchParams();
+
+  if (statement) {
+    query.set("statement", statement);
+  }
+
+  if (mode) {
+    query.set("mode", mode);
+  }
+
+  query.set("lang", lang);
+  return `/?${query.toString()}`;
 }
 
 export default async function Home({
@@ -31,6 +62,8 @@ export default async function Home({
   searchParams: SearchParams;
 }) {
   const params = await searchParams;
+  const lang = getLang(params.lang);
+  const ui = getUi(lang);
   const statements = await listStatementSummaries();
   const selectedId = params.statement;
   const isNew = params.mode === "new";
@@ -40,202 +73,256 @@ export default async function Home({
   const selectableStatements = statements.filter(
     (statement) => statement.id !== selectedStatement?.id,
   );
+  const activeCount = statements.filter((statement) => statement.status === "active").length;
+  const dateLocale = lang === "nl" ? "nl-NL" : "en-GB";
 
   return (
-    <main className="shell">
-      <section className="hero">
-        <div>
-          <p className="eyebrow">Roadmap A + B</p>
-          <h1>Statement Manager</h1>
-          <p className="lede">
-            Manage statement lifecycle, hierarchy, and semantic traceability in one
-            working view.
-          </p>
+    <main className="app-shell container">
+      <header className="page-header">
+        <div className="page-header__intro">
+          <p className="eyebrow">{ui.eyebrow}</p>
+          <h1>{ui.title}</h1>
+          <p className="page-summary">{ui.summary}</p>
         </div>
-        <div className="heroStats">
-          <div>
-            <span className="statLabel">Statements</span>
-            <strong>{statements.length}</strong>
-          </div>
-          <div>
-            <span className="statLabel">Active</span>
-            <strong>
-              {statements.filter((statement) => statement.status === "active").length}
-            </strong>
-          </div>
-        </div>
-      </section>
 
-      <section className="workspace">
-        <aside className="statementList">
-          <div className="panelHeader">
-            <div>
-              <h2>Statements</h2>
-              <p>Pick a statement to edit lifecycle, parents, and relations.</p>
+        <div className="page-header__meta">
+          <nav className="language-switch" aria-label={ui.languageLabel}>
+            <span className="language-switch__label">{ui.languageLabel}</span>
+            <div className="language-switch__options">
+              <Link
+                href={buildHref({
+                  statement: selectedId,
+                  mode: isNew ? "new" : undefined,
+                  lang: "en",
+                })}
+                className={lang === "en" ? "language-option is-active" : "language-option"}
+              >
+                {ui.english}
+              </Link>
+              <Link
+                href={buildHref({
+                  statement: selectedId,
+                  mode: isNew ? "new" : undefined,
+                  lang: "nl",
+                })}
+                className={lang === "nl" ? "language-option is-active" : "language-option"}
+              >
+                {ui.dutch}
+              </Link>
             </div>
-            <Link className="primaryLink" href="/?mode=new">
-              New statement
-            </Link>
-          </div>
+          </nav>
 
-          <ul className="list">
+          <dl className="summary-list">
+            <div>
+              <dt>{ui.statements}</dt>
+              <dd>{statements.length}</dd>
+            </div>
+            <div>
+              <dt>{ui.active}</dt>
+              <dd>{activeCount}</dd>
+            </div>
+          </dl>
+        </div>
+      </header>
+
+      <section className="app-layout" aria-label={ui.workspaceLabel}>
+        <aside className="sidebar-panel" aria-labelledby="statement-list-heading">
+          <header className="panel-heading">
+            <div>
+              <h2 id="statement-list-heading">{ui.listHeading}</h2>
+              <p className="muted-text">{ui.listSummary}</p>
+            </div>
+            <Link href={buildHref({ mode: "new", lang })} role="button">
+              {ui.newStatement}
+            </Link>
+          </header>
+
+          <ul className="statement-list" aria-label={ui.listAria}>
             {statements.map((statement) => (
               <li key={statement.id}>
                 <Link
-                  className={isSelected(selectedId, statement.id) ? "listItem selected" : "listItem"}
-                  href={`/?statement=${statement.id}`}
+                  href={buildHref({ statement: statement.id, lang })}
+                  className={isSelected(selectedId, statement.id) ? "statement-link is-selected" : "statement-link"}
                 >
-                  <div className="listItemTop">
-                    <span className="statementNo">{statement.statementNo}</span>
-                    <span className={`status status-${statement.status}`}>
-                      {statement.status}
+                  <div className="statement-link__meta">
+                    <span className="statement-number">{statement.statementNo}</span>
+                    <span className={`status-badge status-${statement.status}`}>
+                      {getStatusLabel(lang, statement.status)}
                     </span>
                   </div>
                   <strong>{statement.title}</strong>
-                  <span>{statement.statementType}</span>
+                  <small>{getStatementTypeLabel(lang, statement.statementType)}</small>
                 </Link>
               </li>
             ))}
           </ul>
         </aside>
 
-        <section className="editorPanel">
-          <div className="panelHeader">
-            <div>
-              <h2>{isNew || !selectedStatement ? "New statement" : "Edit statement"}</h2>
-              <p>
-                Required for MVP: title, statement type, and at least one text field.
-              </p>
-            </div>
-            {selectedStatement ? (
-              <div className="actionRow">
-                <form action={cloneStatementAction}>
-                  <input type="hidden" name="sourceId" value={selectedStatement.id} />
-                  <button className="secondaryButton" type="submit">
-                    Clone
-                  </button>
-                </form>
-                <form action={updateStatusAction}>
-                  <input type="hidden" name="statementId" value={selectedStatement.id} />
-                  <input type="hidden" name="status" value="deprecated" />
-                  <button className="secondaryButton" type="submit">
-                    Deprecate
-                  </button>
-                </form>
-                <form action={updateStatusAction}>
-                  <input type="hidden" name="statementId" value={selectedStatement.id} />
-                  <input type="hidden" name="status" value="archived" />
-                  <button className="secondaryButton" type="submit">
-                    Archive
-                  </button>
-                </form>
+        <section className="content-panel" aria-labelledby="editor-heading">
+          <article className="panel-block">
+            <header className="panel-heading">
+              <div>
+                <h2 id="editor-heading">
+                  {isNew || !selectedStatement ? ui.createStatement : ui.editStatement}
+                </h2>
+                <p className="muted-text">{ui.editorSummary}</p>
               </div>
-            ) : null}
-          </div>
 
-          <form action={saveStatementAction} className="editorForm">
-            <input type="hidden" name="id" value={selectedStatement?.id ?? ""} />
-
-            <div className="fieldGrid">
-              <label>
-                <span>Statement type</span>
-                <select name="statementType" defaultValue={editor.statementType} required>
-                  {STATEMENT_TYPES.map((type) => (
-                    <option key={type} value={type}>
-                      {type}
-                    </option>
-                  ))}
-                </select>
-              </label>
-
-              <label>
-                <span>Statement no</span>
-                <input value={selectedStatement?.statementNo ?? "Assigned on save"} disabled />
-              </label>
-
-              <label className="fieldWide">
-                <span>Title</span>
-                <input name="title" defaultValue={editor.title} required />
-              </label>
-
-              <label className="fieldWide">
-                <span>Original text</span>
-                <textarea name="textOriginal" defaultValue={editor.textOriginal ?? ""} rows={4} />
-              </label>
-
-              <label className="fieldWide">
-                <span>Dutch text</span>
-                <textarea name="textNl" defaultValue={editor.textNl ?? ""} rows={4} />
-              </label>
-
-              <label>
-                <span>Source code</span>
-                <input name="sourceCode" defaultValue={editor.sourceCode ?? ""} />
-              </label>
-
-              <label>
-                <span>Source</span>
-                <input name="source" defaultValue={editor.source ?? ""} />
-              </label>
-
-              <label>
-                <span>Level</span>
-                <input name="level" defaultValue={editor.level ?? ""} />
-              </label>
-
-              <label>
-                <span>Order</span>
-                <input name="orderNo" defaultValue={editor.orderNo ?? ""} />
-              </label>
-
-              <label>
-                <span>MoSCoW</span>
-                <input name="moscow" defaultValue={editor.moscow ?? ""} />
-              </label>
-
-              <label>
-                <span>Increment</span>
-                <input name="increment" defaultValue={editor.increment ?? ""} />
-              </label>
-
-              <label className="fieldWide">
-                <span>Notes</span>
-                <textarea name="note" defaultValue={editor.note ?? ""} rows={4} />
-              </label>
-            </div>
-
-            <div className="submitRow">
-              <button className="primaryButton" type="submit">
-                Save statement
-              </button>
               {selectedStatement ? (
-                <p>
-                  Last updated{" "}
-                  {new Date(selectedStatement.updatedAt).toLocaleString("en-GB", {
-                    dateStyle: "medium",
-                    timeStyle: "short",
-                  })}
+                <nav className="action-set" aria-label={ui.actionNav}>
+                  <form action={cloneStatementAction}>
+                    <input type="hidden" name="sourceId" value={selectedStatement.id} />
+                    <input type="hidden" name="lang" value={lang} />
+                    <button type="submit" className="secondary">
+                      {ui.clone}
+                    </button>
+                  </form>
+                  <form action={updateStatusAction}>
+                    <input type="hidden" name="statementId" value={selectedStatement.id} />
+                    <input type="hidden" name="status" value="deprecated" />
+                    <input type="hidden" name="lang" value={lang} />
+                    <button type="submit" className="secondary">
+                      {ui.deprecate}
+                    </button>
+                  </form>
+                  <form action={updateStatusAction}>
+                    <input type="hidden" name="statementId" value={selectedStatement.id} />
+                    <input type="hidden" name="status" value="archived" />
+                    <input type="hidden" name="lang" value={lang} />
+                    <button type="submit" className="secondary">
+                      {ui.archive}
+                    </button>
+                  </form>
+                </nav>
+              ) : null}
+            </header>
+
+            <form action={saveStatementAction}>
+              <input type="hidden" name="id" value={selectedStatement?.id ?? ""} />
+              <input type="hidden" name="lang" value={lang} />
+
+              <div className="form-grid">
+                <label>
+                  {ui.statementType}
+                  <select name="statementType" defaultValue={editor.statementType} required>
+                    {STATEMENT_TYPES.map((type) => (
+                      <option key={type} value={type}>
+                        {getStatementTypeLabel(lang, type)}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <label>
+                  {ui.statementNumber}
+                  <input value={selectedStatement?.statementNo ?? ui.assignedOnSave} disabled />
+                </label>
+
+                <label className="span-full">
+                  {ui.titleLabel}
+                  <input name="title" defaultValue={editor.title} required />
+                </label>
+
+                <label className="span-full">
+                  {ui.originalText}
+                  <textarea
+                    name="textOriginal"
+                    defaultValue={editor.textOriginal ?? ""}
+                    rows={4}
+                    aria-describedby="text-guidance"
+                  />
+                </label>
+
+                <label className="span-full">
+                  {ui.dutchText}
+                  <textarea
+                    name="textNl"
+                    defaultValue={editor.textNl ?? ""}
+                    rows={4}
+                    aria-describedby="text-guidance"
+                  />
+                </label>
+
+                <p id="text-guidance" className="field-note span-full">
+                  {ui.textGuidance}
                 </p>
-              ) : (
-                <p>The manager writes statements, parents, and relations to `data/statements.json`.</p>
-              )}
-            </div>
-          </form>
+
+                <label>
+                  {ui.sourceCode}
+                  <input name="sourceCode" defaultValue={editor.sourceCode ?? ""} />
+                </label>
+
+                <label>
+                  {ui.source}
+                  <input name="source" defaultValue={editor.source ?? ""} />
+                </label>
+
+                <label>
+                  {ui.level}
+                  <input name="level" defaultValue={editor.level ?? ""} />
+                </label>
+
+                <label>
+                  {ui.order}
+                  <input name="orderNo" defaultValue={editor.orderNo ?? ""} />
+                </label>
+
+                <label>
+                  {ui.moscow}
+                  <input name="moscow" defaultValue={editor.moscow ?? ""} />
+                </label>
+
+                <label>
+                  {ui.increment}
+                  <input name="increment" defaultValue={editor.increment ?? ""} />
+                </label>
+
+                <label className="span-full">
+                  {ui.notes}
+                  <textarea name="note" defaultValue={editor.note ?? ""} rows={4} />
+                </label>
+              </div>
+
+              <footer className="panel-footer">
+                <button type="submit">{ui.saveStatement}</button>
+                {selectedStatement ? (
+                  <p className="field-note">
+                    {ui.lastUpdated}{" "}
+                    {new Date(selectedStatement.updatedAt).toLocaleString(dateLocale, {
+                      dateStyle: "medium",
+                      timeStyle: "short",
+                    })}
+                  </p>
+                ) : (
+                  <p className="field-note">
+                    {ui.localDataNote.split("data/statements.json")[0]}
+                    <code>data/statements.json</code>
+                    {ui.localDataNote.split("data/statements.json")[1] ?? ""}
+                  </p>
+                )}
+              </footer>
+            </form>
+          </article>
 
           {detail ? (
-            <section className="relationshipPanel">
-              <div className="relationshipGrid">
-                <section className="linkCard">
-                  <div className="linkCardHeader">
+            <>
+              <section className="relationship-grid" aria-label={ui.relationshipLabel}>
+                <article className="panel-block">
+                  <header className="panel-heading">
                     <div>
-                      <h3>Parents</h3>
-                      <p>Hierarchical placement of the current statement.</p>
+                      <h3>{ui.parents}</h3>
+                      <p className="muted-text">{ui.parentsSummary}</p>
                     </div>
-                    <form action={addParentAction} className="inlineForm">
-                      <input type="hidden" name="statementId" value={detail.statement.id} />
+                  </header>
+
+                  <form action={addParentAction} className="compact-form">
+                    <input type="hidden" name="statementId" value={detail.statement.id} />
+                    <input type="hidden" name="lang" value={lang} />
+                    <label>
+                      {ui.parentStatement}
                       <select name="parentStatementId" required defaultValue="">
                         <option value="" disabled>
-                          Select parent
+                          {ui.selectParent}
                         </option>
                         {selectableStatements.map((statement) => (
                           <option key={statement.id} value={statement.id}>
@@ -243,24 +330,25 @@ export default async function Home({
                           </option>
                         ))}
                       </select>
-                      <button className="secondaryButton" type="submit">
-                        Add parent
-                      </button>
-                    </form>
-                  </div>
+                    </label>
+                    <button type="submit" className="secondary">
+                      {ui.addParent}
+                    </button>
+                  </form>
 
-                  <ul className="linkList">
+                  <ul className="link-list">
                     {detail.parents.length === 0 ? (
-                      <li className="emptyState">No parents linked yet.</li>
+                      <li className="empty-state">{ui.noParents}</li>
                     ) : (
                       detail.parents.map((parent) => (
-                        <li key={parent.statementId} className="linkRow">
+                        <li key={parent.statementId} className="link-item">
                           <div>
                             <strong>{parent.statementNo}</strong>
                             <p>{parent.title}</p>
-                            <span>
-                              {parent.statementType} · {parent.status}
-                            </span>
+                            <small>
+                              {getStatementTypeLabel(lang, parent.statementType)} ·{" "}
+                              {getStatusLabel(lang, parent.status)}
+                            </small>
                           </div>
                           <form action={removeParentAction}>
                             <input type="hidden" name="statementId" value={detail.statement.id} />
@@ -269,34 +357,43 @@ export default async function Home({
                               name="parentStatementId"
                               value={parent.statementId}
                             />
-                            <button className="ghostButton" type="submit">
-                              Remove
+                            <input type="hidden" name="lang" value={lang} />
+                            <button type="submit" className="outline secondary">
+                              {ui.remove}
                             </button>
                           </form>
                         </li>
                       ))
                     )}
                   </ul>
-                </section>
+                </article>
 
-                <section className="linkCard">
-                  <div className="linkCardHeader">
+                <article className="panel-block">
+                  <header className="panel-heading">
                     <div>
-                      <h3>Outgoing relations</h3>
-                      <p>Explicit semantic links from this statement to another.</p>
+                      <h3>{ui.outgoingRelations}</h3>
+                      <p className="muted-text">{ui.outgoingSummary}</p>
                     </div>
-                    <form action={addRelationAction} className="stackedForm">
-                      <input type="hidden" name="sourceStatementId" value={detail.statement.id} />
+                  </header>
+
+                  <form action={addRelationAction} className="compact-form">
+                    <input type="hidden" name="sourceStatementId" value={detail.statement.id} />
+                    <input type="hidden" name="lang" value={lang} />
+                    <label>
+                      {ui.relationType}
                       <select name="relationType" required defaultValue={RELATION_TYPES[0]}>
                         {RELATION_TYPES.map((type) => (
                           <option key={type} value={type}>
-                            {type}
+                            {getRelationTypeLabel(lang, type)}
                           </option>
                         ))}
                       </select>
+                    </label>
+                    <label>
+                      {ui.targetStatement}
                       <select name="targetStatementId" required defaultValue="">
                         <option value="" disabled>
-                          Select target
+                          {ui.selectTarget}
                         </option>
                         {selectableStatements.map((statement) => (
                           <option key={statement.id} value={statement.id}>
@@ -304,26 +401,27 @@ export default async function Home({
                           </option>
                         ))}
                       </select>
-                      <button className="secondaryButton" type="submit">
-                        Add relation
-                      </button>
-                    </form>
-                  </div>
+                    </label>
+                    <button type="submit" className="secondary">
+                      {ui.addRelation}
+                    </button>
+                  </form>
 
-                  <ul className="linkList">
+                  <ul className="link-list">
                     {detail.outgoingRelations.length === 0 ? (
-                      <li className="emptyState">No outgoing relations linked yet.</li>
+                      <li className="empty-state">{ui.noOutgoing}</li>
                     ) : (
                       detail.outgoingRelations.map((relation) => (
-                        <li key={relation.relationId} className="linkRow">
+                        <li key={relation.relationId} className="link-item">
                           <div>
-                            <strong>{relation.relationType}</strong>
+                            <strong>{getRelationTypeLabel(lang, relation.relationType)}</strong>
                             <p>
                               {relation.statementNo} · {relation.title}
                             </p>
-                            <span>
-                              {relation.statementType} · {relation.status}
-                            </span>
+                            <small>
+                              {getStatementTypeLabel(lang, relation.statementType)} ·{" "}
+                              {getStatusLabel(lang, relation.status)}
+                            </small>
                           </div>
                           <form action={removeRelationAction}>
                             <input
@@ -332,72 +430,77 @@ export default async function Home({
                               value={detail.statement.id}
                             />
                             <input type="hidden" name="relationId" value={relation.relationId} />
-                            <button className="ghostButton" type="submit">
-                              Remove
+                            <input type="hidden" name="lang" value={lang} />
+                            <button type="submit" className="outline secondary">
+                              {ui.remove}
                             </button>
                           </form>
                         </li>
                       ))
                     )}
                   </ul>
-                </section>
+                </article>
 
-                <section className="linkCard">
-                  <div className="linkCardHeader">
+                <article className="panel-block">
+                  <header className="panel-heading">
                     <div>
-                      <h3>Incoming relations</h3>
-                      <p>Everything that currently points at this statement.</p>
+                      <h3>{ui.incomingRelations}</h3>
+                      <p className="muted-text">{ui.incomingSummary}</p>
                     </div>
-                  </div>
+                  </header>
 
-                  <ul className="linkList">
+                  <ul className="link-list">
                     {detail.incomingParents.length === 0 && detail.incomingRelations.length === 0 ? (
-                      <li className="emptyState">No incoming links yet.</li>
+                      <li className="empty-state">{ui.noIncoming}</li>
                     ) : (
                       <>
                         {detail.incomingParents.map((child) => (
-                          <li key={`parent-${child.statementId}`} className="linkRow">
+                          <li key={`parent-${child.statementId}`} className="link-item">
                             <div>
-                              <strong>parent_of</strong>
+                              <strong>{ui.parentOf}</strong>
                               <p>
                                 {child.statementNo} · {child.title}
                               </p>
-                              <span>
-                                {child.statementType} · {child.status}
-                              </span>
+                              <small>
+                                {getStatementTypeLabel(lang, child.statementType)} ·{" "}
+                                {getStatusLabel(lang, child.status)}
+                              </small>
                             </div>
                           </li>
                         ))}
                         {detail.incomingRelations.map((relation) => (
-                          <li key={relation.relationId} className="linkRow">
+                          <li key={relation.relationId} className="link-item">
                             <div>
-                              <strong>{relation.relationType}</strong>
+                              <strong>{getRelationTypeLabel(lang, relation.relationType)}</strong>
                               <p>
                                 {relation.statementNo} · {relation.title}
                               </p>
-                              <span>
-                                {relation.statementType} · {relation.status}
-                              </span>
+                              <small>
+                                {getStatementTypeLabel(lang, relation.statementType)} ·{" "}
+                                {getStatusLabel(lang, relation.status)}
+                              </small>
                             </div>
                           </li>
                         ))}
                       </>
                     )}
                   </ul>
-                </section>
-              </div>
+                </article>
+              </section>
 
               {detail.warnings.length > 0 ? (
-                <section className="warningPanel">
-                  <h3>Warnings</h3>
+                <aside className="feedback-panel feedback-panel--warning" aria-live="polite">
+                  <h3>{ui.warnings}</h3>
                   <ul>
                     {detail.warnings.map((warning) => (
-                      <li key={warning}>{warning}</li>
+                      <li key={`${warning.statementNo}-${warning.status}`}>
+                        {ui.warningMessage(warning, getStatusLabel(lang, warning.status))}
+                      </li>
                     ))}
                   </ul>
-                </section>
+                </aside>
               ) : null}
-            </section>
+            </>
           ) : null}
         </section>
       </section>

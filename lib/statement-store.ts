@@ -97,7 +97,12 @@ export type StatementDetail = {
   incomingParents: ParentLinkView[];
   outgoingRelations: RelationLinkView[];
   incomingRelations: RelationLinkView[];
-  warnings: string[];
+  warnings: StatementWarning[];
+};
+
+export type StatementWarning = {
+  statementNo: string;
+  status: StatementStatus;
 };
 
 const DATA_PATH = path.join(process.cwd(), "data", "statements.json");
@@ -213,9 +218,10 @@ function buildWarnings(
     ...incomingRelations,
   ].filter((link) => link.status !== "active");
 
-  return inactiveLinks.map((link) => {
-    return `${link.statementNo} is ${link.status} but still linked.`;
-  });
+  return inactiveLinks.map((link) => ({
+    statementNo: link.statementNo,
+    status: link.status,
+  }));
 }
 
 function hasPathToRoot(

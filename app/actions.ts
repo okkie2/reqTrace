@@ -25,6 +25,14 @@ function getNullableString(formData: FormData, key: string): string | null {
   return value === "" ? null : value;
 }
 
+function getLang(formData: FormData): "en" | "nl" {
+  return getString(formData, "lang") === "nl" ? "nl" : "en";
+}
+
+function buildRedirect(statementId: string, lang: "en" | "nl") {
+  return `/?statement=${statementId}&lang=${lang}`;
+}
+
 function getStatementType(formData: FormData): StatementInput["statementType"] {
   const value = getString(formData, "statementType");
 
@@ -47,6 +55,7 @@ function getRelationType(formData: FormData): RelationType {
 
 export async function saveStatementAction(formData: FormData) {
   const id = getString(formData, "id");
+  const lang = getLang(formData);
   const payload: StatementInput = {
     statementType: getStatementType(formData),
     title: getString(formData, "title"),
@@ -65,56 +74,62 @@ export async function saveStatementAction(formData: FormData) {
     ? await updateStatement(id, payload)
     : await createStatement(payload);
 
-  redirect(`/?statement=${saved.id}`);
+  redirect(buildRedirect(saved.id, lang));
 }
 
 export async function cloneStatementAction(formData: FormData) {
   const sourceId = getString(formData, "sourceId");
+  const lang = getLang(formData);
   const cloned = await cloneStatement(sourceId);
-  redirect(`/?statement=${cloned.id}`);
+  redirect(buildRedirect(cloned.id, lang));
 }
 
 export async function updateStatusAction(formData: FormData) {
   const statementId = getString(formData, "statementId");
   const status = getString(formData, "status");
+  const lang = getLang(formData);
 
   if (status !== "active" && status !== "deprecated" && status !== "archived") {
     throw new Error(`Unsupported status: ${status}`);
   }
 
   const updated = await updateStatementStatus(statementId, status);
-  redirect(`/?statement=${updated.id}`);
+  redirect(buildRedirect(updated.id, lang));
 }
 
 export async function addParentAction(formData: FormData) {
   const statementId = getString(formData, "statementId");
   const parentStatementId = getString(formData, "parentStatementId");
+  const lang = getLang(formData);
 
   await addParent(statementId, parentStatementId);
-  redirect(`/?statement=${statementId}`);
+  redirect(buildRedirect(statementId, lang));
 }
 
 export async function removeParentAction(formData: FormData) {
   const statementId = getString(formData, "statementId");
   const parentStatementId = getString(formData, "parentStatementId");
+  const lang = getLang(formData);
 
   await removeParent(statementId, parentStatementId);
-  redirect(`/?statement=${statementId}`);
+  redirect(buildRedirect(statementId, lang));
 }
 
 export async function addRelationAction(formData: FormData) {
   const sourceStatementId = getString(formData, "sourceStatementId");
   const targetStatementId = getString(formData, "targetStatementId");
   const relationType = getRelationType(formData);
+  const lang = getLang(formData);
 
   await addRelation(sourceStatementId, targetStatementId, relationType);
-  redirect(`/?statement=${sourceStatementId}`);
+  redirect(buildRedirect(sourceStatementId, lang));
 }
 
 export async function removeRelationAction(formData: FormData) {
   const sourceStatementId = getString(formData, "sourceStatementId");
   const relationId = getString(formData, "relationId");
+  const lang = getLang(formData);
 
   await removeRelation(relationId);
-  redirect(`/?statement=${sourceStatementId}`);
+  redirect(buildRedirect(sourceStatementId, lang));
 }
