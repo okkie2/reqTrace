@@ -139,7 +139,7 @@ const uiByLang: Record<Lang, UiStrings> = {
     assignedOnSave: "Assigned on save",
     titleLabel: "Title",
     piezoId: "PIEZO ID",
-    piezoIdHelp: "Programme lineage or external governance reference. This is not the content source.",
+    piezoIdHelp: "",
     originalText: "Original text",
     dutchText: "Text",
     textGuidance:
@@ -247,7 +247,7 @@ const uiByLang: Record<Lang, UiStrings> = {
     assignedOnSave: "Wordt toegekend bij opslaan",
     titleLabel: "Titel",
     piezoId: "PIEZO-id",
-    piezoIdHelp: "Programmalijn of externe governanceverwijzing. Dit is niet de inhoudelijke bron.",
+    piezoIdHelp: "",
     originalText: "Originele tekst",
     dutchText: "Tekst",
     textGuidance:

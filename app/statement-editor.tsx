@@ -270,182 +270,192 @@ export function StatementEditor({
 
   return (
     <form>
-      <div className="form-grid">
-        <label>
-          {ui.statementType}
-          <select
-            name="statementType"
-            value={state.statementType}
-            onChange={(event) =>
-              updateField("statementType", event.target.value as StatementType)
-            }
-            required
-          >
-            {STATEMENT_TYPES.map((type) => (
-              <option key={type} value={type}>
-                {getStatementTypeLabel(lang, type)}
-              </option>
-            ))}
-          </select>
-        </label>
+      <div className="editor-layout">
+        <section className="editor-section">
+          <div className="editor-meta-grid">
+            <label>
+              {ui.statementType}
+              <select
+                name="statementType"
+                value={state.statementType}
+                onChange={(event) =>
+                  updateField("statementType", event.target.value as StatementType)
+                }
+                required
+              >
+                {STATEMENT_TYPES.map((type) => (
+                  <option key={type} value={type}>
+                    {getStatementTypeLabel(lang, type)}
+                  </option>
+                ))}
+              </select>
+            </label>
 
-        <label>
-          {ui.statusLabel}
-          <select
-            name="status"
-            value={state.status}
-            onChange={(event) => updateField("status", event.target.value as StatementStatus)}
-            required
-          >
-            {STATEMENT_STATUSES.map((status) => (
-              <option key={status} value={status}>
-                {getStatusLabel(lang, status)}
-              </option>
-            ))}
-          </select>
-        </label>
+            <label>
+              {ui.statusLabel}
+              <select
+                name="status"
+                value={state.status}
+                onChange={(event) => updateField("status", event.target.value as StatementStatus)}
+                required
+              >
+                {STATEMENT_STATUSES.map((status) => (
+                  <option key={status} value={status}>
+                    {getStatusLabel(lang, status)}
+                  </option>
+                ))}
+              </select>
+            </label>
 
-        <label>
-          {ui.statementNumber}
-          <input value={state.statementNo || ui.assignedOnSave} disabled />
-        </label>
+            <label>
+              {ui.statementNumber}
+              <input value={state.statementNo || ui.assignedOnSave} disabled />
+            </label>
 
-        <label className="span-full">
-          {ui.titleLabel}
-          <input
-            name="title"
-            value={state.title}
-            onChange={(event) => updateField("title", event.target.value)}
-            required
-          />
-          {(saveErrorCode === "title_required" || state.title.trim() === "") && (
-            <small className="field-error">{ui.titleRequired}</small>
-          )}
-        </label>
+            <label>
+              {ui.piezoId}
+              <input
+                name="piezoId"
+                value={state.piezoId ?? ""}
+                onChange={(event) => updateField("piezoId", event.target.value || null)}
+              />
+            </label>
 
-        <label>
-          {ui.piezoId}
-          <input
-            name="piezoId"
-            value={state.piezoId ?? ""}
-            onChange={(event) => updateField("piezoId", event.target.value || null)}
-          />
-          <small className="field-note">{ui.piezoIdHelp}</small>
-        </label>
+            <label>
+              {ui.level}
+              <input
+                name="level"
+                value={state.level ?? ""}
+                onChange={(event) => updateField("level", event.target.value || null)}
+              />
+            </label>
 
-        <label className="span-full">
-          {ui.dutchText}
-          <textarea
-            name="textNl"
-            value={state.textNl ?? ""}
-            onChange={(event) => updateField("textNl", event.target.value || null)}
-            rows={4}
-            aria-describedby="text-guidance"
-          />
-        </label>
-
-        <label className="span-full">
-          {ui.originalText}
-          <textarea
-            name="textOriginal"
-            value={state.textOriginal ?? ""}
-            onChange={(event) => updateField("textOriginal", event.target.value || null)}
-            rows={4}
-            aria-describedby="text-guidance"
-          />
-        </label>
-
-        <p id="text-guidance" className="field-note span-full">
-          {ui.textGuidance}
-        </p>
-
-        <fieldset className="span-full">
-          <legend>{ui.sources}</legend>
-          <p className="field-note">{ui.sourceHelp}</p>
-          <div className="source-list">
-            {state.sources.length === 0 ? null : state.sources.map((source, index) => (
-              <article key={index} className="source-card">
-                <div className="source-grid">
-                  <label>
-                    {ui.sourceTitle}
-                    <input
-                      value={source.title}
-                      onChange={(event) => updateSource(index, "title", event.target.value)}
-                    />
-                  </label>
-
-                  <label>
-                    {ui.sourceRelation}
-                    <select
-                      value={source.relation}
-                      onChange={(event) =>
-                        updateSource(index, "relation", event.target.value as SourceRelation)
-                      }
-                    >
-                      {SOURCE_RELATIONS.map((relation) => (
-                        <option key={relation} value={relation}>
-                          {getSourceRelationLabel(lang, relation)}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-
-                  <label>
-                    {ui.sourceLocator}
-                    <input
-                      value={source.locator ?? ""}
-                      onChange={(event) =>
-                        updateSource(index, "locator", event.target.value || null)
-                      }
-                    />
-                  </label>
-
-                  <label>
-                    {ui.sourceUrl}
-                    <input
-                      value={source.url ?? ""}
-                      onChange={(event) => updateSource(index, "url", event.target.value || null)}
-                    />
-                  </label>
-                </div>
-                <button type="button" className="outline secondary" onClick={() => removeSource(index)}>
-                  {ui.remove}
-                </button>
-              </article>
-            ))}
+            <label>
+              {ui.order}
+              <input
+                name="orderNo"
+                value={state.orderNo ?? ""}
+                onChange={(event) => updateField("orderNo", event.target.value || null)}
+              />
+            </label>
           </div>
-          <button type="button" className="secondary" onClick={addSource}>
-            {ui.addSource}
-          </button>
-        </fieldset>
+          <p className="field-note compact-note">{ui.piezoIdHelp}</p>
 
-        <label>
-          {ui.level}
-          <input
-            name="level"
-            value={state.level ?? ""}
-            onChange={(event) => updateField("level", event.target.value || null)}
-          />
-        </label>
+          <label className="span-full">
+            {ui.titleLabel}
+            <input
+              name="title"
+              value={state.title}
+              onChange={(event) => updateField("title", event.target.value)}
+              required
+            />
+            {(saveErrorCode === "title_required" || state.title.trim() === "") && (
+              <small className="field-error">{ui.titleRequired}</small>
+            )}
+          </label>
+        </section>
 
-        <label>
-          {ui.order}
-          <input
-            name="orderNo"
-            value={state.orderNo ?? ""}
-            onChange={(event) => updateField("orderNo", event.target.value || null)}
-          />
-        </label>
+        <section className="editor-section">
+          <div className="editor-text-grid">
+            <label className="span-full-mobile">
+              {ui.dutchText}
+              <textarea
+                name="textNl"
+                value={state.textNl ?? ""}
+                onChange={(event) => updateField("textNl", event.target.value || null)}
+                rows={8}
+                aria-describedby="text-guidance"
+              />
+            </label>
 
-        <label className="span-full">
-          {ui.notes}
-          <textarea
-            name="note"
-            value={state.note ?? ""}
-            onChange={(event) => updateField("note", event.target.value || null)}
-            rows={4}
-          />
-        </label>
+            <label className="span-full-mobile">
+              {ui.originalText}
+              <textarea
+                name="textOriginal"
+                value={state.textOriginal ?? ""}
+                onChange={(event) => updateField("textOriginal", event.target.value || null)}
+                rows={8}
+                aria-describedby="text-guidance"
+              />
+            </label>
+          </div>
+
+          <p id="text-guidance" className="field-note compact-note">
+            {ui.textGuidance}
+          </p>
+        </section>
+
+        <section className="editor-section editor-side-grid">
+          <fieldset>
+            <legend>{ui.sources}</legend>
+            <p className="field-note">{ui.sourceHelp}</p>
+            <div className="source-list">
+              {state.sources.length === 0 ? null : state.sources.map((source, index) => (
+                <article key={index} className="source-card">
+                  <div className="source-grid">
+                    <label>
+                      {ui.sourceTitle}
+                      <input
+                        value={source.title}
+                        onChange={(event) => updateSource(index, "title", event.target.value)}
+                      />
+                    </label>
+
+                    <label>
+                      {ui.sourceRelation}
+                      <select
+                        value={source.relation}
+                        onChange={(event) =>
+                          updateSource(index, "relation", event.target.value as SourceRelation)
+                        }
+                      >
+                        {SOURCE_RELATIONS.map((relation) => (
+                          <option key={relation} value={relation}>
+                            {getSourceRelationLabel(lang, relation)}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+
+                    <label>
+                      {ui.sourceLocator}
+                      <input
+                        value={source.locator ?? ""}
+                        onChange={(event) =>
+                          updateSource(index, "locator", event.target.value || null)
+                        }
+                      />
+                    </label>
+
+                    <label>
+                      {ui.sourceUrl}
+                      <input
+                        value={source.url ?? ""}
+                        onChange={(event) => updateSource(index, "url", event.target.value || null)}
+                      />
+                    </label>
+                  </div>
+                  <button type="button" className="outline secondary" onClick={() => removeSource(index)}>
+                    {ui.remove}
+                  </button>
+                </article>
+              ))}
+            </div>
+            <button type="button" className="secondary" onClick={addSource}>
+              {ui.addSource}
+            </button>
+          </fieldset>
+
+          <label className="editor-notes">
+            {ui.notes}
+            <textarea
+              name="note"
+              value={state.note ?? ""}
+              onChange={(event) => updateField("note", event.target.value || null)}
+              rows={8}
+            />
+          </label>
+        </section>
       </div>
 
       {saveErrorCode ? (
