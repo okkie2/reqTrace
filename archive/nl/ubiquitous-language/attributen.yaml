@@ -1,0 +1,119 @@
+- term: text_origineel
+  definitie: De originele tekst van een statement in de brontaal.
+  voorbeeld: "The patient must be uniquely and securely identified at national level."
+  toelichting: |
+    Attribuut.
+    Gebruik dit veld voor de oorspronkelijke formulering uit de bron.
+  toegestaan_synoniem:
+    - brontekst
+  verboden_of_te_mijden_synoniemen:
+    - vertaling
+    - interpretatie
+  bron: "Intern model"
+  categorie: "Attribuut"
+
+- term: text_nl
+  definitie: De Nederlandse formulering of vertaling van de brontekst.
+  voorbeeld: "De patiënt moet uniek en veilig geïdentificeerd worden op nationaal niveau."
+  toelichting: |
+    Attribuut.
+    Dit blijft onderdeel van hetzelfde statement zolang het alleen om vertaling gaat.
+    Zodra de tekst inhoudelijk afwijkt of duiding toevoegt, wordt het een apart statement.
+  toegestaan_synoniem:
+    - Nederlandse tekst
+    - vertaalde tekst
+  verboden_of_te_mijden_synoniemen:
+    - interpretatie
+    - uitwerking
+  bron: "Intern model"
+  categorie: "Attribuut"
+
+- term: title
+  definitie: Korte samenvattende titel van een statement.
+  voorbeeld: "Unieke en veilige identificatie patiënt op nationaal niveau"
+  toelichting: |
+    Attribuut.
+    De title is kort en scanbaar.
+    De volledige inhoud staat in de tekstvelden.
+  toegestaan_synoniem:
+    - titel
+  verboden_of_te_mijden_synoniemen:
+    - volledige eis
+    - heading met alle details
+  bron: "Intern model"
+  categorie: "Attribuut"
+
+- term: moscow
+  definitie: Prioritering van een eis volgens de MoSCoW-methode.
+  voorbeeld: "Must"
+  toelichting: |
+    Attribuut.
+    Toegestane waarden:
+    - Must
+    - Should
+    - Could
+    - Won't
+  toegestaan_synoniem:
+    - prioriteit
+  verboden_of_te_mijden_synoniemen:
+    - niveau
+    - urgentie
+  bron: "Programma van Eisen PS-A"
+  categorie: "Attribuut"
+
+- term: relevantie
+  definitie: De partijen voor wie een statement relevant is.
+  voorbeeld:
+    vws: true
+    cibg: true
+    vzvz: false
+    nictiz: false
+  toelichting: |
+    Attribuut.
+    Eerste set velden:
+    - vws
+    - cibg
+    - vzvz
+    - nictiz
+    - ander_eu_lidstaat
+    - overig
+  toegestaan_synoniem:
+    - toepasselijkheid_per_partij
+  verboden_of_te_mijden_synoniemen:
+    - owner
+    - accountable
+  bron: "Programma van Eisen PS-A"
+  categorie: "Attribuut"
+
+- term: increment
+  definitie: Leverstap of oplevermoment waaraan een statement gekoppeld is.
+  voorbeeld: "2"
+  toelichting: |
+    Attribuut.
+    Wordt gebruikt in de programmasturing.
+    Niet verwarren met plateau.
+  toegestaan_synoniem:
+    - opleverincrement
+  verboden_of_te_mijden_synoniemen:
+    - plateau
+    - sprint
+  bron: "Programma van Eisen PS-A"
+  categorie: "Besturing"
+
+- term: use_case
+  definitie: Een grensoverschrijdend zorgscenario binnen MyHealth@EU.
+  voorbeeld: "Patient Summary"
+  toelichting: |
+    Attribuut of relationeel anker, afhankelijk van het uiteindelijke model.
+    Voorbeelden:
+    - Patient Summary
+    - ePrescription
+    - eDispensation
+  toegestaan_synoniem:
+    - use case
+    - scenario
+  verboden_of_te_mijden_synoniemen:
+    - thema
+    - component
+  bron: "eHDSI Requirements Catalogue"
+  categorie: "Besturing"

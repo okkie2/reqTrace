@@ -1,0 +1,27 @@
+- term: owner
+  definitie: Degene die een statement inhoudelijk onderhoudt in het systeem.
+  voorbeeld: "CIBG is owner van deze NL-uitwerking."
+  toelichting: |
+    Attribuut.
+    Owner is niet automatisch de bronhouder of de formeel verantwoordelijke partij.
+  toegestaan_synoniem:
+    - beheerder van het statement
+  verboden_of_te_mijden_synoniemen:
+    - bron
+    - accountable
+  bron: "Intern model"
+  categorie: "Governance"
+
+- term: dod
+  definitie: Criteria waarmee bepaald wordt dat een uitwerking of oplevering gereed is.
+  voorbeeld: "Definition of Done bevat test- en acceptatiecriteria."
+  toelichting: |
+    DoD (Definition of Done).
+    Niet elk statement hoeft een DoD te hebben.
+  toegestaan_synoniem:
+    - Definition of Done
+  verboden_of_te_mijden_synoniemen:
+    - bewijs
+    - eis
+  bron: "Projectpraktijk"
+  categorie: "Governance"

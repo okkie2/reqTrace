@@ -1,6 +1,6 @@
 # Roadmap
 
-## MVP-scope
+## MVP Scope
 
 ### A. Statement manager
 - create
@@ -8,84 +8,83 @@
 - clone
 - archive / deprecate
 
-### B. Relatiebeheer
-- parents selecteren
-- relaties selecteren
-- inkomende relaties bekijken
-- uitgaande relaties bekijken
+### B. Relationship management
+- select parents
+- select relationships
+- view incoming relationships
+- view outgoing relationships
 
-### C. Doorsnedes / werkviews
-Minimaal de volgende views:
-- per bron
-- per statement_type
-- per use case
-- per relevante partij (bijv. CIBG, VZVZ)
-- per niveau
-- per increment / plateau (indien gevuld)
+### C. Slices / working views
+At minimum, the following views:
+- by source
+- by statement_type
+- by use case
+- by relevant party, for example CIBG or VZVZ
+- by level
+- by increment / plateau, if populated
 
-### D. Zoekfunctie
-Zoeken op:
+### D. Search
+Search by:
 - title
-- broncode
-- tekst
-- opmerkingen
+- source code
+- text
+- notes
 
-### E. Validatie-overzichten
-- ontbrekende parents
-- ongeldige relaties
-- lege verplichte velden
+### E. Validation overviews
+- missing parents
+- invalid relationships
+- empty required fields
 - orphan statements
 
 ---
 
-## Niet in MVP
-- publieke stakeholderportal
+## Not in MVP
+- public stakeholder portal
 - dashboards
-- uitgebreide graph editor
-- documentgenerator (high fidelity)
+- advanced graph editor
+- document generator, high fidelity
 - review / approval workflow
-- rollen en rechtenmodel
+- roles and permissions model
 
 ---
 
-## Productpositionering
+## Product Positioning
 
 MVP is:
 
 **Statement Manager + Working Views**
 
-Niet:
-- alleen een editor
-- een volledige requirements portal
+Not:
+- just an editor
+- a full requirements portal
 
 ---
 
-## Beslisregel voor scope
+## Scope Decision Rule
 
-Voeg alleen features toe als ze bijdragen aan:
-- vastleggen van statements
-- begrijpen van statements
-- verbinden van statements
+Only add features if they contribute to:
+- capturing statements
+- understanding statements
+- connecting statements
 
-Zo niet: uitstellen
+If not: defer
 
 ---
 
-## Fasering
+## Phasing
 
 ### MVP
 - create / edit
-- relaties beheren
-- filterbare views
-- validatie
+- manage relationships
+- filterable views
+- validation
 
 ### V2
-- Git integratie (branch, commit, diff)
-- vergelijking (diff tussen statements/versies)
-- relation browser (betere navigatie)
+- Git integration, branch, commit, diff
+- comparison, diff between statements and versions
+- relation browser, better navigation
 
 ### V3
-- publicatie (Hugo)
+- publication, Hugo
 - stakeholder views
-- thematische exports
-
+- thematic exports

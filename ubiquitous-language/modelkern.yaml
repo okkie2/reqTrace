@@ -1,87 +1,87 @@
 - term: statement
-  definitie: Een herleidbare bewering in het model.
-  voorbeeld: "NL vereist in de International Search Mask (ISM) de BSN en geboortedatum."
-  toelichting: |
-    Basiseenheid van het statement-netwerk.
-    Een statement kan verschillende typen hebben, zoals eis, interpretatie of besluit.
-  toegestaan_synoniem:
-    - bewering
-  verboden_of_te_mijden_synoniemen:
+  definition: A traceable assertion in the model.
+  example: "NL requires BSN and date of birth in the International Search Mask (ISM)."
+  explanation: |
+    Basic unit of the statement network.
+    A statement can have different types, such as requirement, interpretation, or decision.
+  allowed_synonym:
+    - assertion
+  forbidden_or_avoid_synonyms:
     - requirement
     - item
-    - regel
-  bron: "Intern model"
-  categorie: "Modelkern"
+    - rule
+  source: "Internal model"
+  category: "Model core"
 
 - term: statement_type
-  definitie: Het soort statement.
-  voorbeeld: "eis"
-  toelichting: |
-    Attribuut.
-    Toegestane waarden:
-    - eis
-    - interpretatie
-    - uitwerking
-    - besluit
-    - bewijs
-    - vraag
-    - risico
-  toegestaan_synoniem:
+  definition: The kind of statement.
+  example: "requirement"
+  explanation: |
+    Attribute.
+    Allowed values:
+    - requirement
+    - interpretation
+    - elaboration
+    - decision
+    - evidence
+    - question
+    - risk
+  allowed_synonym:
     - type
-  verboden_of_te_mijden_synoniemen:
-    - soort requirement
-  bron: "Intern model"
-  categorie: "Modelkern"
+  forbidden_or_avoid_synonyms:
+    - kind of requirement
+  source: "Internal model"
+  category: "Model core"
 
 - term: id
-  definitie: Interne, stabiele en betekenisloze unieke identificatie van een statement.
-  voorbeeld: "000123"
-  toelichting: |
-    Attribuut.
-    Altijd als string opslaan om voorloopnullen te behouden.
-    Het id mag geen betekenis dragen over bron, niveau of thema.
-  toegestaan_synoniem:
-    - intern id
-  verboden_of_te_mijden_synoniemen:
+  definition: Internal, stable, and meaningless unique identifier of a statement.
+  example: "000123"
+  explanation: |
+    Attribute.
+    Always store as a string to preserve leading zeros.
+    The id must not carry meaning about source, level, or theme.
+  allowed_synonym:
+    - internal id
+  forbidden_or_avoid_synonyms:
     - code
-    - broncode
-    - sleutel met betekenis
-  bron: "Intern model"
-  categorie: "Modelkern"
+    - source_code
+    - meaningful key
+  source: "Internal model"
+  category: "Model core"
 
-- term: niveau
-  definitie: De abstractielaag waarop een statement zich bevindt.
-  voorbeeld: 2
-  toelichting: |
-    Attribuut.
-    Toegestane waarden in de eerste versie:
+- term: level
+  definition: The abstraction layer on which a statement exists.
+  example: 2
+  explanation: |
+    Attribute.
+    Allowed values in the first version:
     - 0
     - 1
     - 2
     - 3
     - 4
-    Niveau helpt bij views en filtering.
-    Parents dragen de echte structuur.
-  toegestaan_synoniem:
-    - abstractieniveau
-  verboden_of_te_mijden_synoniemen:
-    - prioriteit
+    Level helps with views and filtering.
+    Parents carry the real structure.
+  allowed_synonym:
+    - abstraction level
+  forbidden_or_avoid_synonyms:
+    - priority
     - order
-  bron: "Intern model"
-  categorie: "Modelkern"
+  source: "Internal model"
+  category: "Model core"
 
 - term: order
-  definitie: De volgorde van een statement binnen sibling-statements onder dezelfde parent-context.
-  voorbeeld: 10
-  toelichting: |
-    Attribuut.
-    Gebruik order voor weergavevolgorde.
-    Niet gebruiken om inhoudelijke afhankelijkheid vast te leggen.
-  toegestaan_synoniem:
-    - sortering
+  definition: The order of a statement among sibling statements within the same parent context.
+  example: 10
+  explanation: |
+    Attribute.
+    Use order for display ordering.
+    Do not use it to capture substantive dependency.
+  allowed_synonym:
+    - sorting
     - sort_key
-  verboden_of_te_mijden_synoniemen:
-    - volgt_na
-    - niveau
-  bron: "Intern model"
-  categorie: "Modelkern"
+  forbidden_or_avoid_synonyms:
+    - follows_after
+    - level
+  source: "Internal model"
+  category: "Model core"

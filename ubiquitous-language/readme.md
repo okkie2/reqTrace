@@ -1,97 +1,97 @@
 # Ubiquitous Language (DDD)
 
-Deze map bevat de Ubiquitous Language (DDD (Domain-Driven Design)) voor het NCPeH-domein.
+This folder contains the Ubiquitous Language for the NCPeH domain.
 
-De termen vormen de gedeelde taal voor:
+The terms form the shared language for:
 - requirements
-- interpretaties
-- besluitvorming
-- documentatie
+- interpretations
+- decision-making
+- documentation
 
-YAML is de bron van waarheid. Andere vormen (zoals Markdown of Hugo) worden hieruit afgeleid.
+YAML is the source of truth. Other representations, such as Markdown or Hugo, are derived from it.
 
 ---
 
-## Structuur
+## Structure
 
-Bestanden:
+Files:
 
 - modelkern.yaml  
-  Basisconcepten van het model (zoals statement, id, niveau)
+  Core concepts of the model, such as statement, id, and level
 
 - statement-types.yaml  
-  Toegestane soorten statements (zoals eis, interpretatie, uitwerking)
+  Allowed kinds of statements, such as requirement, interpretation, and elaboration
 
 - traceability.yaml  
-  Relaties en structuur (zoals parent, relatie, herleidbaarheid)
+  Relations and structure, such as parent, relation, and traceability
 
 - attributen.yaml  
-  Eigenschappen van statements (zoals title, text_origineel, moscow, relevantie)
+  Statement properties, such as title, text_origineel, moscow, and relevance
 
 - domein.yaml  
-  Begrippen uit het eHealth / NCPeH domein (zoals NCPeH, Patient Summary, ISM)
+  Terms from the eHealth / NCPeH domain, such as NCPeH, Patient Summary, and ISM
 
 - governance.yaml  
-  Begrippen rond verantwoordelijkheid, besluitvorming en beheer (zoals owner, DoD)
+  Terms around responsibility, decision-making, and stewardship, such as owner and DoD
 
 ---
 
-## Regels
+## Rules
 
-- Elke term komt exact één keer voor (single source of truth)
-- Elke term hoort bij precies één categorie
-- YAML is leidend; andere representaties zijn afgeleid
-- Nieuwe termen alleen toevoegen als ze:
-  - nodig zijn voor besluitvorming, of
-  - aantoonbaar verwarring voorkomen
+- Every term appears exactly once, single source of truth
+- Every term belongs to exactly one category
+- YAML leads; other representations are derived
+- Add new terms only if they:
+  - are needed for decision-making, or
+  - demonstrably prevent confusion
 
 ---
 
-## Richtlijnen per categorie
+## Guidelines Per Category
 
 - modelkern  
-  Alleen concepten die nodig zijn om het model zelf te begrijpen
+  Only concepts needed to understand the model itself
 
 - statement-types  
-  Alleen typen van statements, geen attributen of domeintermen
+  Only statement types, not attributes or domain terms
 
 - traceability  
-  Alleen relaties en structuur, geen inhoudelijke betekenis
+  Only relations and structure, not business meaning
 
 - attributen  
-  Alleen velden die op een statement staan
+  Only fields that belong on a statement
 
 - domein  
-  Alleen inhoudelijke eHealth / NCPeH begrippen
+  Only substantive eHealth / NCPeH domain terms
 
 - governance  
-  Alleen termen rond verantwoordelijkheid, eigenaarschap en proces
+  Only terms around responsibility, ownership, and process
 
 ---
 
-## Gebruik
+## Usage
 
-- Gebruik deze termen consequent in:
+- Use these terms consistently in:
   - requirements
-  - documentatie
-  - communicatie
+  - documentation
+  - communication
 
-- Vermijd synoniemen die in de glossary als verboden staan
+- Avoid synonyms marked as forbidden in the glossary
 
-- Twijfel over een term?
-  → voeg eerst toe aan de glossary voordat je hem gebruikt
+- Unsure about a term?
+  Add it to the glossary first before using it.
 
 ---
 
-## Evolutie
+## Evolution
 
-Deze Ubiquitous Language is levend.
+This Ubiquitous Language is living.
 
-Wijzigingen:
-- gebeuren expliciet
-- worden besproken binnen het team
-- worden direct doorgevoerd in de YAML
+Changes:
+- happen explicitly
+- are discussed within the team
+- are immediately applied in the YAML
 
-Doel:
-→ steeds minder interpretatieverschillen
-→ steeds hogere herleidbaarheid
+Goal:
+- fewer interpretation differences
+- higher traceability

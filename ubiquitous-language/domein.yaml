@@ -1,172 +1,172 @@
 - term: plateau
-  definitie: Nederlandse fasering waarin een set capabilities of bronnen wordt gerealiseerd.
-  voorbeeld: "Plateau 2"
-  toelichting: |
-    Wordt gebruikt om scope en realisatievolgorde in de Nederlandse context te duiden.
-    Niet hetzelfde als increment.
-  toegestaan_synoniem:
-    - fase
-  verboden_of_te_mijden_synoniemen:
+  definition: Dutch phasing in which a set of capabilities or sources is realized.
+  example: "Plateau 2"
+  explanation: |
+    Used to indicate scope and realization order in the Dutch context.
+    Not the same as increment.
+  allowed_synonym:
+    - phase
+  forbidden_or_avoid_synonyms:
     - increment
     - release
-  bron: "Projectcontext NCPeH"
-  categorie: "Besturing"
+  source: "NCPeH project context"
+  category: "Steering"
 
 - term: myhealth_eu
-  definitie: Europese infrastructuur voor primaire grensoverschrijdende uitwisseling van gezondheidsgegevens.
-  voorbeeld: "Patient Summary wordt via MyHealth@EU uitgewisseld."
-  toelichting: |
-    MyHealth@EU is de operationele Europese voorziening voor cross-border zorgdata-uitwisseling.
-  toegestaan_synoniem:
+  definition: European infrastructure for primary cross-border exchange of health data.
+  example: "Patient Summary is exchanged through MyHealth@EU."
+  explanation: |
+    MyHealth@EU is the operational European facility for cross-border health data exchange.
+  allowed_synonym:
     - "MyHealth@EU"
-  verboden_of_te_mijden_synoniemen:
+  forbidden_or_avoid_synonyms:
     - EHDS
-    - centrale Europese database
-  bron: "Projectcontract NCPeH en eHDSI Requirements Catalogue"
-  categorie: "Domein"
+    - central European database
+  source: "NCPeH project contract and eHDSI Requirements Catalogue"
+  category: "Domain"
 
 - term: ncpeh
-  definitie: Nationaal contactpunt voor grensoverschrijdende uitwisseling van gezondheidsgegevens.
-  voorbeeld: "CIBG beheert het NCPeH-NL."
-  toelichting: |
-    NCPeH (National Contact Point eHealth).
-    Niet verwarren met NCP-A of NCP-B, dat zijn rollen in een use case.
-  toegestaan_synoniem:
+  definition: National Contact Point for cross-border exchange of health data.
+  example: "CIBG operates NCPeH-NL."
+  explanation: |
+    NCPeH, National Contact Point eHealth.
+    Do not confuse it with NCP-A or NCP-B, which are roles in a use case.
+  allowed_synonym:
     - NCPeH
-  verboden_of_te_mijden_synoniemen:
-    - knooppunt in algemene zin
-  bron: "Projectcontract NCPeH"
-  categorie: "Domein"
+  forbidden_or_avoid_synonyms:
+    - node in a generic sense
+  source: "NCPeH project contract"
+  category: "Domain"
 
 - term: ncp_a
-  definitie: Het NCPeH van het land van herkomst.
-  voorbeeld: "NCP-A levert de Patient Summary aan NCP-B."
-  toelichting: |
-    NCP-A (National Contact Point of Country of Affiliation).
-    Rol binnen de use case, geen vaste organisatie.
-  toegestaan_synoniem:
-    - land van herkomst
-  verboden_of_te_mijden_synoniemen:
-    - Nederland per definitie
-  bron: "eHDSI Requirements Catalogue"
-  categorie: "Domein"
+  definition: The NCPeH of the country of affiliation.
+  example: "NCP-A delivers the Patient Summary to NCP-B."
+  explanation: |
+    NCP-A, National Contact Point of Country of Affiliation.
+    A role within the use case, not a fixed organization.
+  allowed_synonym:
+    - country of affiliation
+  forbidden_or_avoid_synonyms:
+    - the Netherlands by definition
+  source: "eHDSI Requirements Catalogue"
+  category: "Domain"
 
 - term: ncp_b
-  definitie: Het NCPeH van het land van behandeling.
-  voorbeeld: "NCP-B vraagt de Patient Summary op bij NCP-A."
-  toelichting: |
-    NCP-B (National Contact Point of Country of Treatment).
-    Rol binnen de use case, geen vaste organisatie.
-  toegestaan_synoniem:
-    - land van behandeling
-  verboden_of_te_mijden_synoniemen:
-    - Nederland per definitie
-  bron: "eHDSI Requirements Catalogue"
-  categorie: "Domein"
+  definition: The NCPeH of the country of treatment.
+  example: "NCP-B requests the Patient Summary from NCP-A."
+  explanation: |
+    NCP-B, National Contact Point of Country of Treatment.
+    A role within the use case, not a fixed organization.
+  allowed_synonym:
+    - country of treatment
+  forbidden_or_avoid_synonyms:
+    - the Netherlands by definition
+  source: "eHDSI Requirements Catalogue"
+  category: "Domain"
 
 - term: patient_summary
-  definitie: Patiëntsamenvatting voor grensoverschrijdende zorg.
-  voorbeeld: "Patient Summary is een use case binnen MyHealth@EU."
-  toelichting: |
-    PS (Patient Summary).
-    Bevat essentiële gezondheidsinformatie voor veilige zorg.
-  toegestaan_synoniem:
+  definition: Patient summary for cross-border care.
+  example: "Patient Summary is a use case within MyHealth@EU."
+  explanation: |
+    PS, Patient Summary.
+    Contains essential health information for safe care.
+  allowed_synonym:
     - PS
     - Patient Summary
-  verboden_of_te_mijden_synoniemen:
-    - volledig dossier
-    - elektronisch patiëntendossier
-  bron: "eHDSI Requirements Catalogue"
-  categorie: "Domein"
+  forbidden_or_avoid_synonyms:
+    - full record
+    - electronic patient record
+  source: "eHDSI Requirements Catalogue"
+  category: "Domain"
 
 - term: eprescription
-  definitie: Elektronisch recept dat grensoverschrijdend beschikbaar wordt gesteld.
-  voorbeeld: "Een Nederlandse burger kan een ePrescription in een ander EU-land ophalen."
-  toelichting: |
-    eP (ePrescription).
-  toegestaan_synoniem:
+  definition: Electronic prescription made available across borders.
+  example: "A Dutch citizen can collect an ePrescription in another EU country."
+  explanation: |
+    eP, ePrescription.
+  allowed_synonym:
     - eP
     - ePrescription
-  verboden_of_te_mijden_synoniemen:
-    - medicatieafspraak in algemene zin
-  bron: "Projectcontract NCPeH"
-  categorie: "Domein"
+  forbidden_or_avoid_synonyms:
+    - medication agreement in a generic sense
+  source: "NCPeH project contract"
+  category: "Domain"
 
 - term: edispensation
-  definitie: Elektronische terugmelding van verstrekking van medicatie.
-  voorbeeld: "eDispensation kan worden teruggestuurd naar het land van voorschrijven."
-  toelichting: |
-    eD (eDispensation).
-  toegestaan_synoniem:
+  definition: Electronic feedback about the dispensing of medication.
+  example: "eDispensation can be sent back to the prescribing country."
+  explanation: |
+    eD, eDispensation.
+  allowed_synonym:
     - eD
     - eDispensation
-  verboden_of_te_mijden_synoniemen:
-    - recept
-  bron: "Projectcontract NCPeH"
-  categorie: "Domein"
+  forbidden_or_avoid_synonyms:
+    - prescription
+  source: "NCPeH project contract"
+  category: "Domain"
 
 - term: ism
-  definitie: Landenspecifieke set identificerende gegevens voor het zoeken van een patiënt.
-  voorbeeld: "NL vraagt in de ISM om BSN en geboortedatum."
-  toelichting: |
-    ISM (International Search Mask).
-    Gebruikt in patiëntidentificatie over landsgrenzen.
-  toegestaan_synoniem:
+  definition: Country-specific set of identifying data used to find a patient.
+  example: "The Netherlands requests BSN and date of birth in the ISM."
+  explanation: |
+    ISM, International Search Mask.
+    Used in patient identification across borders.
+  allowed_synonym:
     - International Search Mask
-  verboden_of_te_mijden_synoniemen:
-    - zoekscherm
-    - patiëntindex
-  bron: "Programma van Eisen eP/eD"
-  categorie: "Domein"
+  forbidden_or_avoid_synonyms:
+    - search screen
+    - patient index
+  source: "Programme of Requirements eP/eD"
+  category: "Domain"
 
 - term: lsp
-  definitie: Nederlands knooppunt voor zorggegevensuitwisseling.
-  voorbeeld: "Het NCPeH-NL is aangesloten op het LSP."
-  toelichting: |
-    LSP (Landelijk Schakelpunt).
-    Beheerd door VZVZ (Vereniging van Zorgaanbieders voor Zorgcommunicatie).
-  toegestaan_synoniem:
+  definition: Dutch node for health data exchange.
+  example: "NCPeH-NL is connected to the LSP."
+  explanation: |
+    LSP, Landelijk Schakelpunt.
+    Operated by VZVZ, Vereniging van Zorgaanbieders voor Zorgcommunicatie.
+  allowed_synonym:
     - Landelijk Schakelpunt
-  verboden_of_te_mijden_synoniemen:
+  forbidden_or_avoid_synonyms:
     - NCPeH
-    - AORTA als geheel
-  bron: "Ketenpartners-introductie"
-  categorie: "Domein"
+    - AORTA as a whole
+  source: "Chain partner introduction"
+  category: "Domain"
 
 - term: mvc
-  definitie: Europese referentieset van waardelijsten voor semantische interoperabiliteit.
-  voorbeeld: "Nictiz levert Nederlandse vertalingen van waardesets uit de MVC."
-  toelichting: |
-    MVC (Master Value Sets Catalogue).
-  toegestaan_synoniem:
+  definition: European reference set of value lists for semantic interoperability.
+  example: "Nictiz provides Dutch translations of value sets from the MVC."
+  explanation: |
+    MVC, Master Value Sets Catalogue.
+  allowed_synonym:
     - Master Value Sets Catalogue
-  verboden_of_te_mijden_synoniemen:
+  forbidden_or_avoid_synonyms:
     - MTC
-    - terminologieserver in algemene zin
-  bron: "Ketenpartners-introductie en CTS specificatie"
-  categorie: "Domein"
+    - terminology server in a generic sense
+  source: "Chain partner introduction and CTS specification"
+  category: "Domain"
 
 - term: mtc
-  definitie: Europese catalogus voor vertaling en transcodering van terminologie.
-  voorbeeld: "De MTC ondersteunt semantische uitwisseling tussen landen."
-  toelichting: |
-    MTC (Master Translation/Transcoding Catalogue).
-  toegestaan_synoniem:
+  definition: European catalogue for translation and transcoding of terminology.
+  example: "The MTC supports semantic exchange between countries."
+  explanation: |
+    MTC, Master Translation/Transcoding Catalogue.
+  allowed_synonym:
     - Master Translation/Transcoding Catalogue
-  verboden_of_te_mijden_synoniemen:
+  forbidden_or_avoid_synonyms:
     - MVC
-  bron: "Central Terminology Services Specifications"
-  categorie: "Domein"
+  source: "Central Terminology Services Specifications"
+  category: "Domain"
 
-- term: semantische_interoperabiliteit
-  definitie: De ontvangende partij begrijpt de betekenis van uitgewisselde gegevens hetzelfde als de zendende partij.
-  voorbeeld: "Een medicijncode moet in beide landen dezelfde klinische betekenis hebben."
-  toelichting: |
-    Niet alleen structuur, maar ook betekenis moet overeenkomen.
-  toegestaan_synoniem:
+- term: semantic_interoperability
+  definition: The receiving party understands the meaning of exchanged data in the same way as the sending party.
+  example: "A medication code must have the same clinical meaning in both countries."
+  explanation: |
+    Not only structure but also meaning must align.
+  allowed_synonym:
     - semantic interoperability
-  verboden_of_te_mijden_synoniemen:
-    - technische interoperabiliteit
-    - vertaling alleen
-  bron: "eHDSI Requirements Catalogue en CTS specificatie"
-  categorie: "Domein"
+  forbidden_or_avoid_synonyms:
+    - technical interoperability
+    - translation only
+  source: "eHDSI Requirements Catalogue and CTS specification"
+  category: "Domain"

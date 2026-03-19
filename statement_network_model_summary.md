@@ -1,44 +1,44 @@
-# Statement Network Model – Samenvatting
+# Statement Network Model - Summary
 
-Dit document vat het model samen zodat je er direct weer mee verder kunt.
-
----
-
-## 1. Kernidee
-
-Het systeem is een **netwerk van herleidbare beweringen (statements)**.
-
-Alles is een statement:
-- eis
-- interpretatie
-- uitwerking
-- besluit
-- bewijs
-- vraag
-- risico
-
-Er zijn geen aparte objecttypen zoals “requirement” of “rubriek”.
-Het verschil zit in het **statement_type**.
+This document summarizes the model so you can pick it up again immediately.
 
 ---
 
-## 2. Structuur
+## 1. Core Idea
+
+The system is a **network of traceable statements**.
+
+Everything is a statement:
+- requirement
+- interpretation
+- elaboration
+- decision
+- evidence
+- question
+- risk
+
+There are no separate object types such as "requirement section" or "rubric".
+The difference is expressed through **statement_type**.
+
+---
+
+## 2. Structure
 
 ### Statement
 
-Minimale structuur:
+Minimal structure:
 
 ```yaml
 id: "000123"
-broncode: "FR-eu02.01.1.a"
+source_code: "FR-eu02.01.1.a"
 
-statement_type: eis
-niveau: 2
+statement_type: requirement
+level: 2
 order: 10
 
-title: "Identificatie patiënt op basis van demografische data"
+title: "Patient identification based on demographic data"
 
-text_origineel: >
+text_original: >
   ...
 
 text_nl: >
@@ -52,97 +52,97 @@ relations: []
 
 ---
 
-## 3. Belangrijkste principes
+## 3. Main Principles
 
-### 3.1 Alles is een statement
+### 3.1 Everything is a statement
 
-- Geen attributen voor interpretaties of besluiten
-- Alles met betekenis krijgt een eigen node
+- No special attributes for interpretations or decisions
+- Everything with meaning gets its own node
 
-### 3.2 Scheiding van soorten informatie
+### 3.2 Separate different kinds of information
 
-- eis = wat moet
-- interpretatie = wat betekent het
-- uitwerking = wat doen wij
-- besluit = welke keuze maken we
+- requirement = what must be true
+- interpretation = what it means
+- elaboration = what we do
+- decision = which choice we make
 
-### 3.3 Hiërarchie ≠ structuur
+### 3.3 Hierarchy is not structure
 
-- `parents` = hiërarchische ophanging
-- `relations` = betekenisvolle verbindingen
+- `parents` = hierarchical placement
+- `relations` = meaningful semantic connections
 
-Hiërarchie is slechts één perspectief op het netwerk
+Hierarchy is only one perspective on the network.
 
-### 3.4 Niveau is ondersteunend
+### 3.4 Level is supportive
 
-- `niveau` helpt bij filtering en views
-- maar bepaalt niet de echte structuur
-
----
-
-## 4. Statement types (v1)
-
-- eis
-- interpretatie
-- uitwerking
-- besluit
-- bewijs
-- vraag
-- risico
+- `level` helps with filtering and views
+- but it does not define the real structure
 
 ---
 
-## 5. Relaties (beperkt houden)
+## 4. Statement Types (v1)
+
+- requirement
+- interpretation
+- elaboration
+- decision
+- evidence
+- question
+- risk
+
+---
+
+## 5. Relations, keep them limited
 
 - verplicht_wegens
 - vertaling_van
 - detail_van
 - uitgewerkt_in
 
-Regel:
-→ max 4–6 relatietypes
-→ semantisch scherp
+Rule:
+- maximum 4-6 relation types
+- semantically sharp definitions
 
 ---
 
-## 6. Attributen (v1)
+## 6. Attributes (v1)
 
-### Identiteit
-- id (intern, stabiel)
-- broncode (extern)
+### Identity
+- id, internal and stable
+- source_code, external
 
-### Inhoud
+### Content
 - title
-- text_origineel
+- text_original
 - text_nl
-- opmerking (optioneel)
+- note, optional
 
-### Structuur
-- niveau
+### Structure
+- level
 - order
 - parents
 - relations
 
 ### Context
-- bron
+- source
 - moscow
-- relevantie
+- relevance
 - increment
 
 ---
 
-## 7. Wat bewust NIET in v1 zit
+## 7. What is intentionally not in v1
 
-- geen aparte “rubriek” entiteit
-- geen interpretatie als veld
-- geen workpackage als type
-- geen projectmanagement (takenbord)
+- no separate "rubric" entity
+- no interpretation as a field
+- no work package as a type
+- no project management board
 
 ---
 
 ## 8. Ubiquitous Language
 
-De glossary is opgeslagen in YAML per categorie:
+The glossary is stored in YAML by category:
 
 - modelkern.yaml
 - statement-types.yaml
@@ -151,66 +151,65 @@ De glossary is opgeslagen in YAML per categorie:
 - domein.yaml
 - governance.yaml
 
-Regels:
-- elke term komt 1x voor
-- YAML is bron van waarheid
+Rules:
+- each term appears once
+- YAML is the source of truth
 
 ---
 
-## 9. Workflow (praktisch)
+## 9. Workflow, practical
 
-### Stap 1 – Bron toevoegen
-- registreer bron + broncodes
+### Step 1 - Add the source
+- register source plus source codes
 
-### Stap 2 – Eis vastleggen
-- maak statement_type = eis
+### Step 2 - Capture the requirement
+- set `statement_type = requirement`
 
-### Stap 3 – Interpretatie toevoegen
-- aparte statement
-- relatie naar eis
+### Step 3 - Add the interpretation
+- separate statement
+- relation back to the requirement
 
-### Stap 4 – Uitwerking toevoegen
-- aparte statement
+### Step 4 - Add the elaboration
+- separate statement
 
-### Stap 5 – Besluiten vastleggen
-- expliciet als statement
-
----
-
-## 10. Belangrijkste risico
-
-Het model wordt te complex.
-
-Mitigatie:
-- weinig types
-- weinig relaties
-- strikte definities
-- tooling (validatie/linting)
+### Step 5 - Capture decisions
+- explicitly as statements
 
 ---
 
-## 11. Mentale shortcut
+## 10. Main Risk
 
-Als je twijfelt:
+The model becomes too complex.
 
-→ “Is dit een bewering?”
-
-Ja → maak een statement
-Nee → geen onderdeel van dit model
+Mitigation:
+- few types
+- few relations
+- strict definitions
+- tooling, validation and linting
 
 ---
 
-## 12. Waar morgen op doorpakken
+## 11. Mental shortcut
 
-1. Eén concrete bron (bijv. FR-eu02.01.1.a)
-2. Modelleer:
-   - eis
-   - interpretatie(s)
-   - uitwerking(en)
+When in doubt:
+
+"Is this a statement?"
+
+Yes -> make it a statement
+No -> it is not part of this model
+
+---
+
+## 12. Where to continue tomorrow
+
+1. One concrete source, for example `FR-eu02.01.1.a`
+2. Model:
+   - requirement
+   - interpretation(s)
+   - elaboration(s)
 3. Check:
-   - klopt type?
-   - klopt relatie?
-   - ontbreekt er iets?
+   - is the type correct?
+   - is the relation correct?
+   - is something missing?
 
-Daar vind je de echte gaten in je model.
-
+That is where the real gaps in the model become visible.

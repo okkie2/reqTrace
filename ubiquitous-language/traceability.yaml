@@ -1,75 +1,75 @@
-- term: broncode
-  definitie: De externe code waaronder een statement in een bron bekend staat.
-  voorbeeld: "FR-eu02.01.1.a"
-  toelichting: |
-    Attribuut.
-    Een statement kan later meerdere broncodes hebben, maar in de eerste versie is één broncode voldoende.
-  toegestaan_synoniem:
-    - externe code
-  verboden_of_te_mijden_synoniemen:
+- term: source_code
+  definition: The external code under which a statement is known in a source.
+  example: "FR-eu02.01.1.a"
+  explanation: |
+    Attribute.
+    A statement may later have multiple source codes, but in the first version one source code is sufficient.
+  allowed_synonym:
+    - external code
+  forbidden_or_avoid_synonyms:
     - id
-    - interne code
-  bron: "Programma van Eisen eP/eD"
-  categorie: "Traceability"
+    - internal code
+  source: "Programme of Requirements eP/eD"
+  category: "Traceability"
 
-- term: bron
-  definitie: Het gezaghebbende document of systeem waar een statement direct op teruggaat.
-  voorbeeld: "eHDSI Requirements Catalogue v9.0.0 OR"
-  toelichting: |
-    Attribuut.
-    Bron verwijst naar het document, niet naar de interpretatie of uitwerking.
-  toegestaan_synoniem:
-    - bron_document
-  verboden_of_te_mijden_synoniemen:
-    - herkomst in algemene zin
-  bron: "Programma van Eisen PS-A en intern model"
-  categorie: "Traceability"
+- term: source
+  definition: The authoritative document or system from which a statement directly originates.
+  example: "eHDSI Requirements Catalogue v9.0.0 OR"
+  explanation: |
+    Attribute.
+    Source refers to the document, not to the interpretation or elaboration.
+  allowed_synonym:
+    - source_document
+  forbidden_or_avoid_synonyms:
+    - origin in a general sense
+  source: "Programme of Requirements PS-A and internal model"
+  category: "Traceability"
 
 - term: parent
-  definitie: Een bovenliggend statement waar een ander statement onder hangt.
-  voorbeeld: "BR-eu02 is parent van BR-eu02.1"
-  toelichting: |
-    Een statement kan meerdere parents hebben.
-    Parents bepalen de hiërarchische ophanging, niet alle relaties.
-  toegestaan_synoniem:
-    - bovenliggend statement
-  verboden_of_te_mijden_synoniemen:
+  definition: A higher-level statement under which another statement is attached.
+  example: "BR-eu02 is the parent of BR-eu02.1"
+  explanation: |
+    A statement can have multiple parents.
+    Parents define hierarchical placement, not all relations.
+  allowed_synonym:
+    - higher-level statement
+  forbidden_or_avoid_synonyms:
     - owner
-    - bron
-  bron: "Intern model"
-  categorie: "Traceability"
+    - source
+  source: "Internal model"
+  category: "Traceability"
 
 - term: parents
-  definitie: De lijst met bovenliggende statements van een statement.
-  voorbeeld:
+  definition: The list of higher-level statements of a statement.
+  example:
     - "000001"
     - "000045"
-  toelichting: |
-    Attribuut.
-    Een statement mag nul, één of meerdere parents hebben.
-    Er mogen geen cirkels ontstaan.
-  toegestaan_synoniem:
+  explanation: |
+    Attribute.
+    A statement may have zero, one, or multiple parents.
+    No cycles may be created.
+  allowed_synonym:
     - parent_ids
-  verboden_of_te_mijden_synoniemen:
-    - pad
+  forbidden_or_avoid_synonyms:
+    - path
     - breadcrumb
-  bron: "Intern model"
-  categorie: "Traceability"
+  source: "Internal model"
+  category: "Traceability"
 
-- term: relatie
-  definitie: Een expliciete verbinding tussen twee statements die niet puur hiërarchisch is.
-  voorbeeld: "Een uitwerking is detail_van een eis."
-  toelichting: |
-    Relaties maken herleidbaarheid expliciet.
-    Voorlopig toegestane relatietypen:
+- term: relation
+  definition: An explicit connection between two statements that is not purely hierarchical.
+  example: "An elaboration is detail_van a requirement."
+  explanation: |
+    Relations make traceability explicit.
+    Initially allowed relation types:
     - verplicht_wegens
     - vertaling_van
     - detail_van
     - uitwerking_van
-  toegestaan_synoniem:
-    - koppeling
-  verboden_of_te_mijden_synoniemen:
+  allowed_synonym:
+    - link
+  forbidden_or_avoid_synonyms:
     - parent
-    - verwijzing zonder betekenis
-  bron: "Intern model"
-  categorie: "Traceability"
+    - reference without meaning
+  source: "Internal model"
+  category: "Traceability"

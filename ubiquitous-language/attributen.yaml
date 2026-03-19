@@ -1,119 +1,119 @@
-- term: text_origineel
-  definitie: De originele tekst van een statement in de brontaal.
-  voorbeeld: "The patient must be uniquely and securely identified at national level."
-  toelichting: |
-    Attribuut.
-    Gebruik dit veld voor de oorspronkelijke formulering uit de bron.
-  toegestaan_synoniem:
-    - brontekst
-  verboden_of_te_mijden_synoniemen:
-    - vertaling
-    - interpretatie
-  bron: "Intern model"
-  categorie: "Attribuut"
+- term: text_original
+  definition: The original text of a statement in the source language.
+  example: "The patient must be uniquely and securely identified at national level."
+  explanation: |
+    Attribute.
+    Use this field for the original wording from the source.
+  allowed_synonym:
+    - source text
+  forbidden_or_avoid_synonyms:
+    - translation
+    - interpretation
+  source: "Internal model"
+  category: "Attribute"
 
 - term: text_nl
-  definitie: De Nederlandse formulering of vertaling van de brontekst.
-  voorbeeld: "De patiënt moet uniek en veilig geïdentificeerd worden op nationaal niveau."
-  toelichting: |
-    Attribuut.
-    Dit blijft onderdeel van hetzelfde statement zolang het alleen om vertaling gaat.
-    Zodra de tekst inhoudelijk afwijkt of duiding toevoegt, wordt het een apart statement.
-  toegestaan_synoniem:
-    - Nederlandse tekst
-    - vertaalde tekst
-  verboden_of_te_mijden_synoniemen:
-    - interpretatie
-    - uitwerking
-  bron: "Intern model"
-  categorie: "Attribuut"
+  definition: The Dutch wording or translation of the source text.
+  example: "De patient moet uniek en veilig geidentificeerd worden op nationaal niveau."
+  explanation: |
+    Attribute.
+    This remains part of the same statement as long as it is only a translation.
+    As soon as the text materially differs or adds interpretation, it becomes a separate statement.
+  allowed_synonym:
+    - Dutch text
+    - translated text
+  forbidden_or_avoid_synonyms:
+    - interpretation
+    - elaboration
+  source: "Internal model"
+  category: "Attribute"
 
 - term: title
-  definitie: Korte samenvattende titel van een statement.
-  voorbeeld: "Unieke en veilige identificatie patiënt op nationaal niveau"
-  toelichting: |
-    Attribuut.
-    De title is kort en scanbaar.
-    De volledige inhoud staat in de tekstvelden.
-  toegestaan_synoniem:
-    - titel
-  verboden_of_te_mijden_synoniemen:
-    - volledige eis
-    - heading met alle details
-  bron: "Intern model"
-  categorie: "Attribuut"
+  definition: Short summary title of a statement.
+  example: "Unique and secure patient identification at national level"
+  explanation: |
+    Attribute.
+    The title is short and scannable.
+    The full content belongs in the text fields.
+  allowed_synonym:
+    - heading
+  forbidden_or_avoid_synonyms:
+    - full requirement
+    - heading with all details
+  source: "Internal model"
+  category: "Attribute"
 
 - term: moscow
-  definitie: Prioritering van een eis volgens de MoSCoW-methode.
-  voorbeeld: "Must"
-  toelichting: |
-    Attribuut.
-    Toegestane waarden:
+  definition: Prioritization of a requirement according to the MoSCoW method.
+  example: "Must"
+  explanation: |
+    Attribute.
+    Allowed values:
     - Must
     - Should
     - Could
     - Won't
-  toegestaan_synoniem:
-    - prioriteit
-  verboden_of_te_mijden_synoniemen:
-    - niveau
-    - urgentie
-  bron: "Programma van Eisen PS-A"
-  categorie: "Attribuut"
+  allowed_synonym:
+    - priority
+  forbidden_or_avoid_synonyms:
+    - level
+    - urgency
+  source: "Programme of Requirements PS-A"
+  category: "Attribute"
 
-- term: relevantie
-  definitie: De partijen voor wie een statement relevant is.
-  voorbeeld:
+- term: relevance
+  definition: The parties for whom a statement is relevant.
+  example:
     vws: true
     cibg: true
     vzvz: false
     nictiz: false
-  toelichting: |
-    Attribuut.
-    Eerste set velden:
+  explanation: |
+    Attribute.
+    Initial field set:
     - vws
     - cibg
     - vzvz
     - nictiz
-    - ander_eu_lidstaat
-    - overig
-  toegestaan_synoniem:
-    - toepasselijkheid_per_partij
-  verboden_of_te_mijden_synoniemen:
+    - other_eu_member_state
+    - other
+  allowed_synonym:
+    - applicability_per_party
+  forbidden_or_avoid_synonyms:
     - owner
     - accountable
-  bron: "Programma van Eisen PS-A"
-  categorie: "Attribuut"
+  source: "Programme of Requirements PS-A"
+  category: "Attribute"
 
 - term: increment
-  definitie: Leverstap of oplevermoment waaraan een statement gekoppeld is.
-  voorbeeld: "2"
-  toelichting: |
-    Attribuut.
-    Wordt gebruikt in de programmasturing.
-    Niet verwarren met plateau.
-  toegestaan_synoniem:
-    - opleverincrement
-  verboden_of_te_mijden_synoniemen:
+  definition: Delivery step or release moment to which a statement is linked.
+  example: "2"
+  explanation: |
+    Attribute.
+    Used in programme steering.
+    Do not confuse it with plateau.
+  allowed_synonym:
+    - delivery increment
+  forbidden_or_avoid_synonyms:
     - plateau
     - sprint
-  bron: "Programma van Eisen PS-A"
-  categorie: "Besturing"
+  source: "Programme of Requirements PS-A"
+  category: "Steering"
 
 - term: use_case
-  definitie: Een grensoverschrijdend zorgscenario binnen MyHealth@EU.
-  voorbeeld: "Patient Summary"
-  toelichting: |
-    Attribuut of relationeel anker, afhankelijk van het uiteindelijke model.
-    Voorbeelden:
+  definition: A cross-border care scenario within MyHealth@EU.
+  example: "Patient Summary"
+  explanation: |
+    Attribute or relational anchor, depending on the final model.
+    Examples:
     - Patient Summary
     - ePrescription
     - eDispensation
-  toegestaan_synoniem:
+  allowed_synonym:
     - use case
     - scenario
-  verboden_of_te_mijden_synoniemen:
-    - thema
+  forbidden_or_avoid_synonyms:
+    - theme
     - component
-  bron: "eHDSI Requirements Catalogue"
-  categorie: "Besturing"
+  source: "eHDSI Requirements Catalogue"
+  category: "Steering"

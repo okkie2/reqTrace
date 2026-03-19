@@ -1,105 +1,105 @@
-- term: eis
-  definitie: Een uitspraak waaraan voldaan moet worden.
-  voorbeeld: "De patiënt moet uniek en veilig geïdentificeerd worden op nationaal niveau."
-  toelichting: |
+- term: requirement
+  definition: A statement that must be satisfied.
+  example: "The patient must be uniquely and securely identified at national level."
+  explanation: |
     Statement_type.
-    Een eis kan direct uit een bron komen of afgeleid zijn, maar dat verschil wordt vastgelegd via relaties en bronverwijzing, niet via een apart type.
-  toegestaan_synoniem:
+    A requirement can come directly from a source or be derived from it, but that distinction is captured through relations and source references, not through a separate type.
+  allowed_synonym:
+    - obligation
+  forbidden_or_avoid_synonyms:
+    - wish
+    - idea
+  source: "Internal model and ISO/IEC/IEEE 29148"
+  category: "Statement type"
+
+- term: interpretation
+  definition: An explanation of what a requirement or source means in context.
+  example: "By demographic data we mean BSN and date of birth in the ISM for UC-A."
+  explanation: |
+    Statement_type.
+    Use interpretation when the source text needs clarification.
+    Do not use it for a concrete solution direction.
+  allowed_synonym:
+    - clarification
+  forbidden_or_avoid_synonyms:
+    - elaboration
+    - decision
+  source: "Internal model"
+  category: "Statement type"
+
+- term: elaboration
+  definition: A concrete expression of what is needed to satisfy a requirement.
+  example: "UC-A requires that the Netherlands processes BSN and date of birth in the ISM."
+  explanation: |
+    Statement_type.
+    Use elaboration for design, process, or implementation consequences.
+    Do not use it for purely semantic explanation.
+  allowed_synonym:
+    - concretization
+  forbidden_or_avoid_synonyms:
+    - interpretation
+    - action
+  source: "Internal model"
+  category: "Statement type"
+
+- term: decision
+  definition: An explicit choice between alternatives.
+  example: "For patient identification we use BSN and date of birth as the minimum set."
+  explanation: |
+    Statement_type.
+    A decision should be used when a choice does not follow directly from the source.
+  allowed_synonym:
+    - choice
+  forbidden_or_avoid_synonyms:
     - requirement
-  verboden_of_te_mijden_synoniemen:
-    - wens
-    - idee
-  bron: "Intern model en ISO/IEC/IEEE 29148"
-  categorie: "Statement type"
+    - obvious consequence
+  source: "Internal model"
+  category: "Statement type"
 
-- term: interpretatie
-  definitie: Een duiding van wat een eis of bron in context betekent.
-  voorbeeld: "Met demografische data bedoelen we voor UC-A BSN en geboortedatum in de ISM."
-  toelichting: |
+- term: evidence
+  definition: Demonstrable material supporting that something is true, implemented, or confirmed.
+  example: "A test report showing that patient lookup works."
+  explanation: |
     Statement_type.
-    Gebruik interpretatie wanneer de brontekst uitleg nodig heeft.
-    Niet gebruiken voor concrete oplossingsrichting.
-  toegestaan_synoniem:
-    - duiding
-  verboden_of_te_mijden_synoniemen:
-    - uitwerking
-    - besluit
-  bron: "Intern model"
-  categorie: "Statement type"
-
-- term: uitwerking
-  definitie: Concrete invulling van wat nodig is om aan een eis te voldoen.
-  voorbeeld: "UC-A vereist dat NL in de ISM BSN en geboortedatum verwerkt."
-  toelichting: |
-    Statement_type.
-    Gebruik uitwerking voor ontwerp-, proces- of realisatieconsequenties.
-    Niet gebruiken voor puur semantische uitleg.
-  toegestaan_synoniem:
-    - concretisering
-  verboden_of_te_mijden_synoniemen:
-    - interpretatie
-    - actie
-  bron: "Intern model"
-  categorie: "Statement type"
-
-- term: besluit
-  definitie: Een expliciete keuze tussen alternatieven.
-  voorbeeld: "Voor patiëntidentificatie gebruiken we BSN en geboortedatum als minimale set."
-  toelichting: |
-    Statement_type.
-    Een besluit hoort gebruikt te worden wanneer een keuze niet rechtstreeks uit de bron volgt.
-  toegestaan_synoniem:
-    - keuze
-  verboden_of_te_mijden_synoniemen:
-    - eis
-    - vanzelfsprekend gevolg
-  bron: "Intern model"
-  categorie: "Statement type"
-
-- term: bewijs
-  definitie: Aantoonbaar materiaal dat ondersteunt dat iets waar is, gerealiseerd is of bevestigd is.
-  voorbeeld: "Testverslag waaruit blijkt dat patiëntzoeking werkt."
-  toelichting: |
-    Statement_type.
-    Voorbeelden van bewijs:
-    - testresultaat
-    - auditrapport
-    - acceptatieverslag
-    - logextract
+    Examples of evidence:
+    - test result
+    - audit report
+    - acceptance report
+    - log extract
     - screenshot
-  toegestaan_synoniem:
-    - onderbouwing
-  verboden_of_te_mijden_synoniemen:
+  allowed_synonym:
+    - substantiation
+  forbidden_or_avoid_synonyms:
     - plan
-    - intentie
-  bron: "Intern model"
-  categorie: "Statement type"
+    - intention
+  source: "Internal model"
+  category: "Statement type"
 
-- term: vraag
-  definitie: Een open punt waar nog geen vastgesteld antwoord op is.
-  voorbeeld: "Wat zijn demografische gegevens binnen MyHealth@EU?"
-  toelichting: |
+- term: question
+  definition: An open point for which no established answer exists yet.
+  example: "What counts as demographic data within MyHealth@EU?"
+  explanation: |
     Statement_type.
-    Een vraag kan later leiden tot een interpretatie, besluit of eis.
-  toegestaan_synoniem:
-    - open punt
-  verboden_of_te_mijden_synoniemen:
-    - risico
+    A question can later lead to an interpretation, decision, or requirement.
+  allowed_synonym:
+    - open issue
+  forbidden_or_avoid_synonyms:
+    - risk
     - issue
-  bron: "Intern model"
-  categorie: "Statement type"
+  source: "Internal model"
+  category: "Statement type"
 
-- term: risico
-  definitie: Een onzekerheid met mogelijke negatieve impact.
-  voorbeeld: "Onduidelijkheid over nationale identificatie-eisen kan tot foutieve implementatie leiden."
-  toelichting: |
+- term: risk
+  definition: An uncertainty with possible negative impact.
+  example: "Uncertainty about national identification requirements can lead to incorrect implementation."
+  explanation: |
     Statement_type.
-    Niet verwarren met een vraag.
-    Een risico veronderstelt mogelijke schade of vertraging.
-  toegestaan_synoniem:
-    - bedreiging
-  verboden_of_te_mijden_synoniemen:
-    - vraag
-    - actie
-  bron: "Intern model"
-  categorie: "Statement type"
+    Do not confuse it with a question.
+    A risk implies possible harm or delay.
+  allowed_synonym:
+    - threat
+  forbidden_or_avoid_synonyms:
+    - question
+    - action
+  source: "Internal model"
+  category: "Statement type"
