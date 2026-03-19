@@ -39,10 +39,12 @@ The repository currently provides:
 ## Composition
 Main repository contents:
 
+- `AGENTS.md`: repository-level instructions for future AI-assisted changes
 - `app/`: Next.js App Router UI for the Statement Manager
 - `lib/statement-store.ts`: file-backed persistence, validation, and adjacency logic for roadmap items A and B
 - `data/statements.json`: local JSON storage used by the Statement Manager for statements, parent links, and semantic relations
 - `package.json`: application dependencies and development scripts
+- `docs/ui-design-system.md`: UI design conventions for Pico, tokens, and shared styling rules
 - `statement_network_model_summary.md`: concise explanation of the statement-network concept and workflow
 - `Sample.csv`: sample requirement export with source codes, original text, translations, interpretations, and stakeholder relevance columns
 - `sample_attributes.yaml`: attribute inventory derived from the sample source
@@ -77,6 +79,7 @@ npm install
 
 ### Setup / Config
 No environment variables are required for the current implementation. The Statement Manager reads and writes local data in `data/statements.json`.
+UI guidance for future development is documented in `AGENTS.md` and `docs/ui-design-system.md`.
 
 ### Usage
 Run the Statement Manager locally:
