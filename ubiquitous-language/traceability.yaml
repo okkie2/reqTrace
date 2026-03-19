@@ -1,0 +1,75 @@
+- term: broncode
+  definitie: De externe code waaronder een statement in een bron bekend staat.
+  voorbeeld: "FR-eu02.01.1.a"
+  toelichting: |
+    Attribuut.
+    Een statement kan later meerdere broncodes hebben, maar in de eerste versie is één broncode voldoende.
+  toegestaan_synoniem:
+    - externe code
+  verboden_of_te_mijden_synoniemen:
+    - id
+    - interne code
+  bron: "Programma van Eisen eP/eD"
+  categorie: "Traceability"
+
+- term: bron
+  definitie: Het gezaghebbende document of systeem waar een statement direct op teruggaat.
+  voorbeeld: "eHDSI Requirements Catalogue v9.0.0 OR"
+  toelichting: |
+    Attribuut.
+    Bron verwijst naar het document, niet naar de interpretatie of uitwerking.
+  toegestaan_synoniem:
+    - bron_document
+  verboden_of_te_mijden_synoniemen:
+    - herkomst in algemene zin
+  bron: "Programma van Eisen PS-A en intern model"
+  categorie: "Traceability"
+
+- term: parent
+  definitie: Een bovenliggend statement waar een ander statement onder hangt.
+  voorbeeld: "BR-eu02 is parent van BR-eu02.1"
+  toelichting: |
+    Een statement kan meerdere parents hebben.
+    Parents bepalen de hiërarchische ophanging, niet alle relaties.
+  toegestaan_synoniem:
+    - bovenliggend statement
+  verboden_of_te_mijden_synoniemen:
+    - owner
+    - bron
+  bron: "Intern model"
+  categorie: "Traceability"
+
+- term: parents
+  definitie: De lijst met bovenliggende statements van een statement.
+  voorbeeld:
+    - "000001"
+    - "000045"
+  toelichting: |
+    Attribuut.
+    Een statement mag nul, één of meerdere parents hebben.
+    Er mogen geen cirkels ontstaan.
+  toegestaan_synoniem:
+    - parent_ids
+  verboden_of_te_mijden_synoniemen:
+    - pad
+    - breadcrumb
+  bron: "Intern model"
+  categorie: "Traceability"
+
+- term: relatie
+  definitie: Een expliciete verbinding tussen twee statements die niet puur hiërarchisch is.
+  voorbeeld: "Een uitwerking is detail_van een eis."
+  toelichting: |
+    Relaties maken herleidbaarheid expliciet.
+    Voorlopig toegestane relatietypen:
+    - verplicht_wegens
+    - vertaling_van
+    - detail_van
+    - uitwerking_van
+  toegestaan_synoniem:
+    - koppeling
+  verboden_of_te_mijden_synoniemen:
+    - parent
+    - verwijzing zonder betekenis
+  bron: "Intern model"
+  categorie: "Traceability"

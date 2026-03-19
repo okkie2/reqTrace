@@ -1,0 +1,105 @@
+- term: eis
+  definitie: Een uitspraak waaraan voldaan moet worden.
+  voorbeeld: "De patiënt moet uniek en veilig geïdentificeerd worden op nationaal niveau."
+  toelichting: |
+    Statement_type.
+    Een eis kan direct uit een bron komen of afgeleid zijn, maar dat verschil wordt vastgelegd via relaties en bronverwijzing, niet via een apart type.
+  toegestaan_synoniem:
+    - requirement
+  verboden_of_te_mijden_synoniemen:
+    - wens
+    - idee
+  bron: "Intern model en ISO/IEC/IEEE 29148"
+  categorie: "Statement type"
+
+- term: interpretatie
+  definitie: Een duiding van wat een eis of bron in context betekent.
+  voorbeeld: "Met demografische data bedoelen we voor UC-A BSN en geboortedatum in de ISM."
+  toelichting: |
+    Statement_type.
+    Gebruik interpretatie wanneer de brontekst uitleg nodig heeft.
+    Niet gebruiken voor concrete oplossingsrichting.
+  toegestaan_synoniem:
+    - duiding
+  verboden_of_te_mijden_synoniemen:
+    - uitwerking
+    - besluit
+  bron: "Intern model"
+  categorie: "Statement type"
+
+- term: uitwerking
+  definitie: Concrete invulling van wat nodig is om aan een eis te voldoen.
+  voorbeeld: "UC-A vereist dat NL in de ISM BSN en geboortedatum verwerkt."
+  toelichting: |
+    Statement_type.
+    Gebruik uitwerking voor ontwerp-, proces- of realisatieconsequenties.
+    Niet gebruiken voor puur semantische uitleg.
+  toegestaan_synoniem:
+    - concretisering
+  verboden_of_te_mijden_synoniemen:
+    - interpretatie
+    - actie
+  bron: "Intern model"
+  categorie: "Statement type"
+
+- term: besluit
+  definitie: Een expliciete keuze tussen alternatieven.
+  voorbeeld: "Voor patiëntidentificatie gebruiken we BSN en geboortedatum als minimale set."
+  toelichting: |
+    Statement_type.
+    Een besluit hoort gebruikt te worden wanneer een keuze niet rechtstreeks uit de bron volgt.
+  toegestaan_synoniem:
+    - keuze
+  verboden_of_te_mijden_synoniemen:
+    - eis
+    - vanzelfsprekend gevolg
+  bron: "Intern model"
+  categorie: "Statement type"
+
+- term: bewijs
+  definitie: Aantoonbaar materiaal dat ondersteunt dat iets waar is, gerealiseerd is of bevestigd is.
+  voorbeeld: "Testverslag waaruit blijkt dat patiëntzoeking werkt."
+  toelichting: |
+    Statement_type.
+    Voorbeelden van bewijs:
+    - testresultaat
+    - auditrapport
+    - acceptatieverslag
+    - logextract
+    - screenshot
+  toegestaan_synoniem:
+    - onderbouwing
+  verboden_of_te_mijden_synoniemen:
+    - plan
+    - intentie
+  bron: "Intern model"
+  categorie: "Statement type"
+
+- term: vraag
+  definitie: Een open punt waar nog geen vastgesteld antwoord op is.
+  voorbeeld: "Wat zijn demografische gegevens binnen MyHealth@EU?"
+  toelichting: |
+    Statement_type.
+    Een vraag kan later leiden tot een interpretatie, besluit of eis.
+  toegestaan_synoniem:
+    - open punt
+  verboden_of_te_mijden_synoniemen:
+    - risico
+    - issue
+  bron: "Intern model"
+  categorie: "Statement type"
+
+- term: risico
+  definitie: Een onzekerheid met mogelijke negatieve impact.
+  voorbeeld: "Onduidelijkheid over nationale identificatie-eisen kan tot foutieve implementatie leiden."
+  toelichting: |
+    Statement_type.
+    Niet verwarren met een vraag.
+    Een risico veronderstelt mogelijke schade of vertraging.
+  toegestaan_synoniem:
+    - bedreiging
+  verboden_of_te_mijden_synoniemen:
+    - vraag
+    - actie
+  bron: "Intern model"
+  categorie: "Statement type"

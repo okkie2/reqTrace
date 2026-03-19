@@ -1,0 +1,87 @@
+- term: statement
+  definitie: Een herleidbare bewering in het model.
+  voorbeeld: "NL vereist in de International Search Mask (ISM) de BSN en geboortedatum."
+  toelichting: |
+    Basiseenheid van het statement-netwerk.
+    Een statement kan verschillende typen hebben, zoals eis, interpretatie of besluit.
+  toegestaan_synoniem:
+    - bewering
+  verboden_of_te_mijden_synoniemen:
+    - requirement
+    - item
+    - regel
+  bron: "Intern model"
+  categorie: "Modelkern"
+
+- term: statement_type
+  definitie: Het soort statement.
+  voorbeeld: "eis"
+  toelichting: |
+    Attribuut.
+    Toegestane waarden:
+    - eis
+    - interpretatie
+    - uitwerking
+    - besluit
+    - bewijs
+    - vraag
+    - risico
+  toegestaan_synoniem:
+    - type
+  verboden_of_te_mijden_synoniemen:
+    - soort requirement
+  bron: "Intern model"
+  categorie: "Modelkern"
+
+- term: id
+  definitie: Interne, stabiele en betekenisloze unieke identificatie van een statement.
+  voorbeeld: "000123"
+  toelichting: |
+    Attribuut.
+    Altijd als string opslaan om voorloopnullen te behouden.
+    Het id mag geen betekenis dragen over bron, niveau of thema.
+  toegestaan_synoniem:
+    - intern id
+  verboden_of_te_mijden_synoniemen:
+    - code
+    - broncode
+    - sleutel met betekenis
+  bron: "Intern model"
+  categorie: "Modelkern"
+
+- term: niveau
+  definitie: De abstractielaag waarop een statement zich bevindt.
+  voorbeeld: 2
+  toelichting: |
+    Attribuut.
+    Toegestane waarden in de eerste versie:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    Niveau helpt bij views en filtering.
+    Parents dragen de echte structuur.
+  toegestaan_synoniem:
+    - abstractieniveau
+  verboden_of_te_mijden_synoniemen:
+    - prioriteit
+    - order
+  bron: "Intern model"
+  categorie: "Modelkern"
+
+- term: order
+  definitie: De volgorde van een statement binnen sibling-statements onder dezelfde parent-context.
+  voorbeeld: 10
+  toelichting: |
+    Attribuut.
+    Gebruik order voor weergavevolgorde.
+    Niet gebruiken om inhoudelijke afhankelijkheid vast te leggen.
+  toegestaan_synoniem:
+    - sortering
+    - sort_key
+  verboden_of_te_mijden_synoniemen:
+    - volgt_na
+    - niveau
+  bron: "Intern model"
+  categorie: "Modelkern"

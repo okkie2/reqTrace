@@ -1,0 +1,89 @@
+{
+  "statements": [
+    {
+      "id": "5a86ca90-22d1-4b28-b1ca-36dd1ddd05a4",
+      "statementNo": "000001",
+      "statementType": "requirement",
+      "title": "Patients must be able to retrieve a patient summary across borders",
+      "textOriginal": "The NCP shall make a patient summary available for cross-border exchange.",
+      "textNl": "De NCP moet een patient summary beschikbaar maken voor grensoverschrijdende uitwisseling.",
+      "note": "Seed statement derived from the sample domain material.",
+      "sourceCode": "FR-eu02.01.1.a",
+      "source": "Sample.csv",
+      "level": "L1",
+      "orderNo": "10",
+      "moscow": "Must",
+      "increment": "MVP",
+      "status": "active",
+      "clonedFromStatementId": null,
+      "createdAt": "2026-03-19T20:00:00.000Z",
+      "updatedAt": "2026-03-19T20:00:00.000Z"
+    },
+    {
+      "id": "ef981cd6-d0a1-4e26-b017-da62fdd57d18",
+      "statementNo": "000002",
+      "statementType": "interpretation",
+      "title": "Cross-border exchange implies a traceable source statement and local interpretation",
+      "textOriginal": null,
+      "textNl": "Grensoverschrijdende uitwisseling vereist een traceerbare bronstatement en lokale interpretatie.",
+      "note": "Useful seed for clone and edit flows.",
+      "sourceCode": "INT-001",
+      "source": "manual",
+      "level": "L2",
+      "orderNo": "20",
+      "moscow": "Should",
+      "increment": "MVP",
+      "status": "active",
+      "clonedFromStatementId": null,
+      "createdAt": "2026-03-19T20:05:00.000Z",
+      "updatedAt": "2026-03-19T20:05:00.000Z"
+    },
+    {
+      "id": "53f2f06a-b608-402c-8073-6efbe4f51168",
+      "statementNo": "000003",
+      "statementType": "decision",
+      "title": "The source requirement is implemented through a local summary adapter",
+      "textOriginal": null,
+      "textNl": "De bronrequirement wordt geimplementeerd via een lokale summary-adapter.",
+      "note": "Seed statement to exercise outgoing and incoming relations.",
+      "sourceCode": "DEC-001",
+      "source": "manual",
+      "level": "L3",
+      "orderNo": "30",
+      "moscow": "Could",
+      "increment": "V1",
+      "status": "active",
+      "clonedFromStatementId": null,
+      "createdAt": "2026-03-19T20:10:00.000Z",
+      "updatedAt": "2026-03-19T20:10:00.000Z"
+    }
+  ],
+  "parents": [
+    {
+      "statementId": "ef981cd6-d0a1-4e26-b017-da62fdd57d18",
+      "parentStatementId": "5a86ca90-22d1-4b28-b1ca-36dd1ddd05a4",
+      "createdAt": "2026-03-19T20:12:00.000Z"
+    },
+    {
+      "statementId": "53f2f06a-b608-402c-8073-6efbe4f51168",
+      "parentStatementId": "ef981cd6-d0a1-4e26-b017-da62fdd57d18",
+      "createdAt": "2026-03-19T20:13:00.000Z"
+    }
+  ],
+  "relations": [
+    {
+      "id": "0d00ba6b-ab90-48c2-bc07-f4cd1dc6d518",
+      "sourceStatementId": "ef981cd6-d0a1-4e26-b017-da62fdd57d18",
+      "relationType": "vertaling_van",
+      "targetStatementId": "5a86ca90-22d1-4b28-b1ca-36dd1ddd05a4",
+      "createdAt": "2026-03-19T20:14:00.000Z"
+    },
+    {
+      "id": "2a0603d9-c9c0-4e6d-a2fc-593bb9d517f9",
+      "sourceStatementId": "53f2f06a-b608-402c-8073-6efbe4f51168",
+      "relationType": "uitwerking_van",
+      "targetStatementId": "5a86ca90-22d1-4b28-b1ca-36dd1ddd05a4",
+      "createdAt": "2026-03-19T20:15:00.000Z"
+    }
+  ]
+}
