@@ -1,75 +1,191 @@
 - term: source_code
-  definition: The external code under which a statement is known in a source.
-  example: "FR-eu02.01.1.a"
-  explanation: |
-    Attribute.
-    A statement may later have multiple source codes, but in the first version one source code is sufficient.
+  term_localized:
+    en: source code
+    nl: broncode
+  definition:
+    en: The external code under which a statement is known in a source.
+    nl: De externe code waaronder een statement in een bron bekend staat.
+  example:
+    en: "FR-eu02.01.1.a"
+    nl: "FR-eu02.01.1.a"
+  explanation:
+    en: |
+      Attribute.
+      A statement may later have multiple source codes, but in the first version one source code is sufficient.
+    nl: |
+      Attribuut.
+      Een statement kan later meerdere broncodes hebben, maar in de eerste versie is één broncode voldoende.
   allowed_synonym:
-    - external code
+    en:
+      - external code
+    nl:
+      - externe code
   forbidden_or_avoid_synonyms:
-    - id
-    - internal code
-  source: "Programme of Requirements eP/eD"
-  category: "Traceability"
+    en:
+      - id
+      - internal code
+    nl:
+      - id
+      - interne code
+  source:
+    en: Programme of Requirements eP/eD
+    nl: Programma van Eisen eP/eD
+  category:
+    en: Traceability
+    nl: Traceability
 
 - term: source
-  definition: The authoritative document or system from which a statement directly originates.
-  example: "eHDSI Requirements Catalogue v9.0.0 OR"
-  explanation: |
-    Attribute.
-    Source refers to the document, not to the interpretation or elaboration.
+  term_localized:
+    en: source
+    nl: bron
+  definition:
+    en: The authoritative document or system from which a statement directly originates.
+    nl: Het gezaghebbende document of systeem waar een statement direct op teruggaat.
+  example:
+    en: "eHDSI Requirements Catalogue v9.0.0 OR"
+    nl: "eHDSI Requirements Catalogue v9.0.0 OR"
+  explanation:
+    en: |
+      Attribute.
+      Source refers to the document, not to the interpretation or elaboration.
+    nl: |
+      Attribuut.
+      Bron verwijst naar het document, niet naar de interpretatie of uitwerking.
   allowed_synonym:
-    - source_document
+    en:
+      - source_document
+    nl:
+      - bron_document
   forbidden_or_avoid_synonyms:
-    - origin in a general sense
-  source: "Programme of Requirements PS-A and internal model"
-  category: "Traceability"
+    en:
+      - origin in a general sense
+    nl:
+      - herkomst in algemene zin
+  source:
+    en: Programme of Requirements PS-A and internal model
+    nl: Programma van Eisen PS-A en intern model
+  category:
+    en: Traceability
+    nl: Traceability
 
 - term: parent
-  definition: A higher-level statement under which another statement is attached.
-  example: "BR-eu02 is the parent of BR-eu02.1"
-  explanation: |
-    A statement can have multiple parents.
-    Parents define hierarchical placement, not all relations.
+  term_localized:
+    en: parent
+    nl: parent
+  definition:
+    en: A higher-level statement under which another statement is attached.
+    nl: Een bovenliggend statement waar een ander statement onder hangt.
+  example:
+    en: "BR-eu02 is the parent of BR-eu02.1"
+    nl: "BR-eu02 is parent van BR-eu02.1"
+  explanation:
+    en: |
+      A statement can have multiple parents.
+      Parents define hierarchical placement, not all relations.
+    nl: |
+      Een statement kan meerdere parents hebben.
+      Parents bepalen de hiërarchische ophanging, niet alle relaties.
   allowed_synonym:
-    - higher-level statement
+    en:
+      - higher-level statement
+    nl:
+      - bovenliggend statement
   forbidden_or_avoid_synonyms:
-    - owner
-    - source
-  source: "Internal model"
-  category: "Traceability"
+    en:
+      - owner
+      - source
+    nl:
+      - owner
+      - bron
+  source:
+    en: Internal model
+    nl: Intern model
+  category:
+    en: Traceability
+    nl: Traceability
 
 - term: parents
-  definition: The list of higher-level statements of a statement.
+  term_localized:
+    en: parents
+    nl: parents
+  definition:
+    en: The list of higher-level statements of a statement.
+    nl: De lijst met bovenliggende statements van een statement.
   example:
-    - "000001"
-    - "000045"
-  explanation: |
-    Attribute.
-    A statement may have zero, one, or multiple parents.
-    No cycles may be created.
+    en:
+      - "000001"
+      - "000045"
+    nl:
+      - "000001"
+      - "000045"
+  explanation:
+    en: |
+      Attribute.
+      A statement may have zero, one, or multiple parents.
+      No cycles may be created.
+    nl: |
+      Attribuut.
+      Een statement mag nul, één of meerdere parents hebben.
+      Er mogen geen cirkels ontstaan.
   allowed_synonym:
-    - parent_ids
+    en:
+      - parent_ids
+    nl:
+      - parent_ids
   forbidden_or_avoid_synonyms:
-    - path
-    - breadcrumb
-  source: "Internal model"
-  category: "Traceability"
+    en:
+      - path
+      - breadcrumb
+    nl:
+      - pad
+      - breadcrumb
+  source:
+    en: Internal model
+    nl: Intern model
+  category:
+    en: Traceability
+    nl: Traceability
 
 - term: relation
-  definition: An explicit connection between two statements that is not purely hierarchical.
-  example: "An elaboration is detail_van a requirement."
-  explanation: |
-    Relations make traceability explicit.
-    Initially allowed relation types:
-    - verplicht_wegens
-    - vertaling_van
-    - detail_van
-    - uitwerking_van
+  term_localized:
+    en: relation
+    nl: relatie
+  definition:
+    en: An explicit connection between two statements that is not purely hierarchical.
+    nl: Een expliciete verbinding tussen twee statements die niet puur hiërarchisch is.
+  example:
+    en: "An elaboration is detail_van a requirement."
+    nl: "Een uitwerking is detail_van een eis."
+  explanation:
+    en: |
+      Relations make traceability explicit.
+      Initially allowed relation types:
+      - verplicht_wegens
+      - vertaling_van
+      - detail_van
+      - uitwerking_van
+    nl: |
+      Relaties maken herleidbaarheid expliciet.
+      Voorlopig toegestane relatietypen:
+      - verplicht_wegens
+      - vertaling_van
+      - detail_van
+      - uitwerking_van
   allowed_synonym:
-    - link
+    en:
+      - link
+    nl:
+      - koppeling
   forbidden_or_avoid_synonyms:
-    - parent
-    - reference without meaning
-  source: "Internal model"
-  category: "Traceability"
+    en:
+      - parent
+      - reference without meaning
+    nl:
+      - parent
+      - verwijzing zonder betekenis
+  source:
+    en: Internal model
+    nl: Intern model
+  category:
+    en: Traceability
+    nl: Traceability

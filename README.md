@@ -51,7 +51,7 @@ Main repository contents:
 - `docs/design-a-statement-manager.md`: functional and technical design for roadmap item A
 - `docs/design-b-relationship-management.md`: functional and technical design for roadmap item B
 - `docs/stack-technology.md`: recommended MVP stack and technology choices
-- `ubiquitous-language/`: YAML glossary split by model core, statement types, traceability, attributes, domain terms, and governance
+- `ubiquitous-language/`: YAML glossary split across `model-core.yaml`, `statement-types.yaml`, `traceability.yaml`, `attributes.yaml`, `domain.yaml`, and `governance.yaml`
 - `TODO.md`: MVP scope, phasing, and user-story backlog
 - `ROADMAP.md`: shorter roadmap summary in Dutch
 

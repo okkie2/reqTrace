@@ -144,11 +144,11 @@ Rule:
 
 The glossary is stored in YAML by category:
 
-- modelkern.yaml
+- model-core.yaml
 - statement-types.yaml
 - traceability.yaml
-- attributen.yaml
-- domein.yaml
+- attributes.yaml
+- domain.yaml
 - governance.yaml
 
 Rules:

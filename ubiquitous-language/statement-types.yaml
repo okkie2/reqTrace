@@ -1,105 +1,267 @@
 - term: requirement
-  definition: A statement that must be satisfied.
-  example: "The patient must be uniquely and securely identified at national level."
-  explanation: |
-    Statement_type.
-    A requirement can come directly from a source or be derived from it, but that distinction is captured through relations and source references, not through a separate type.
+  term_localized:
+    en: requirement
+    nl: eis
+  definition:
+    en: A statement that must be satisfied.
+    nl: Een uitspraak waaraan voldaan moet worden.
+  example:
+    en: "The patient must be uniquely and securely identified at national level."
+    nl: "De patiënt moet uniek en veilig geïdentificeerd worden op nationaal niveau."
+  explanation:
+    en: |
+      Statement_type.
+      A requirement can come directly from a source or be derived from it, but that distinction is captured through relations and source references, not through a separate type.
+    nl: |
+      Statement_type.
+      Een eis kan direct uit een bron komen of afgeleid zijn, maar dat verschil wordt vastgelegd via relaties en bronverwijzing, niet via een apart type.
   allowed_synonym:
-    - obligation
+    en:
+      - obligation
+    nl:
+      - requirement
   forbidden_or_avoid_synonyms:
-    - wish
-    - idea
-  source: "Internal model and ISO/IEC/IEEE 29148"
-  category: "Statement type"
+    en:
+      - wish
+      - idea
+    nl:
+      - wens
+      - idee
+  source:
+    en: Internal model and ISO/IEC/IEEE 29148
+    nl: Intern model en ISO/IEC/IEEE 29148
+  category:
+    en: Statement type
+    nl: Statement type
 
 - term: interpretation
-  definition: An explanation of what a requirement or source means in context.
-  example: "By demographic data we mean BSN and date of birth in the ISM for UC-A."
-  explanation: |
-    Statement_type.
-    Use interpretation when the source text needs clarification.
-    Do not use it for a concrete solution direction.
+  term_localized:
+    en: interpretation
+    nl: interpretatie
+  definition:
+    en: An explanation of what a requirement or source means in context.
+    nl: Een duiding van wat een eis of bron in context betekent.
+  example:
+    en: "By demographic data we mean BSN and date of birth in the ISM for UC-A."
+    nl: "Met demografische data bedoelen we voor UC-A BSN en geboortedatum in de ISM."
+  explanation:
+    en: |
+      Statement_type.
+      Use interpretation when the source text needs clarification.
+      Do not use it for a concrete solution direction.
+    nl: |
+      Statement_type.
+      Gebruik interpretatie wanneer de brontekst uitleg nodig heeft.
+      Niet gebruiken voor concrete oplossingsrichting.
   allowed_synonym:
-    - clarification
+    en:
+      - clarification
+    nl:
+      - duiding
   forbidden_or_avoid_synonyms:
-    - elaboration
-    - decision
-  source: "Internal model"
-  category: "Statement type"
+    en:
+      - elaboration
+      - decision
+    nl:
+      - uitwerking
+      - besluit
+  source:
+    en: Internal model
+    nl: Intern model
+  category:
+    en: Statement type
+    nl: Statement type
 
 - term: elaboration
-  definition: A concrete expression of what is needed to satisfy a requirement.
-  example: "UC-A requires that the Netherlands processes BSN and date of birth in the ISM."
-  explanation: |
-    Statement_type.
-    Use elaboration for design, process, or implementation consequences.
-    Do not use it for purely semantic explanation.
+  term_localized:
+    en: elaboration
+    nl: uitwerking
+  definition:
+    en: A concrete expression of what is needed to satisfy a requirement.
+    nl: Concrete invulling van wat nodig is om aan een eis te voldoen.
+  example:
+    en: "UC-A requires that the Netherlands processes BSN and date of birth in the ISM."
+    nl: "UC-A vereist dat NL in de ISM BSN en geboortedatum verwerkt."
+  explanation:
+    en: |
+      Statement_type.
+      Use elaboration for design, process, or implementation consequences.
+      Do not use it for purely semantic explanation.
+    nl: |
+      Statement_type.
+      Gebruik uitwerking voor ontwerp-, proces- of realisatieconsequenties.
+      Niet gebruiken voor puur semantische uitleg.
   allowed_synonym:
-    - concretization
+    en:
+      - concretization
+    nl:
+      - concretisering
   forbidden_or_avoid_synonyms:
-    - interpretation
-    - action
-  source: "Internal model"
-  category: "Statement type"
+    en:
+      - interpretation
+      - action
+    nl:
+      - interpretatie
+      - actie
+  source:
+    en: Internal model
+    nl: Intern model
+  category:
+    en: Statement type
+    nl: Statement type
 
 - term: decision
-  definition: An explicit choice between alternatives.
-  example: "For patient identification we use BSN and date of birth as the minimum set."
-  explanation: |
-    Statement_type.
-    A decision should be used when a choice does not follow directly from the source.
+  term_localized:
+    en: decision
+    nl: besluit
+  definition:
+    en: An explicit choice between alternatives.
+    nl: Een expliciete keuze tussen alternatieven.
+  example:
+    en: "For patient identification we use BSN and date of birth as the minimum set."
+    nl: "Voor patiëntidentificatie gebruiken we BSN en geboortedatum als minimale set."
+  explanation:
+    en: |
+      Statement_type.
+      A decision should be used when a choice does not follow directly from the source.
+    nl: |
+      Statement_type.
+      Een besluit hoort gebruikt te worden wanneer een keuze niet rechtstreeks uit de bron volgt.
   allowed_synonym:
-    - choice
+    en:
+      - choice
+    nl:
+      - keuze
   forbidden_or_avoid_synonyms:
-    - requirement
-    - obvious consequence
-  source: "Internal model"
-  category: "Statement type"
+    en:
+      - requirement
+      - obvious consequence
+    nl:
+      - eis
+      - vanzelfsprekend gevolg
+  source:
+    en: Internal model
+    nl: Intern model
+  category:
+    en: Statement type
+    nl: Statement type
 
 - term: evidence
-  definition: Demonstrable material supporting that something is true, implemented, or confirmed.
-  example: "A test report showing that patient lookup works."
-  explanation: |
-    Statement_type.
-    Examples of evidence:
-    - test result
-    - audit report
-    - acceptance report
-    - log extract
-    - screenshot
+  term_localized:
+    en: evidence
+    nl: bewijs
+  definition:
+    en: Demonstrable material supporting that something is true, implemented, or confirmed.
+    nl: Aantoonbaar materiaal dat ondersteunt dat iets waar is, gerealiseerd is of bevestigd is.
+  example:
+    en: "A test report showing that patient lookup works."
+    nl: "Testverslag waaruit blijkt dat patiëntzoeking werkt."
+  explanation:
+    en: |
+      Statement_type.
+      Examples of evidence:
+      - test result
+      - audit report
+      - acceptance report
+      - log extract
+      - screenshot
+    nl: |
+      Statement_type.
+      Voorbeelden van bewijs:
+      - testresultaat
+      - auditrapport
+      - acceptatieverslag
+      - logextract
+      - screenshot
   allowed_synonym:
-    - substantiation
+    en:
+      - substantiation
+    nl:
+      - onderbouwing
   forbidden_or_avoid_synonyms:
-    - plan
-    - intention
-  source: "Internal model"
-  category: "Statement type"
+    en:
+      - plan
+      - intention
+    nl:
+      - plan
+      - intentie
+  source:
+    en: Internal model
+    nl: Intern model
+  category:
+    en: Statement type
+    nl: Statement type
 
 - term: question
-  definition: An open point for which no established answer exists yet.
-  example: "What counts as demographic data within MyHealth@EU?"
-  explanation: |
-    Statement_type.
-    A question can later lead to an interpretation, decision, or requirement.
+  term_localized:
+    en: question
+    nl: vraag
+  definition:
+    en: An open point for which no established answer exists yet.
+    nl: Een open punt waar nog geen vastgesteld antwoord op is.
+  example:
+    en: "What counts as demographic data within MyHealth@EU?"
+    nl: "Wat zijn demografische gegevens binnen MyHealth@EU?"
+  explanation:
+    en: |
+      Statement_type.
+      A question can later lead to an interpretation, decision, or requirement.
+    nl: |
+      Statement_type.
+      Een vraag kan later leiden tot een interpretatie, besluit of eis.
   allowed_synonym:
-    - open issue
+    en:
+      - open issue
+    nl:
+      - open punt
   forbidden_or_avoid_synonyms:
-    - risk
-    - issue
-  source: "Internal model"
-  category: "Statement type"
+    en:
+      - risk
+      - issue
+    nl:
+      - risico
+      - issue
+  source:
+    en: Internal model
+    nl: Intern model
+  category:
+    en: Statement type
+    nl: Statement type
 
 - term: risk
-  definition: An uncertainty with possible negative impact.
-  example: "Uncertainty about national identification requirements can lead to incorrect implementation."
-  explanation: |
-    Statement_type.
-    Do not confuse it with a question.
-    A risk implies possible harm or delay.
+  term_localized:
+    en: risk
+    nl: risico
+  definition:
+    en: An uncertainty with possible negative impact.
+    nl: Een onzekerheid met mogelijke negatieve impact.
+  example:
+    en: "Uncertainty about national identification requirements can lead to incorrect implementation."
+    nl: "Onduidelijkheid over nationale identificatie-eisen kan tot foutieve implementatie leiden."
+  explanation:
+    en: |
+      Statement_type.
+      Do not confuse it with a question.
+      A risk implies possible harm or delay.
+    nl: |
+      Statement_type.
+      Niet verwarren met een vraag.
+      Een risico veronderstelt mogelijke schade of vertraging.
   allowed_synonym:
-    - threat
+    en:
+      - threat
+    nl:
+      - bedreiging
   forbidden_or_avoid_synonyms:
-    - question
-    - action
-  source: "Internal model"
-  category: "Statement type"
+    en:
+      - question
+      - action
+    nl:
+      - vraag
+      - actie
+  source:
+    en: Internal model
+    nl: Intern model
+  category:
+    en: Statement type
+    nl: Statement type

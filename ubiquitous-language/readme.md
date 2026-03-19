@@ -16,7 +16,7 @@ YAML is the source of truth. Other representations, such as Markdown or Hugo, ar
 
 Files:
 
-- modelkern.yaml  
+- model-core.yaml  
   Core concepts of the model, such as statement, id, and level
 
 - statement-types.yaml  
@@ -25,10 +25,10 @@ Files:
 - traceability.yaml  
   Relations and structure, such as parent, relation, and traceability
 
-- attributen.yaml  
+- attributes.yaml  
   Statement properties, such as title, text_origineel, moscow, and relevance
 
-- domein.yaml  
+- domain.yaml  
   Terms from the eHealth / NCPeH domain, such as NCPeH, Patient Summary, and ISM
 
 - governance.yaml  
@@ -49,7 +49,7 @@ Files:
 
 ## Guidelines Per Category
 
-- modelkern  
+- model-core  
   Only concepts needed to understand the model itself
 
 - statement-types  
@@ -58,10 +58,10 @@ Files:
 - traceability  
   Only relations and structure, not business meaning
 
-- attributen  
+- attributes  
   Only fields that belong on a statement
 
-- domein  
+- domain  
   Only substantive eHealth / NCPeH domain terms
 
 - governance  

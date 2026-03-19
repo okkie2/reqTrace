@@ -1,0 +1,215 @@
+- term: statement
+  term_localized:
+    en: statement
+    nl: bewering
+  definition:
+    en: A traceable assertion in the model.
+    nl: Een herleidbare bewering in het model.
+  example:
+    en: "NL requires BSN and date of birth in the International Search Mask (ISM)."
+    nl: "NL vereist in de International Search Mask (ISM) de BSN en geboortedatum."
+  explanation:
+    en: |
+      Basic unit of the statement network.
+      A statement can have different types, such as requirement, interpretation, or decision.
+    nl: |
+      Basiseenheid van het statement-netwerk.
+      Een statement kan verschillende typen hebben, zoals eis, interpretatie of besluit.
+  allowed_synonym:
+    en:
+      - assertion
+    nl:
+      - bewering
+  forbidden_or_avoid_synonyms:
+    en:
+      - requirement
+      - item
+      - rule
+    nl:
+      - requirement
+      - item
+      - regel
+  source:
+    en: Internal model
+    nl: Intern model
+  category:
+    en: Model core
+    nl: Modelkern
+
+- term: statement_type
+  term_localized:
+    en: statement type
+    nl: statement_type
+  definition:
+    en: The kind of statement.
+    nl: Het soort statement.
+  example:
+    en: requirement
+    nl: eis
+  explanation:
+    en: |
+      Attribute.
+      Allowed values:
+      - requirement
+      - interpretation
+      - elaboration
+      - decision
+      - evidence
+      - question
+      - risk
+    nl: |
+      Attribuut.
+      Toegestane waarden:
+      - eis
+      - interpretatie
+      - uitwerking
+      - besluit
+      - bewijs
+      - vraag
+      - risico
+  allowed_synonym:
+    en:
+      - type
+    nl:
+      - type
+  forbidden_or_avoid_synonyms:
+    en:
+      - kind of requirement
+    nl:
+      - soort requirement
+  source:
+    en: Internal model
+    nl: Intern model
+  category:
+    en: Model core
+    nl: Modelkern
+
+- term: id
+  term_localized:
+    en: id
+    nl: id
+  definition:
+    en: Internal, stable, and meaningless unique identifier of a statement.
+    nl: Interne, stabiele en betekenisloze unieke identificatie van een statement.
+  example:
+    en: "000123"
+    nl: "000123"
+  explanation:
+    en: |
+      Attribute.
+      Always store as a string to preserve leading zeros.
+      The id must not carry meaning about source, level, or theme.
+    nl: |
+      Attribuut.
+      Altijd als string opslaan om voorloopnullen te behouden.
+      Het id mag geen betekenis dragen over bron, niveau of thema.
+  allowed_synonym:
+    en:
+      - internal id
+    nl:
+      - intern id
+  forbidden_or_avoid_synonyms:
+    en:
+      - code
+      - source_code
+      - meaningful key
+    nl:
+      - code
+      - broncode
+      - sleutel met betekenis
+  source:
+    en: Internal model
+    nl: Intern model
+  category:
+    en: Model core
+    nl: Modelkern
+
+- term: level
+  term_localized:
+    en: level
+    nl: niveau
+  definition:
+    en: The abstraction layer on which a statement exists.
+    nl: De abstractielaag waarop een statement zich bevindt.
+  example:
+    en: 2
+    nl: 2
+  explanation:
+    en: |
+      Attribute.
+      Allowed values in the first version:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      Level helps with views and filtering.
+      Parents carry the real structure.
+    nl: |
+      Attribuut.
+      Toegestane waarden in de eerste versie:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      Niveau helpt bij views en filtering.
+      Parents dragen de echte structuur.
+  allowed_synonym:
+    en:
+      - abstraction level
+    nl:
+      - abstractieniveau
+  forbidden_or_avoid_synonyms:
+    en:
+      - priority
+      - order
+    nl:
+      - prioriteit
+      - order
+  source:
+    en: Internal model
+    nl: Intern model
+  category:
+    en: Model core
+    nl: Modelkern
+
+- term: order
+  term_localized:
+    en: order
+    nl: volgorde
+  definition:
+    en: The order of a statement among sibling statements within the same parent context.
+    nl: De volgorde van een statement binnen sibling-statements onder dezelfde parent-context.
+  example:
+    en: 10
+    nl: 10
+  explanation:
+    en: |
+      Attribute.
+      Use order for display ordering.
+      Do not use it to capture substantive dependency.
+    nl: |
+      Attribuut.
+      Gebruik order voor weergavevolgorde.
+      Niet gebruiken om inhoudelijke afhankelijkheid vast te leggen.
+  allowed_synonym:
+    en:
+      - sorting
+      - sort_key
+    nl:
+      - sortering
+      - sort_key
+  forbidden_or_avoid_synonyms:
+    en:
+      - follows_after
+      - level
+    nl:
+      - volgt_na
+      - niveau
+  source:
+    en: Internal model
+    nl: Intern model
+  category:
+    en: Model core
+    nl: Modelkern
