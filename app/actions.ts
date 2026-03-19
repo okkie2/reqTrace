@@ -37,7 +37,9 @@ function buildRedirect(statementId: string, lang: "en" | "nl") {
 
 type FormErrorCode =
   | "title_required"
+  | "invalid_piezo_id"
   | "unsupported_statement_type"
+  | "unsupported_statement_status"
   | "unknown_statement"
   | "unknown";
 
@@ -78,9 +80,15 @@ function getFormErrorCode(error: unknown): FormErrorCode {
   switch (error.message) {
     case "Title is required.":
       return "title_required";
+    case "Invalid piezo_id value.":
+      return "invalid_piezo_id";
     default:
       if (error.message.startsWith("Unsupported statement type:")) {
         return "unsupported_statement_type";
+      }
+
+      if (error.message.startsWith("Unsupported statement status:")) {
+        return "unsupported_statement_status";
       }
 
       if (error.message.startsWith("Unknown statement:")) {
@@ -89,10 +97,6 @@ function getFormErrorCode(error: unknown): FormErrorCode {
 
       return "unknown";
   }
-}
-
-function isExpectedSaveValidationError(code: FormErrorCode) {
-  return code === "title_required";
 }
 
 function getStatementType(formData: FormData): StatementInput["statementType"] {
@@ -132,6 +136,7 @@ export async function saveStatementAction(formData: FormData) {
     status: getStatementStatus(formData),
     statementType: getStatementType(formData),
     title: getString(formData, "title"),
+    piezoId: getNullableString(formData, "piezoId"),
     textOriginal: getNullableString(formData, "textOriginal"),
     textNl: getNullableString(formData, "textNl"),
     note: getNullableString(formData, "note"),
@@ -139,8 +144,6 @@ export async function saveStatementAction(formData: FormData) {
     source: getNullableString(formData, "source"),
     level: getNullableString(formData, "level"),
     orderNo: getNullableString(formData, "orderNo"),
-    moscow: getNullableString(formData, "moscow"),
-    increment: getNullableString(formData, "increment"),
   };
 
   try {
@@ -152,14 +155,14 @@ export async function saveStatementAction(formData: FormData) {
   } catch (error) {
     const errorCode = getFormErrorCode(error);
 
-    if (!isExpectedSaveValidationError(errorCode)) {
-      logger.errorWithException("statement.save_failed", "Failed to save statement.", error, {
-        action: id ? "update" : "create",
-        statementId: id || null,
-        lang,
-        sourceCode: payload.sourceCode,
-      });
-    }
+    logger.userFacingErrorWithException("statement.save_failed", "Failed to save statement.", error, {
+      action: id ? "update" : "create",
+      statementId: id || null,
+      lang,
+      errorCode,
+      piezoId: payload.piezoId,
+      sourceCode: payload.sourceCode,
+    });
 
     redirect(
       buildFormRedirect({
@@ -180,7 +183,7 @@ export async function cloneStatementAction(formData: FormData) {
   try {
     cloned = await cloneStatement(sourceId);
   } catch (error) {
-    logger.errorWithException("statement.clone_failed", "Failed to clone statement.", error, {
+    logger.userFacingErrorWithException("statement.clone_failed", "Failed to clone statement.", error, {
       sourceId,
       lang,
     });
@@ -197,7 +200,7 @@ export async function deleteStatementAction(formData: FormData) {
   try {
     await deleteStatement(statementId);
   } catch (error) {
-    logger.errorWithException(
+    logger.userFacingErrorWithException(
       "statement.delete_failed",
       "Failed to delete statement.",
       error,
@@ -220,7 +223,7 @@ export async function addParentAction(formData: FormData) {
   try {
     await addParent(statementId, parentStatementId);
   } catch (error) {
-    logger.errorWithException("statement.parent_add_failed", "Failed to add parent link.", error, {
+    logger.userFacingErrorWithException("statement.parent_add_failed", "Failed to add parent link.", error, {
       statementId,
       parentStatementId,
       lang,
@@ -239,7 +242,7 @@ export async function removeParentAction(formData: FormData) {
   try {
     await removeParent(statementId, parentStatementId);
   } catch (error) {
-    logger.errorWithException(
+    logger.userFacingErrorWithException(
       "statement.parent_remove_failed",
       "Failed to remove parent link.",
       error,
@@ -264,7 +267,7 @@ export async function addRelationAction(formData: FormData) {
   try {
     await addRelation(sourceStatementId, targetStatementId, relationType);
   } catch (error) {
-    logger.errorWithException(
+    logger.userFacingErrorWithException(
       "statement.relation_add_failed",
       "Failed to add relation.",
       error,
@@ -289,7 +292,7 @@ export async function removeRelationAction(formData: FormData) {
   try {
     await removeRelation(relationId);
   } catch (error) {
-    logger.errorWithException(
+    logger.userFacingErrorWithException(
       "statement.relation_remove_failed",
       "Failed to remove relation.",
       error,

@@ -26,7 +26,7 @@ Files:
   Relations and structure, such as parent, relation, and traceability
 
 - attributes.yaml  
-  Statement properties, such as title, text_origineel, moscow, and relevance
+  Statement properties, such as title, text_origineel, and relevance
 
 - domain.yaml  
   Terms from the eHealth / NCPeH domain, such as NCPeH, Patient Summary, and ISM

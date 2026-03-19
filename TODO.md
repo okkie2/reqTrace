@@ -29,7 +29,6 @@ At minimum, the following views:
 * by use case
 * by relevant party (for example CIBG, VZVZ)
 * by level
-* by increment / plateau (if populated)
 
 ### D. Search
 
@@ -155,9 +154,6 @@ As a user, I want to filter statements by party so that I can see stakeholder im
 
 **US-12 - Filter by level**  
 As a user, I want to filter statements by level so that I can distinguish detail levels.
-
-**US-13 - Filter by increment / plateau**  
-As a user, I want to filter statements by increment so that I can keep track of planning.
 
 ---
 

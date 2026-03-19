@@ -3,11 +3,9 @@
   example: "Plateau 2"
   explanation: |
     Used to indicate scope and realization order in the Dutch context.
-    Not the same as increment.
   allowed_synonym:
     - phase
   forbidden_or_avoid_synonyms:
-    - increment
     - release
   source: "NCPeH project context"
   category: "Steering"

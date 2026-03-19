@@ -19,6 +19,7 @@ The Statement Manager should optimize for:
 - low-friction editing of existing statements
 - safe duplication for variant creation
 - retaining history and visibility for deprecated content
+- keeping provenance and programme lineage separate
 
 ## Non-goals
 - rich graph editing
@@ -49,17 +50,16 @@ The user marks a statement as no longer active. The statement remains searchable
 - at least one text field: `text_origineel` or `text_nl`
 
 ### Optional fields for MVP
+- `piezo_id`
 - `broncode`
 - `bron`
 - `niveau`
 - `volgorde`
 - `opmerking`
-- `moscow`
-- `increment`
 - relevance flags
 
 ### Lifecycle fields
-- `status`: `active`, `deprecated`, `archived`
+- `status`: `draft`, `applicable`, `deprecated`
 - `created_at`
 - `updated_at`
 - `cloned_from_statement_id` nullable
@@ -74,10 +74,10 @@ Use a two-pane layout:
 This is better than modal-heavy CRUD because the core work is repetitive comparison and editing across many statements.
 
 ### Statement form sections
-- Identity: `id`, `broncode`, `bron`
+- Identity: `id`, `piezo_id`, `broncode`, `bron`
 - Type and structure: `statement_type`, `niveau`, `order`
 - Content: `title`, `text_origineel`, `text_nl`, `opmerking`
-- Planning / context: `moscow`, `increment`, relevant parties
+- Context: relevant parties
 - Lifecycle: `status`, clone origin, timestamps
 
 ### Form behavior
@@ -89,17 +89,18 @@ This is better than modal-heavy CRUD because the core work is repetitive compari
 
 ## Domain rules
 - `id` is internal, stable, and meaningless
+- `piezo_id` is an external programme lineage identifier, not a provenance field
 - `broncode` is external and may be duplicated across statements if multiple statements derive from one source fragment
+- `bron` captures provenance of content and must remain separate from `piezo_id`
 - `statement_type` defines semantics, not presentation only
 - deprecation does not delete data
 - cloning creates a new statement identity, never a version overwrite
 
 ## Validation rules
 - `title` may not be empty
-- one of `text_origineel` or `text_nl` must be present
 - `statement_type` must be one of the allowed glossary values
 - `niveau` must be within the agreed range when provided
-- archived or deprecated statements may still be referenced, but UI should warn when linking new active work to them
+- deprecated statements may still be referenced, but UI should warn when linking new applicable work to them
 
 ## Suggested API
 ### Endpoints
@@ -108,8 +109,7 @@ This is better than modal-heavy CRUD because the core work is repetitive compari
 - `GET /api/statements/{id}`
 - `PATCH /api/statements/{id}`
 - `POST /api/statements/{id}/clone`
-- `POST /api/statements/{id}/deprecate`
-- `POST /api/statements/{id}/archive`
+- `DELETE /api/statements/{id}`
 
 ### Response shape
 Return a normalized statement plus lightweight derived metadata:
@@ -125,6 +125,7 @@ Core columns:
 
 - `id` UUID or generated text key
 - `statement_no` human-readable stable sequence such as `000123`
+- `piezo_id`
 - `statement_type`
 - `title`
 - `text_origineel`
@@ -134,8 +135,6 @@ Core columns:
 - `bron`
 - `niveau`
 - `order_no`
-- `moscow`
-- `increment`
 - `status`
 - `cloned_from_statement_id`
 - `created_at`
@@ -149,8 +148,11 @@ Core columns:
 Keep relevance normalized instead of hardcoding one column per stakeholder if stakeholder lists may change. If the stakeholder list is fixed for the domain, a JSONB column is also acceptable for MVP.
 
 ## Design decisions
-### Use soft lifecycle states, not hard delete
-Hard delete damages traceability and breaks links. For this domain, deletion should be avoided entirely in the product UI.
+### Keep lifecycle explicit and deletion deliberate
+Deletion removes a statement and its direct links in the current MVP. This is acceptable for iteration, but stronger traceability safeguards may be needed later.
+
+### Keep provenance and programme lineage separate
+`bron` answers where the content came from. `piezo_id` answers which external programme requirement or governance line the statement belongs to. They must not be merged.
 
 ### Separate clone from versioning
 Cloning is a user productivity action, not a history model. Proper version history can be added later through audit tables or Git integration.

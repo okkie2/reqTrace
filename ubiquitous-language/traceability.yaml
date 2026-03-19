@@ -47,10 +47,12 @@
   explanation:
     en: |
       Attribute.
-      Source refers to the document, not to the interpretation or elaboration.
+      Source refers to provenance: the document or system from which the content comes.
+      It is not a programme lineage or governance identifier.
     nl: |
       Attribuut.
-      Bron verwijst naar het document, niet naar de interpretatie of uitwerking.
+      Bron verwijst naar provenance: het document of systeem waar de inhoud vandaan komt.
+      Dit is geen programmalijn of governance-identificatie.
   allowed_synonym:
     en:
       - source_document
@@ -64,6 +66,50 @@
   source:
     en: Programme of Requirements PS-A and internal model
     nl: Programma van Eisen PS-A en intern model
+  category:
+    en: Traceability
+    nl: Traceability
+
+- term: piezo_id
+  term_localized:
+    en: piezo id
+    nl: piezo-id
+  definition:
+    en: The external PIEZO programme lineage or governance identifier to which a statement is aligned.
+    nl: De externe PIEZO-programmalijn of governance-identificatie waaraan een stelling is gekoppeld.
+  example:
+    en: "PIEZO-EUBR-03.01"
+    nl: "PIEZO-EUBR-03.01"
+  explanation:
+    en: |
+      Attribute.
+      `piezo_id` captures programme identity, alignment, and reporting lineage.
+      It is not a source citation.
+      Multiple statements may legitimately share the same `piezo_id`.
+    nl: |
+      Attribuut.
+      `piezo_id` legt programma-identiteit, alignment en rapportagelijn vast.
+      Het is geen bronverwijzing.
+      Meerdere stellingen mogen legitiem dezelfde `piezo_id` delen.
+  allowed_synonym:
+    en:
+      - programme lineage id
+      - external governance id
+    nl:
+      - programmalijn-id
+      - externe governance-id
+  forbidden_or_avoid_synonyms:
+    en:
+      - source
+      - source code
+      - document reference
+    nl:
+      - bron
+      - broncode
+      - documentverwijzing
+  source:
+    en: Internal model
+    nl: Intern model
   category:
     en: Traceability
     nl: Traceability

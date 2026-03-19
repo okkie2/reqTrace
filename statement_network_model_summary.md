@@ -31,6 +31,7 @@ Minimal structure:
 ```yaml
 id: "000123"
 source_code: "FR-eu02.01.1.a"
+piezo_id: "PIEZO-EUBR-03.01"
 
 statement_type: requirement
 level: 2
@@ -110,6 +111,7 @@ Rule:
 ### Identity
 - id, internal and stable
 - source_code, external
+- piezo_id, external programme lineage
 
 ### Content
 - title
@@ -125,9 +127,8 @@ Rule:
 
 ### Context
 - source
-- moscow
+- piezo_id
 - relevance
-- increment
 
 ---
 
@@ -161,6 +162,11 @@ Rules:
 
 ### Step 1 - Add the source
 - register source plus source codes
+
+### Step 1b - Register programme lineage when relevant
+- add `piezo_id` separately from `source`
+- `source` is provenance
+- `piezo_id` is governance / programme lineage
 
 ### Step 2 - Capture the requirement
 - set `statement_type = requirement`

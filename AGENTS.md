@@ -10,6 +10,13 @@ These instructions apply to the whole repository unless a deeper `AGENTS.md` ove
 - Preserve existing functionality when refactoring the application.
 - Prefer straightforward, maintainable solutions over clever ones.
 
+## Observability
+
+- Any error that is shown to a user in the UI must also be logged with enough context to debug it later.
+- Log user-facing failures to `logs/app-events.jsonl` and the server console.
+- Include structured context where possible, such as action name, statement id, language, error code, and relevant external identifiers.
+- Apply this rule throughout the project, not only for one page or one form.
+
 ## Ubiquitous Language
 
 - Treat `ubiquitous-language/` as the canonical glossary for core domain concepts.

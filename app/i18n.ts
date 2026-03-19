@@ -8,7 +8,9 @@ import type {
 export type Lang = "en" | "nl";
 export type UiErrorCode =
   | "title_required"
+  | "invalid_piezo_id"
   | "unsupported_statement_type"
+  | "unsupported_statement_status"
   | "unknown_statement"
   | "unknown";
 
@@ -24,6 +26,14 @@ type UiStrings = {
   workspaceLabel: string;
   listHeading: string;
   listSummary: string;
+  searchLabel: string;
+  searchPlaceholder: string;
+  hasPiezo: string;
+  piezoIdFilter: string;
+  piezoIdExact: string;
+  applyFilters: string;
+  clearFilters: string;
+  noStatements: string;
   newStatement: string;
   listAria: string;
   editStatement: string;
@@ -37,6 +47,8 @@ type UiStrings = {
   statementNumber: string;
   assignedOnSave: string;
   titleLabel: string;
+  piezoId: string;
+  piezoIdHelp: string;
   originalText: string;
   dutchText: string;
   textGuidance: string;
@@ -44,8 +56,6 @@ type UiStrings = {
   source: string;
   level: string;
   order: string;
-  moscow: string;
-  increment: string;
   notes: string;
   saveStatement: string;
   lastUpdated: string;
@@ -91,6 +101,14 @@ const uiByLang: Record<Lang, UiStrings> = {
     workspaceLabel: "Statement manager workspace",
     listHeading: "Statements",
     listSummary: "Select a statement to edit content, status, parents, and relations.",
+    searchLabel: "Search and filters",
+    searchPlaceholder: "Search title, source code, source, or PIEZO ID",
+    hasPiezo: "Only with PIEZO ID",
+    piezoIdFilter: "Exact PIEZO ID",
+    piezoIdExact: "Exact PIEZO ID",
+    applyFilters: "Apply filters",
+    clearFilters: "Clear",
+    noStatements: "No statements match the current filters.",
     newStatement: "New statement",
     listAria: "Statement overview",
     editStatement: "Edit statement",
@@ -105,6 +123,8 @@ const uiByLang: Record<Lang, UiStrings> = {
     statementNumber: "Statement number",
     assignedOnSave: "Assigned on save",
     titleLabel: "Title",
+    piezoId: "PIEZO ID",
+    piezoIdHelp: "Programme lineage or external governance reference. This is not the content source.",
     originalText: "Original text",
     dutchText: "Text",
     textGuidance:
@@ -112,9 +132,7 @@ const uiByLang: Record<Lang, UiStrings> = {
     sourceCode: "Source code",
     source: "Source",
     level: "Level",
-    order: "Order",
-    moscow: "MoSCoW",
-    increment: "Increment",
+    order: "Sequence",
     notes: "Notes",
     saveStatement: "Save statement",
     lastUpdated: "Last updated",
@@ -147,8 +165,12 @@ const uiByLang: Record<Lang, UiStrings> = {
       switch (error) {
         case "title_required":
           return "Enter a title before saving.";
+        case "invalid_piezo_id":
+          return "PIEZO ID must be plain text.";
         case "unsupported_statement_type":
           return "The selected statement type is not supported.";
+        case "unsupported_statement_status":
+          return "The selected status is not supported.";
         case "unknown_statement":
           return "The selected statement could not be found.";
         default:
@@ -159,31 +181,41 @@ const uiByLang: Record<Lang, UiStrings> = {
   },
   nl: {
     eyebrow: "reqTrace MVP",
-    title: "Statementbeheer",
+    title: "Stellingenbeheer",
     summary:
-      "Beheer de levenscyclus, parent-structuur en semantische relaties van statements in een enkele werkomgeving.",
+      "Beheer de levenscyclus, parent-structuur en semantische relaties van stellingen in een enkele werkomgeving.",
     languageLabel: "Taal",
     english: "Engels",
     dutch: "Nederlands",
-    statements: "Statements",
+    statements: "Stellingen",
     applicable: "Geldig",
-    workspaceLabel: "Werkruimte statementbeheer",
-    listHeading: "Statements",
-    listSummary: "Selecteer een statement om inhoud, status, parents en relaties te bewerken.",
-    newStatement: "Nieuw statement",
-    listAria: "Statementoverzicht",
-    editStatement: "Statement bewerken",
-    createStatement: "Nieuw statement",
+    workspaceLabel: "Werkruimte stellingenbeheer",
+    listHeading: "Stellingen",
+    listSummary: "Selecteer een stelling om inhoud, status, parents en relaties te bewerken.",
+    searchLabel: "Zoeken en filters",
+    searchPlaceholder: "Zoek op titel, broncode, bron of PIEZO-id",
+    hasPiezo: "Alleen met PIEZO-id",
+    piezoIdFilter: "Exacte PIEZO-id",
+    piezoIdExact: "Exacte PIEZO-id",
+    applyFilters: "Filters toepassen",
+    clearFilters: "Wissen",
+    noStatements: "Geen stellingen gevonden voor de huidige filters.",
+    newStatement: "Nieuwe stelling",
+    listAria: "Stellingenoverzicht",
+    editStatement: "Stelling bewerken",
+    createStatement: "Nieuwe stelling",
     editorSummary:
-      "Titel is verplicht. Status, statementtype en tekstvelden kunnen op elk moment worden aangepast.",
-    actionNav: "Statementacties",
+      "Titel is verplicht. Status, stellingtype en tekstvelden kunnen op elk moment worden aangepast.",
+    actionNav: "Stellingacties",
     clone: "Klonen",
     delete: "Verwijderen",
     statusLabel: "Status",
-    statementType: "Statementtype",
-    statementNumber: "Statementnummer",
+    statementType: "Stellingtype",
+    statementNumber: "Stellingnummer",
     assignedOnSave: "Wordt toegekend bij opslaan",
     titleLabel: "Titel",
+    piezoId: "PIEZO-id",
+    piezoIdHelp: "Programmalijn of externe governanceverwijzing. Dit is niet de inhoudelijke bron.",
     originalText: "Originele tekst",
     dutchText: "Tekst",
     textGuidance:
@@ -192,46 +224,48 @@ const uiByLang: Record<Lang, UiStrings> = {
     source: "Bron",
     level: "Niveau",
     order: "Volgorde",
-    moscow: "MoSCoW",
-    increment: "Increment",
     notes: "Opmerkingen",
-    saveStatement: "Statement opslaan",
+    saveStatement: "Stelling opslaan",
     lastUpdated: "Laatst bijgewerkt",
     localDataNote: "Gegevens worden lokaal opgeslagen in data/statements.json.",
     relationshipLabel: "Relatiebeheer",
     parents: "Parents",
-    parentsSummary: "Hiërarchische ophanging van het huidige statement.",
-    parentStatement: "Parent statement",
+    parentsSummary: "Hiërarchische ophanging van de huidige stelling.",
+    parentStatement: "Parent-stelling",
     selectParent: "Selecteer parent",
     addParent: "Parent toevoegen",
     noParents: "Nog geen parents gekoppeld.",
     remove: "Verwijderen",
     outgoingRelations: "Uitgaande relaties",
-    outgoingSummary: "Expliciete semantische koppelingen van dit statement naar een ander.",
+    outgoingSummary: "Expliciete semantische koppelingen van deze stelling naar een andere.",
     relationType: "Relatietype",
-    targetStatement: "Doelstatement",
+    targetStatement: "Doelstelling",
     selectTarget: "Selecteer doel",
     addRelation: "Relatie toevoegen",
     noOutgoing: "Nog geen uitgaande relaties gekoppeld.",
     incomingRelations: "Inkomende relaties",
-    incomingSummary: "Statements die momenteel naar dit statement verwijzen.",
+    incomingSummary: "Stellingen die momenteel naar deze stelling verwijzen.",
     noIncoming: "Nog geen inkomende koppelingen.",
     parentOf: "parent_van",
     warnings: "Waarschuwingen",
     relationManagement: "Relatiebeheer",
     warningMessage: (warning, statusLabel) =>
       `${warning.statementNo} is ${statusLabel} maar nog steeds gekoppeld.`,
-    formErrorTitle: "Statement kon niet worden opgeslagen",
+    formErrorTitle: "Stelling kon niet worden opgeslagen",
     formErrorMessage: (error) => {
       switch (error) {
         case "title_required":
           return "Vul een titel in voordat je opslaat.";
+        case "invalid_piezo_id":
+          return "PIEZO-id moet platte tekst zijn.";
         case "unsupported_statement_type":
-          return "Het gekozen statementtype wordt niet ondersteund.";
+          return "Het gekozen stellingtype wordt niet ondersteund.";
+        case "unsupported_statement_status":
+          return "De gekozen status wordt niet ondersteund.";
         case "unknown_statement":
-          return "Het geselecteerde statement kon niet worden gevonden.";
+          return "De geselecteerde stelling kon niet worden gevonden.";
         default:
-          return "Er is een onverwachte fout opgetreden bij het opslaan van het statement.";
+          return "Er is een onverwachte fout opgetreden bij het opslaan van de stelling.";
       }
     },
     titleRequired: "Titel is verplicht.",

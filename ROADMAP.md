@@ -21,7 +21,6 @@ At minimum, the following views:
 - by use case
 - by relevant party, for example CIBG or VZVZ
 - by level
-- by increment / plateau, if populated
 
 ### D. Search
 Search by:

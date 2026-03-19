@@ -43,24 +43,6 @@
   source: "Internal model"
   category: "Attribute"
 
-- term: moscow
-  definition: Prioritization of a requirement according to the MoSCoW method.
-  example: "Must"
-  explanation: |
-    Attribute.
-    Allowed values:
-    - Must
-    - Should
-    - Could
-    - Won't
-  allowed_synonym:
-    - priority
-  forbidden_or_avoid_synonyms:
-    - level
-    - urgency
-  source: "Programme of Requirements PS-A"
-  category: "Attribute"
-
 - term: relevance
   definition: The parties for whom a statement is relevant.
   example:
@@ -84,21 +66,6 @@
     - accountable
   source: "Programme of Requirements PS-A"
   category: "Attribute"
-
-- term: increment
-  definition: Delivery step or release moment to which a statement is linked.
-  example: "2"
-  explanation: |
-    Attribute.
-    Used in programme steering.
-    Do not confuse it with plateau.
-  allowed_synonym:
-    - delivery increment
-  forbidden_or_avoid_synonyms:
-    - plateau
-    - sprint
-  source: "Programme of Requirements PS-A"
-  category: "Steering"
 
 - term: use_case
   definition: A cross-border care scenario within MyHealth@EU.

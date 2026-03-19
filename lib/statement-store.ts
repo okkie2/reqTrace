@@ -29,6 +29,7 @@ export type Statement = {
   statementNo: string;
   statementType: StatementType;
   title: string;
+  piezoId: string | null;
   textOriginal: string | null;
   textNl: string | null;
   note: string | null;
@@ -36,8 +37,6 @@ export type Statement = {
   source: string | null;
   level: string | null;
   orderNo: string | null;
-  moscow: string | null;
-  increment: string | null;
   status: StatementStatus;
   clonedFromStatementId: string | null;
   createdAt: string;
@@ -71,7 +70,7 @@ export type StatementInput = Omit<
 
 export type StatementSummary = Pick<
   Statement,
-  "id" | "statementNo" | "statementType" | "title" | "status" | "sourceCode"
+  "id" | "statementNo" | "statementType" | "title" | "status" | "sourceCode" | "source" | "piezoId"
 >;
 
 export type StatementLinkView = {
@@ -109,9 +108,10 @@ export type StatementWarning = {
 const DATA_PATH = path.join(process.cwd(), "data", "statements.json");
 
 export const EMPTY_STATEMENT_INPUT: StatementInput = {
-  status: "draft",
+  status: "applicable",
   statementType: "requirement",
   title: "",
+  piezoId: null,
   textOriginal: null,
   textNl: null,
   note: null,
@@ -119,9 +119,28 @@ export const EMPTY_STATEMENT_INPUT: StatementInput = {
   source: null,
   level: null,
   orderNo: null,
-  moscow: null,
-  increment: null,
 };
+
+function normalizePiezoId(value: unknown): string | null {
+  if (value == null) {
+    return null;
+  }
+
+  if (typeof value !== "string") {
+    throw new Error("Invalid piezo_id value.");
+  }
+
+  const trimmed = value.trim();
+  return trimmed === "" ? null : trimmed;
+}
+
+function normalizeStatement(statement: Statement): Statement {
+  return {
+    ...statement,
+    status: normalizeStatus(statement.status),
+    piezoId: normalizePiezoId(statement.piezoId),
+  };
+}
 
 function normalizeStatus(status: string | null | undefined): StatementStatus {
   switch (status) {
@@ -176,10 +195,7 @@ async function readDb(): Promise<StatementDb> {
 
   if (Array.isArray(parsed)) {
     return {
-      statements: parsed.map((statement) => ({
-        ...statement,
-        status: normalizeStatus(statement.status),
-      })),
+      statements: parsed.map(normalizeStatement),
       parents: [],
       relations: [],
     };
@@ -187,12 +203,9 @@ async function readDb(): Promise<StatementDb> {
 
   return {
     statements: parsed.statements
-      .map((statement) => ({
-        ...statement,
-        status: normalizeStatus(statement.status),
-      }))
+      .map(normalizeStatement)
       .sort((left, right) =>
-      left.statementNo.localeCompare(right.statementNo),
+        left.statementNo.localeCompare(right.statementNo),
       ),
     parents: parsed.parents ?? [],
     relations: parsed.relations ?? [],
@@ -238,6 +251,15 @@ function assertValidInput(input: StatementInput) {
   if (input.title.trim() === "") {
     throw new Error("Title is required.");
   }
+
+  normalizePiezoId(input.piezoId);
+}
+
+function normalizeInput(input: StatementInput): StatementInput {
+  return {
+    ...input,
+    piezoId: normalizePiezoId(input.piezoId),
+  };
 }
 
 function nextStatementNo(statements: Statement[]) {
@@ -326,6 +348,8 @@ export async function listStatementSummaries(): Promise<StatementSummary[]> {
     title: statement.title,
     status: statement.status,
     sourceCode: statement.sourceCode,
+    source: statement.source,
+    piezoId: statement.piezoId,
   }));
 }
 
@@ -398,6 +422,7 @@ export async function getStatementDetail(id: string): Promise<StatementDetail | 
 
 export async function createStatement(input: StatementInput) {
   assertValidInput(input);
+  const normalizedInput = normalizeInput(input);
   const db = await readDb();
   const now = new Date().toISOString();
 
@@ -407,7 +432,7 @@ export async function createStatement(input: StatementInput) {
     clonedFromStatementId: null,
     createdAt: now,
     updatedAt: now,
-    ...input,
+    ...normalizedInput,
   };
 
   db.statements.push(statement);
@@ -417,6 +442,7 @@ export async function createStatement(input: StatementInput) {
 
 export async function updateStatement(id: string, input: StatementInput) {
   assertValidInput(input);
+  const normalizedInput = normalizeInput(input);
   const db = await readDb();
   const index = db.statements.findIndex((statement) => statement.id === id);
 
@@ -427,7 +453,7 @@ export async function updateStatement(id: string, input: StatementInput) {
   const current = db.statements[index];
   const updated: Statement = {
     ...current,
-    ...input,
+    ...normalizedInput,
     updatedAt: new Date().toISOString(),
   };
 

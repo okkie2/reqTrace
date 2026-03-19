@@ -30,12 +30,17 @@ type SearchParams = Promise<{
   mode?: string;
   lang?: string;
   error?: string;
+  q?: string;
+  hasPiezo?: string;
+  piezo?: string;
 }>;
 
 function getErrorCode(input: string | undefined): UiErrorCode | null {
   switch (input) {
     case "title_required":
+    case "invalid_piezo_id":
     case "unsupported_statement_type":
+    case "unsupported_statement_status":
     case "unknown_statement":
     case "unknown":
       return input;
@@ -52,10 +57,16 @@ function buildHref({
   statement,
   mode,
   lang,
+  q,
+  hasPiezo,
+  piezo,
 }: {
   statement?: string;
   mode?: string;
   lang: "en" | "nl";
+  q?: string;
+  hasPiezo?: boolean;
+  piezo?: string;
 }) {
   const query = new URLSearchParams();
 
@@ -67,8 +78,37 @@ function buildHref({
     query.set("mode", mode);
   }
 
+  if (q && q.trim() !== "") {
+    query.set("q", q.trim());
+  }
+
+  if (hasPiezo) {
+    query.set("hasPiezo", "1");
+  }
+
+  if (piezo && piezo.trim() !== "") {
+    query.set("piezo", piezo.trim());
+  }
+
   query.set("lang", lang);
   return `/?${query.toString()}`;
+}
+
+function matchesQuery(
+  statement: Awaited<ReturnType<typeof listStatementSummaries>>[number],
+  query: string,
+) {
+  const haystack = [
+    statement.statementNo,
+    statement.title,
+    statement.sourceCode ?? "",
+    statement.source ?? "",
+    statement.piezoId ?? "",
+  ]
+    .join(" ")
+    .toLowerCase();
+
+  return haystack.includes(query.toLowerCase());
 }
 
 export default async function Home({
@@ -81,15 +121,35 @@ export default async function Home({
   const ui = getUi(lang);
   const errorCode = getErrorCode(params.error);
   const statements = await listStatementSummaries();
+  const query = params.q?.trim() ?? "";
+  const exactPiezoId = params.piezo?.trim() ?? "";
+  const hasPiezo = params.hasPiezo === "1";
   const selectedId = params.statement;
   const isNew = params.mode === "new";
   const detail = selectedId ? await getStatementDetail(selectedId) : null;
   const selectedStatement = detail?.statement ?? null;
   const editor = isNew || !selectedStatement ? EMPTY_STATEMENT_INPUT : selectedStatement;
+  const filteredStatements = statements.filter((statement) => {
+    if (query !== "" && !matchesQuery(statement, query)) {
+      return false;
+    }
+
+    if (hasPiezo && !statement.piezoId) {
+      return false;
+    }
+
+    if (exactPiezoId !== "" && statement.piezoId !== exactPiezoId) {
+      return false;
+    }
+
+    return true;
+  });
   const selectableStatements = statements.filter(
     (statement) => statement.id !== selectedStatement?.id,
   );
-  const applicableCount = statements.filter((statement) => statement.status === "applicable").length;
+  const applicableCount = filteredStatements.filter(
+    (statement) => statement.status === "applicable",
+  ).length;
   const dateLocale = lang === "nl" ? "nl-NL" : "en-GB";
 
   return (
@@ -110,6 +170,9 @@ export default async function Home({
                   statement: selectedId,
                   mode: isNew ? "new" : undefined,
                   lang: "en",
+                  q: query,
+                  hasPiezo,
+                  piezo: exactPiezoId,
                 })}
                 className={lang === "en" ? "language-option is-active" : "language-option"}
               >
@@ -120,6 +183,9 @@ export default async function Home({
                   statement: selectedId,
                   mode: isNew ? "new" : undefined,
                   lang: "nl",
+                  q: query,
+                  hasPiezo,
+                  piezo: exactPiezoId,
                 })}
                 className={lang === "nl" ? "language-option is-active" : "language-option"}
               >
@@ -148,29 +214,67 @@ export default async function Home({
               <h2 id="statement-list-heading">{ui.listHeading}</h2>
               <p className="muted-text">{ui.listSummary}</p>
             </div>
-            <Link href={buildHref({ mode: "new", lang })} role="button">
+            <Link
+              href={buildHref({ mode: "new", lang, q: query, hasPiezo, piezo: exactPiezoId })}
+              role="button"
+            >
               {ui.newStatement}
             </Link>
           </header>
 
+          <form method="get" className="compact-form">
+            <input type="hidden" name="lang" value={lang} />
+            <label>
+              {ui.searchLabel}
+              <input name="q" defaultValue={query} placeholder={ui.searchPlaceholder} />
+            </label>
+            <label>
+              {ui.piezoIdFilter}
+              <input name="piezo" defaultValue={exactPiezoId} placeholder={ui.piezoIdExact} />
+            </label>
+            <label>
+              <input type="checkbox" name="hasPiezo" value="1" defaultChecked={hasPiezo} />
+              {ui.hasPiezo}
+            </label>
+            <div className="action-set">
+              <button type="submit" className="secondary">
+                {ui.applyFilters}
+              </button>
+              <Link href={buildHref({ lang })} className="outline secondary" role="button">
+                {ui.clearFilters}
+              </Link>
+            </div>
+          </form>
+
           <ul className="statement-list" aria-label={ui.listAria}>
-            {statements.map((statement) => (
-              <li key={statement.id}>
-                <Link
-                  href={buildHref({ statement: statement.id, lang })}
-                  className={isSelected(selectedId, statement.id) ? "statement-link is-selected" : "statement-link"}
-                >
-                  <div className="statement-link__meta">
-                    <span className="statement-number">{statement.statementNo}</span>
-                    <span className={`status-badge status-${statement.status}`}>
-                      {getStatusLabel(lang, statement.status)}
-                    </span>
-                  </div>
-                  <strong>{statement.title}</strong>
-                  <small>{getStatementTypeLabel(lang, statement.statementType)}</small>
-                </Link>
-              </li>
-            ))}
+            {filteredStatements.length === 0 ? (
+              <li className="empty-state">{ui.noStatements}</li>
+            ) : (
+              filteredStatements.map((statement) => (
+                <li key={statement.id}>
+                  <Link
+                    href={buildHref({
+                      statement: statement.id,
+                      lang,
+                      q: query,
+                      hasPiezo,
+                      piezo: exactPiezoId,
+                    })}
+                    className={isSelected(selectedId, statement.id) ? "statement-link is-selected" : "statement-link"}
+                  >
+                    <div className="statement-link__meta">
+                      <span className="statement-number">{statement.statementNo}</span>
+                      <span className={`status-badge status-${statement.status}`}>
+                        {getStatusLabel(lang, statement.status)}
+                      </span>
+                    </div>
+                    <strong>{statement.title}</strong>
+                    <small>{getStatementTypeLabel(lang, statement.statementType)}</small>
+                    {statement.piezoId ? <small>{ui.piezoId}: {statement.piezoId}</small> : null}
+                  </Link>
+                </li>
+              ))
+            )}
           </ul>
         </aside>
 
@@ -244,6 +348,12 @@ export default async function Home({
                   ) : null}
                 </label>
 
+                <label>
+                  {ui.piezoId}
+                  <input name="piezoId" defaultValue={editor.piezoId ?? ""} />
+                  <small className="field-note">{ui.piezoIdHelp}</small>
+                </label>
+
                 <label className="span-full">
                   {ui.dutchText}
                   <textarea
@@ -286,16 +396,6 @@ export default async function Home({
                 <label>
                   {ui.order}
                   <input name="orderNo" defaultValue={editor.orderNo ?? ""} />
-                </label>
-
-                <label>
-                  {ui.moscow}
-                  <input name="moscow" defaultValue={editor.moscow ?? ""} />
-                </label>
-
-                <label>
-                  {ui.increment}
-                  <input name="increment" defaultValue={editor.increment ?? ""} />
                 </label>
 
                 <label className="span-full">

@@ -26,6 +26,8 @@ Early-stage repository with the first MVP application slices now present. The re
 ## Description
 The core idea is that everything is modelled as a `statement`: requirements, interpretations, elaborations, decisions, evidence, questions, and risks. Differences between those items are expressed through `statement_type`, supported attributes, parent links, and semantic relations.
 
+`source` captures provenance: where the content of a statement came from. `piezo_id` captures programme lineage: which external PIEZO requirement or tracking item the statement is aligned to. A PIEZO id is therefore not a source citation and must be stored separately. The current MVP uses a scalar `source` field rather than `sources[]`; if a multi-source structure is introduced later, `piezo_id` must still remain separate.
+
 The repository currently provides:
 
 - a summary of the statement-network model
@@ -33,8 +35,14 @@ The repository currently provides:
 - a YAML sketch of source attributes
 - a categorized ubiquitous language as the source of truth for terminology
 - MVP design notes for statement and relationship management
-- a file-backed Next.js Statement Manager covering create, edit, clone, delete, status management, parents, and semantic relations
+- a file-backed Next.js Statement Manager covering create, edit, clone, delete, status management, `piezo_id`, list filtering, parents, and semantic relations
 - roadmap and MVP scope notes for the broader traceability product
+
+Examples of the distinction:
+
+- One statement can come from a Dutch PvE source while also carrying one `piezo_id` for programme alignment.
+- Multiple internal statements can share the same `piezo_id` when they elaborate the same external lineage item.
+- A statement can have a `source` but no `piezo_id` when provenance is known but no programme mapping exists.
 
 ## Composition
 Main repository contents:
@@ -81,7 +89,7 @@ npm install
 ### Setup / Config
 No environment variables are required for the current implementation. The Statement Manager reads and writes local data in `data/statements.json`.
 UI guidance for future development is documented in `AGENTS.md` and `docs/ui-design-system.md`.
-Operational errors are logged as structured JSON to the server console.
+Operational errors and user-facing UI failures are logged as structured JSON to the server console and to `logs/app-events.jsonl`.
 
 ### Usage
 Run the Statement Manager locally:
@@ -97,11 +105,13 @@ Use the repository as both a modelling workspace and an MVP app:
 2. Review the seeded statements in the left-hand list.
 3. Create a new statement or open an existing statement to edit it.
 4. Use `Clone`, `Delete`, and the status field to exercise the roadmap A lifecycle.
-5. Set the statement status to `Draft`, `Applicable`, or `Deprecated`.
-6. Add one or more parents and semantic relations to the selected statement.
-7. Inspect incoming and outgoing links in the relationship panels.
-8. Inspect `data/statements.json` to review the stored output.
-9. Continue using `Sample.csv`, `sample_attributes.yaml`, and the glossary YAML files as the domain source material.
+5. Add a `PIEZO ID` where a statement maps to an external programme lineage item.
+6. Use the list search and filters to narrow by text, exact `PIEZO ID`, or “has PIEZO ID”.
+7. Set the statement status to `Draft`, `Applicable`, or `Deprecated`.
+8. Add one or more parents and semantic relations to the selected statement.
+9. Inspect incoming and outgoing links in the relationship panels.
+10. Inspect `data/statements.json` to review the stored output.
+11. Continue using `Sample.csv`, `sample_attributes.yaml`, and the glossary YAML files as the domain source material.
 
 ### Uninstall
 Delete the local repository folder. If you installed dependencies, remove `node_modules` first if you want to reclaim disk space.
@@ -114,10 +124,11 @@ Concrete happy path:
 3. Click `New statement`.
 4. Enter a title, choose a statement type, and fill `Original text` or `Dutch text`.
 5. Save the statement and confirm it appears in the list with a generated statement number.
-6. Set the status to `Draft`, `Applicable`, or `Deprecated`.
-7. Add a parent and an `uitwerking_van` or `detail_van` relation to another statement.
-8. Verify that the link appears in both the outgoing and incoming sections.
-9. Inspect `data/statements.json` to confirm the persisted result.
+6. Add a `PIEZO ID` if the statement aligns to an external programme requirement.
+7. Set the status to `Draft`, `Applicable`, or `Deprecated`.
+8. Add a parent and an `uitwerking_van` or `detail_van` relation to another statement.
+9. Verify that the link appears in both the outgoing and incoming sections.
+10. Inspect `data/statements.json` to confirm the persisted result.
 
 ## Output
 The repository currently produces both documentation assets and local application output:
@@ -125,21 +136,21 @@ The repository currently produces both documentation assets and local applicatio
 - a proposed statement data model
 - a controlled vocabulary in YAML
 - sample requirement data for analysis
-- a local JSON-backed Statement Manager UI for roadmap items A and B
+- a local JSON-backed Statement Manager UI for roadmap items A and B, including `piezo_id` support and list filtering
 - persisted statement records, parent links, and semantic relations in `data/statements.json`
-- structured server-side logs for write, read, parse, and action failures
+- structured server-side logs for write, read, parse, action failures, and user-facing UI errors in `logs/app-events.jsonl`
 - MVP design documentation for roadmap items A and B
 - a scoped roadmap for an MVP tool
 
 ## Limitations
 - The current app stores data in a local JSON file, not PostgreSQL yet.
-- Validation covers roadmap A required fields plus roadmap B duplicate/self-link/cycle checks.
-- Search, filtered working views, and graph navigation are still not implemented.
+- Validation covers roadmap A required fields, `piezo_id` normalization, and roadmap B duplicate/self-link/cycle checks.
+- Search and filters are currently limited to the statement list, including text search and `piezo_id` filters.
 - The sample data appears to focus on a subset of one source domain rather than a complete corpus.
 - Licensing terms are not yet defined in the repository.
 
 ## Roadmap
-- Add working views for slicing statements by source, type, use case, stakeholder, and level.
+- Add working views for slicing statements by source, type, PIEZO lineage, use case, stakeholder, and level.
 - Introduce search and validation overviews so incomplete or inconsistent traceability becomes visible.
 - Expand later toward Git-aware change tracking, richer relation browsing, and publication/export workflows.
 

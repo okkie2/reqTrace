@@ -1,10 +1,10 @@
 - term: statement
   term_localized:
     en: statement
-    nl: bewering
+    nl: stelling
   definition:
     en: A traceable assertion in the model.
-    nl: Een herleidbare bewering in het model.
+    nl: Een herleidbare stelling in het model.
   example:
     en: "NL requires BSN and date of birth in the International Search Mask (ISM)."
     nl: "NL vereist in de International Search Mask (ISM) de BSN en geboortedatum."
@@ -14,7 +14,7 @@
       A statement can have different types, such as requirement, interpretation, or decision.
     nl: |
       Basiseenheid van het statement-netwerk.
-      Een statement kan verschillende typen hebben, zoals eis, interpretatie of besluit.
+      Een stelling kan verschillende typen hebben, zoals eis, interpretatie of besluit.
   allowed_synonym:
     en:
       - assertion
@@ -39,10 +39,10 @@
 - term: statement_type
   term_localized:
     en: statement type
-    nl: statement_type
+    nl: stellingtype
   definition:
     en: The kind of statement.
-    nl: Het soort statement.
+    nl: Het soort stelling.
   example:
     en: requirement
     nl: eis
@@ -176,7 +176,7 @@
 
 - term: order
   term_localized:
-    en: order
+    en: sequence
     nl: volgorde
   definition:
     en: The order of a statement among sibling statements within the same parent context.
